@@ -1,6 +1,6 @@
 # mws-admin-client
 
-MWS admin portal client using NuxtJS.
+MWS Admin Portal Client using NuxtJS.
 
 ## Build Setup
 
