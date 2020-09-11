@@ -13,7 +13,7 @@ export const mutations = {
 
 export const actions = {
     async getAll({ commit }) {
-        await $axios.get("users")
+        await this.$axios.get("users")
             .then(response => { commit('fill', response.data) })
             .catch((e) => console.log(e));
     }
