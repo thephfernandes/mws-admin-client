@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card color="#385F73" dark>
     <v-card-title>{{ title }}</v-card-title>
     <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
   </v-card>

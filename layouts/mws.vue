@@ -20,7 +20,7 @@
 
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list>
-        <v-list-item v-for="(item, i) in menu" :key="i" :to="item.to" router exact>
+        <v-list-item v-for="(item, i) in jsonData.menu" :key="i" :to="item.to" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -58,22 +58,10 @@ export default class Mws extends Vue {
   private drawer: boolean = true;
   private bannerImage: string =
     "https://source.unsplash.com/1600x900/?sport,football,soccer";
-  private menu = [
-    {
-      name: "Home",
-      icon: "mdi-home",
-      to: "/",
-    },
-    {
-      name: "Customers",
-      icon: "mdi-account-group",
-      to: "/customers",
-    },
-    {
-      name: "Matches",
-      icon: "mdi-account-group",
-      to: "/matches",
-    },
-  ];
+
+  get jsonData() {
+    let file = require("~/assets/fakeData.json");
+    return file;
+  }
 }
 </script>
