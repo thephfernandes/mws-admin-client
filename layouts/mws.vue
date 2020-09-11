@@ -1,9 +1,21 @@
 <template>
   <v-app>
     <modalRoot />
-    <v-app-bar dense clipped-left app fade-img-on-scroll prominent shrink-on-scroll>
+    <v-app-bar
+      dense
+      clipped-left
+      app
+      fade-img-on-scroll
+      prominent
+      shrink-on-scroll
+      :src="bannerImage"
+      dark
+    >
+      <template v-slot:img="{ props }">
+        <v-img v-bind="props" gradient="to top right, rgba(204,255,153,.5), rgba(0,102,0,.8)"></v-img>
+      </template>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title v-text="title" dark></v-toolbar-title>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
@@ -45,7 +57,7 @@ export default class Mws extends Vue {
   private title: string = process.env.npm_package_name || "MWS Admin Portal";
   private drawer: boolean = true;
   private bannerImage: string =
-    "https://images.axios.com/7syBdz4cKo1WelNhF5chz0cl84E=/0x76:4282x2485/1920x1080/2018/07/16/1531755246637.jpg";
+    "https://source.unsplash.com/1600x900/?sport,football,soccer";
   private menu = [
     {
       name: "Home",
@@ -63,5 +75,9 @@ export default class Mws extends Vue {
       to: "/matches",
     },
   ];
+
+  get localImage() {
+    return require("~/assets/cruijf.jpg");
+  }
 }
 </script>
