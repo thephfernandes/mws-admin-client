@@ -2,6 +2,7 @@
   <v-app>
     <modalRoot />
     <v-app-bar
+      dark
       dense
       clipped-left
       app
@@ -9,10 +10,9 @@
       prominent
       shrink-on-scroll
       :src="bannerImage"
-      dark
     >
       <template v-slot:img="{ props }">
-        <v-img v-bind="props" gradient="to top right, rgba(204,255,153,.5), rgba(0,102,0,.8)"></v-img>
+        <v-img v-bind="props" gradient="to top right, rgba(0,102,0,.8), rgba(51,255,51,.5)"></v-img>
       </template>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -75,9 +75,5 @@ export default class Mws extends Vue {
       to: "/matches",
     },
   ];
-
-  get localImage() {
-    return require("~/assets/cruijf.jpg");
-  }
 }
 </script>
