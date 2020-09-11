@@ -1,34 +1,54 @@
+<!-- Using Vue class component with nuxt property decorator -->
 <template>
   <div>
     <v-row dense>
-      <v-col v-for="item in overview" :key="item[1]">
-        <CustomerCard :title="item[1]" :subtitle="item[0]" />
+      <v-col v-for="(item, key) in jsonData.highlights" :key="key">
+        <CustomerCard :title="item.value" :subtitle="item.title" />
       </v-col>
     </v-row>
-    <Leaderbord />
+    <v-row>
+      <Leaderbord :data="customers" />
+    </v-row>
     <Actions />
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "nuxt-property-decorator";
 import CustomerCard from "~/components/customer/customerCard.vue";
 import Leaderbord from "~/components/customer/leaderbord.vue";
 import Actions from "~/components/customer/actions.vue";
+import axios from "axios";
+import ICustomer from "~/components/customer/ICustomer";
+import { Component, Vue } from "nuxt-property-decorator";
+import { mapState } from "vuex";
 
 @Component({
   components: {
     CustomerCard,
     Leaderbord,
+    Actions,
   },
 })
-export default class Customers extends Vue {
-  private overview: Array<[string, number]> = [
-    ["Accounts created this week", 101],
-    ["Total accounts", 11883],
-    ["Returning customers", 2872],
-  ];
+export default class Index extends Vue {
+  // Data
+
+  // Methods
   layout() {
     return "mws";
+  }
+
+  // computed
+  get jsonData() {
+    let file = require("~/assets/customer.json");
+    return file;
+  }
+
+  get customers() {
+    return this.$store.state.customer.list;
+  }
+
+  // Hooks
+  mounted() {
+    this.$store.dispatch("customer/getAll");
   }
 }
 </script>
