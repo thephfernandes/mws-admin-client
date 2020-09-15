@@ -53,6 +53,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
+    "@nuxtjs/style-resources"
   ],
   /*
    ** Axios module configuration
@@ -67,7 +68,7 @@ export default {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
-    customVariables: ["~/assets/variables.scss"],
+    customVariables: ["~/assets/scss/variables.scss"],
     theme: {
       dark: false,
       themes: {
@@ -82,6 +83,14 @@ export default {
         },
       },
     },
+  },
+  /* 
+  ** Share variables, mixins, functions across all style files (no @import needed)
+  ** See @nuxtjs/style-resources on http://npmjs.com
+  */
+  styleResources: {
+    scss: ["~/assets/scss/main.scss"]
+
   },
   /*
    ** Build configuration

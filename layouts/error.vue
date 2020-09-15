@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <v-img src="/404.GIF" alt="404 gif" contain="true" max-height="200" />
     <v-alert type="error">
       <h1 v-if="error.statusCode === 404">{{ pageNotFound }}</h1>
       <h1 v-else>{{ otherError }}</h1>
@@ -33,8 +34,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 h1 {
   font-size: 20px;
+}
+.error {
+  padding-top: 10px;
+  margin-top: 10px;
 }
 </style>
