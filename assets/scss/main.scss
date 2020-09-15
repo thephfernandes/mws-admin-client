@@ -1,0 +1,4 @@
+// A collection of scss files
+// Import only SCSS variables and Mixins because of @nuxtjs/style-resources
+@import './customVariables.scss';
+@import './breakpoints.scss';
