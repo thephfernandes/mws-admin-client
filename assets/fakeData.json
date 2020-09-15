@@ -45,6 +45,11 @@
             "to": "#"
         },
         {
+            "name": "Clubs",
+            "icon": "mdi-account-group",
+            "to": "#"
+        },
+        {
             "name": "Financial",
             "icon": "mdi-currency-eur",
             "to": "#"
