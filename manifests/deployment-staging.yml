@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: adminportalstaging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminportalstaging
+  template:
+    metadata:
+      labels:
+        app: adminportalstaging
+    spec:
+      containers:
+        - name: adminportalstaging
+          image: containerregistrymwsdevelopment.azurecr.io/adminportalstaging
+          ports:
+          - containerPort: 80
