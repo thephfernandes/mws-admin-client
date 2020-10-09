@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: adminportalstaging
-          image: containerregistrymwsdevelopment.azurecr.io/adminportalstaging
+          image: containerregistrymwsstaging.azurecr.io/adminportalstaging
           ports:
           - containerPort: 80
