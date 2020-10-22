@@ -1,3 +1,5 @@
+import customersData from '~/assets/data/customers.json';
+
 export const state = () => ({
     list: []
 })
@@ -8,13 +10,14 @@ export const mutations = {
     },
     add(state, { user }) {
         state.list.push(user);
+    },
+    remove(state, { user }) {
+        state.list.remove(user);
     }
 }
 
 export const actions = {
-    async getAll({ commit }) {
-        await this.$axios.get("users")
-            .then(response => { commit('fill', response.data) })
-            .catch((e) => console.log(e));
+    getAll({ commit }) {
+        commit('fill', customersData);
     }
 }
