@@ -19,8 +19,8 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list>
-        <v-list-item v-for="(item, i) in jsonData.menu" :key="i" :to="item.to" router exact>
+      <v-list shaped>
+        <v-list-item v-for="(item, i) in jsonData.menu" :key="i" :to="item.to" color="blue" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
