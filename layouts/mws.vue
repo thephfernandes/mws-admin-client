@@ -1,13 +1,7 @@
 <template>
   <v-app>
     <modalRoot />
-    <v-app-bar
-      dark
-      dense
-      clipped-left
-      app
-      :src="bannerImage"
-    >
+    <v-app-bar dark dense clipped-left app :src="bannerImage">
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -15,8 +9,19 @@
         ></v-img>
       </template>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-text-field label="Search" solo clearable dense></v-text-field>
+      <v-container class="mr-auto">
+        <v-row>
+          <v-col cols="12">
+            <v-toolbar-title v-text="title"></v-toolbar-title>
+            <v-text-field label="Search" solo clearable dense v-model="search">
+            </v-text-field>
+            <div class="profile-greeting ml-auto">
+              <strong v-html="greeting"></strong>
+              <v-avatar size="36px"></v-avatar>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
@@ -27,13 +32,25 @@
               <v-list-item-title v-text="item.name"></v-list-item-title>
             </template>
 
-            <v-list-item v-for="(child, i) in item.children" :key="i" link>
-              <v-list-group v-if="child == 'Shirts'" sub-group>
+            <div
+              v-for="(child, i) in item.children"
+              class="wrapper"
+              :key="i"
+              link
+            >
+              <v-list-group
+                v-if="child.name == 'Shirts'"
+                sub-group
+                class="product-group"
+              >
                 <template v-slot:activator>
-                  <v-list-item-title v-text="child"></v-list-item-title>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="child.name"></v-list-item-title>
+                  </v-list-item-content>
                 </template>
-                <v-list-item v-for="(shirt, i) in shirts" :key="i" link>
-                  <v-list-group v-if="shirt == 'European Shirts'" sub-group>
+                <v-list-item v-for="(shirtType, i) in shirts" :key="i" link>
+                  <!-- ###nested menu of depth > 2 not supported by Vuetify -->
+                  <!-- <v-list-group v-if="shirt == 'European Shirts'" sub-group>
                     <template v-slot:activator>
                       <v-list-item-title v-text="shirt"></v-list-item-title>
                     </template>
@@ -50,25 +67,34 @@
                         <v-list-item-title v-text="league"></v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                  </v-list-group>
-                  <v-list-item-action>
-                    <v-icon>{{ item.icon }}</v-icon>
-                  </v-list-item-action>
+                  </v-list-group> -->
 
-                  <v-list-item-content>
-                    <v-list-item-title v-text="shirt"></v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-item>
+                    <v-list-item-title v-text="shirtType"></v-list-item-title>
+                  </v-list-item>
                 </v-list-item>
               </v-list-group>
 
-              <v-list-item-title v-else v-text="child"></v-list-item-title>
-              <v-list-item-icon>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-icon>
-            </v-list-item>
+              <v-list-item v-else :to="child.to" color="blue" router exact>
+                <v-list-item-action>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title v-text="child.name"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </div>
           </v-list-group>
 
-          <v-list-item v-else :to="item.to" color="blue" router exact>
+          <v-list-item
+            v-else
+            :to="item.to"
+            color="blue"
+            router
+            exact
+            class="product-item"
+          >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -109,24 +135,34 @@ export default class Mws extends Vue {
   private bannerImage: string =
     "https://source.unsplash.com/1600x900/?sport,football,soccer";
 
+  private name: string = "Steve";
+  private search: string = "";
+
   get jsonData() {
     let file = require("~/assets/fakeData.json");
     return file;
   }
 
+  get greeting() {
+    return "Welcome, " + this.name;
+  }
   get shirts() {
     return ["European Shirts", "International Shirts"];
   }
 
-  get europeanShirts() {
-    return ["Premier League", "UEFA", "Spanish League"];
-  }
+  // get europeanShirts() {
+  //   return ["Premier League", "UEFA", "Spanish League"];
+  // }
 }
 </script>
 
 <style lang="scss" scoped>
-$width: 720px;
+$width: 520px;
 
+.col {
+  display: flex;
+  align-items: center;
+}
 .v-text-field {
   margin-top: 1.5rem;
   padding: 0.5rem 1rem;
