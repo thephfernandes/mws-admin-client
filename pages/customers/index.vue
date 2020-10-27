@@ -7,25 +7,24 @@
       </v-col>
     </v-row>
     <v-row>
-      <Leaderbord :data="customers" />
+      <v-col>
+        <DataTable :customers="customers" />
+      </v-col>
     </v-row>
     <Actions />
   </div>
 </template>
 <script lang="ts">
 import CustomerCard from "~/components/customer/customerCard.vue";
-import Leaderbord from "~/components/customer/leaderbord.vue";
 import Actions from "~/components/customer/actions.vue";
-import axios from "axios";
-import ICustomer from "~/components/customer/ICustomer";
+import DataTable from "~/components/customer/datatable.vue";
 import { Component, Vue } from "nuxt-property-decorator";
-import { mapState } from "vuex";
 
 @Component({
   components: {
     CustomerCard,
-    Leaderbord,
     Actions,
+    DataTable,
   },
 })
 export default class Index extends Vue {
@@ -43,12 +42,12 @@ export default class Index extends Vue {
   }
 
   get customers() {
-    return this.$store.state.customer.list;
+    return this.$store.state.customers.list;
   }
 
   // Hooks
   mounted() {
-    this.$store.dispatch("customer/getAll");
+    this.$store.dispatch("customers/getAll");
   }
 }
 </script>

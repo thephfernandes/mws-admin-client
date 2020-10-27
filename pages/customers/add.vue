@@ -65,7 +65,7 @@ export default class extends Vue {
       website: this.websiste,
       company: "mws",
     };
-    this.$store.commit("customer/add", user);
+    this.$store.commit("customers.js/add", user);
   }
 }
 </script>
