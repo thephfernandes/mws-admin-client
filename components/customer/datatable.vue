@@ -18,6 +18,9 @@
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
       </template>
+      <template v-slot:item.forgot_password_date="{ item }">
+        {{ formatDate(item.forgot_password_date) }}
+      </template>
       <template v-slot:item.email_verified="{ item }">
         <v-chip
             :color="item.email_verified ? 'green' : 'red'"
@@ -25,16 +28,26 @@
           {{ item.email_verified ? 'Yes' : 'No'}}
         </v-chip>
       </template>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            color="primary"
-            dark
-            class="mb-2"
-            v-bind="attrs"
-            v-on="on"
+      <template v-slot:item.phone_verified="{ item }">
+        <v-chip
+                :color="item.phone_verified ? 'green' : 'red'"
         >
-          New customer
-        </v-btn>
+          {{ item.phone_verified ? 'Yes' : 'No'}}
+        </v-chip>
+      </template>
+      <template v-slot:item.payment_verified="{ item }">
+        <v-chip
+                :color="item.payment_verified ? 'green' : 'red'"
+        >
+          {{ item.payment_verified ? 'Yes' : 'No'}}
+        </v-chip>
+      </template>
+      <template v-slot:item.recurring="{ item }">
+        <v-chip
+                :color="item.recurring ? 'green' : 'red'"
+        >
+          {{ item.recurring ? 'Yes' : 'No'}}
+        </v-chip>
       </template>
     </v-data-table>
   </div>
