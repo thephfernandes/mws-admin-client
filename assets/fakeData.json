@@ -32,27 +32,32 @@
         {
             "name": "Products",
             "icon": "mdi-account-group",
-            "to": "#"
+            "to": "#",
+            "children": [
+                "Shirts", 
+                "Shoes", 
+                "Footballs"
+            ]
         },
         {
             "name": "Players",
             "icon": "mdi-account-group",
-            "to": "#"
+            "to": "/players"
         },
         {
             "name": "Winners",
             "icon": "mdi-account-group",
-            "to": "#"
+            "to": "/winners"
         },
         {
             "name": "Clubs",
             "icon": "mdi-account-group",
-            "to": "#"
+            "to": "/clubs"
         },
         {
             "name": "Financial",
             "icon": "mdi-currency-eur",
-            "to": "#"
+            "to": "/financial"
         }
     ]
 }
