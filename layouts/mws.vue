@@ -145,4 +145,11 @@ $width: 520px;
   padding: 0.5rem 1rem;
   max-width: $width;
 }
+
+.v-list-group {
+  .v-list-item {
+  padding-left: 71px;
+}
+}
+
 </style>
