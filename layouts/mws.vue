@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <modalRoot />
-    <v-app-bar dark dense clipped-left app :src="bannerImage">
+    <v-app-bar dark dense clipped-left app color="#35495e">
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
