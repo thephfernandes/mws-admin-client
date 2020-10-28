@@ -50,25 +50,6 @@
                 </template>
                 <v-list-item v-for="(shirtType, i) in shirts" :key="i" link>
                   <!-- ###nested menu of depth > 2 not supported by Vuetify -->
-                  <!-- <v-list-group v-if="shirt == 'European Shirts'" sub-group>
-                    <template v-slot:activator>
-                      <v-list-item-title v-text="shirt"></v-list-item-title>
-                    </template>
-                    <v-list-item
-                      v-for="(league, i) in europeanShirts"
-                      :key="i"
-                      link
-                    >
-                      <v-list-item-action>
-                        <v-icon>{{ item.icon }}</v-icon>
-                      </v-list-item-action>
-
-                      <v-list-item-content>
-                        <v-list-item-title v-text="league"></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-group> -->
-
                   <v-list-item>
                     <v-list-item-title v-text="shirtType"></v-list-item-title>
                   </v-list-item>
@@ -76,10 +57,6 @@
               </v-list-group>
 
               <v-list-item v-else :to="child.to" color="blue" router exact>
-                <v-list-item-action>
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title v-text="child.name"></v-list-item-title>
                 </v-list-item-content>
