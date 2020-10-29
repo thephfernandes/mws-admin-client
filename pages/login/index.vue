@@ -1,54 +1,60 @@
 <template>
-  <v-container class="login">
-    <v-row justify="center" align-content="center">
-      <v-col jutsify="center" cols="7">
-        <v-card raised outlined tile dark>
-          <div class="login-form">
-            <v-row justify="center">
-              <v-col cols="8">
-                <v-text-field
-                  v-model="username"
-                  label="username"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row justify="center">
-              <v-col cols="8">
-                <v-text-field
-                  label="password"
-                  v-model="password"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="[rules.required, rules.min]"
-                  :type="show ? 'text' : 'password'"
-                  @click:append="show = !show"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row justify="center">
-              <v-col cols="12">
-                <v-card-actions>
-                  <v-btn color="white lighten-2" text @click="login">
-                    Login
-                  </v-btn>
-                </v-card-actions>
-              </v-col>
-            </v-row>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="background">
+    <v-container class="login">
+      <v-row justify="center" align="center">
+        <v-col jutsify="center" cols="7">
+          <v-card raised outlined tile dark class="justify-center">
+            <div class="login-form">
+              <v-row justify="center">
+                <v-col cols="8">
+                  <v-text-field
+                    v-model="username"
+                    label="username"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="8">
+                  <v-text-field
+                    label="password"
+                    v-model="password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="[rules.required, rules.min]"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="12">
+                  <v-card-actions>
+                    <v-btn color="white lighten-2" text @click="login">
+                      Login
+                    </v-btn>
+                  </v-card-actions>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
+// import backgroundImagePath from "~/assets/logo-shirt.png";
 
 @Component
 export default class Index extends Vue {
   layout() {
-    return "default";
+    return "login";
   }
-
+  
+  // data() {
+  //   return { backgroundImagePath }
+  // }
   show: boolean = false;
   username: string = "";
   password: string = "";
@@ -63,10 +69,23 @@ export default class Index extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.background {
+  background-image: url('~assets/logo-shirt.png');
+  background-position: center;
+  height: 100%;
+}
+
 .v-card__actions {
   justify-content: center;
-  
+}
+
+.login {
+  padding-top: 80px;
+}
+
+.login-form {
+  padding: 2rem 1rem;
 }
 
 .v-btn {
