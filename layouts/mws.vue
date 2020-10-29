@@ -105,7 +105,7 @@ export default class Mws extends Vue {
   private search: string = "";
 
   get jsonData() {
-    let file = require("~/assets/fakeData.json");
+    let file = require("~/assets/menuStructure.json");
     return file;
   }
 
