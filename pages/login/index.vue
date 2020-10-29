@@ -4,12 +4,13 @@
       <v-row justify="center" align="center">
         <v-col jutsify="center" cols="7">
           <v-card raised outlined tile dark class="justify-center">
-            <div class="login-form">
+            <v-form class="login-form">
               <v-row justify="center">
                 <v-col cols="8">
                   <v-text-field
-                    v-model="username"
                     label="username"
+                    v-model="username"
+                    :rules="[rules.required]"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -22,7 +23,7 @@
                     :rules="[rules.required, rules.min]"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
-                  ></v-text-field>
+                  ></v-text-field> 
                 </v-col>
               </v-row>
               <v-row justify="center">
@@ -34,7 +35,12 @@
                   </v-card-actions>
                 </v-col>
               </v-row>
-            </div>
+              <!-- <v-row v-if="error.statusCode === 401">
+                <v-col>
+                  Invalid Credentials
+                </v-col>
+              </v-row> -->
+            </v-form>
           </v-card>
         </v-col>
       </v-row>
@@ -44,20 +50,18 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-// import backgroundImagePath from "~/assets/logo-shirt.png";
 
 @Component
 export default class Index extends Vue {
-  layout() {
-    return "login";
-  }
-  
-  // data() {
-  //   return { backgroundImagePath }
-  // }
   show: boolean = false;
   username: string = "";
   password: string = "";
+  errors: string[] = [];
+
+  layout() {
+    return "login";
+  }
+
   rules: Object = {
     required: (value: string) => !!value || "Required.",
     min: (v: string) => v.length >= 8 || "Min 8 characters",
@@ -71,7 +75,7 @@ export default class Index extends Vue {
 
 <style scoped>
 .background {
-  background-image: url('~assets/logo-shirt.png');
+  background-image: url("~assets/logo-shirt.png");
   background-position: center;
   height: 100%;
 }
