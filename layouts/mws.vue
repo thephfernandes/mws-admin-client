@@ -2,12 +2,6 @@
   <v-app>
     <modalRoot />
     <v-app-bar dark dense clipped-left app color="#35495e">
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(0,102,0,.8), rgba(51,255,51,.5)"
-        ></v-img>
-      </template>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-container class="mr-auto">
         <v-row>
@@ -49,7 +43,6 @@
                   </v-list-item-content>
                 </template>
                 <v-list-item v-for="(shirtType, i) in shirts" :key="i" link>
-                  <!-- ###nested menu of depth > 2 not supported by Vuetify -->
                   <v-list-item>
                     <v-list-item-title v-text="shirtType"></v-list-item-title>
                   </v-list-item>
@@ -109,10 +102,6 @@ import modalRoot from "~/components/layout/modalRoot.vue";
 export default class Mws extends Vue {
   private title: string = process.env.npm_package_name || "MWS Admin Portal";
   private drawer: boolean = true;
-  private bannerImage: string =
-    "https://source.unsplash.com/1600x900/?sport,football,soccer";
-
-  private name: string = "Steve";
   private search: string = "";
 
   get jsonData() {
@@ -120,16 +109,12 @@ export default class Mws extends Vue {
     return file;
   }
 
-  get greeting() {
-    return "Welcome, " + this.name;
+  get greeting(): string {
+    return "Welcome, " + this.jsonData.profile.name;
   }
-  get shirts() {
+  get shirts(): string[] {
     return ["European Shirts", "International Shirts"];
   }
-
-  // get europeanShirts() {
-  //   return ["Premier League", "UEFA", "Spanish League"];
-  // }
 }
 </script>
 
@@ -137,19 +122,19 @@ export default class Mws extends Vue {
 $width: 520px;
 
 .col {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
+
 .v-text-field {
-  margin-top: 1.5rem;
-  padding: 0.5rem 1rem;
-  max-width: $width;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+    max-width: $width;
 }
 
 .v-list-group {
-  .v-list-item {
-  padding-left: 71px;
+    .v-list-item {
+        padding-left: 71px;
+    }
 }
-}
-
 </style>

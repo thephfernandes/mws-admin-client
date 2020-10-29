@@ -1,4 +1,7 @@
 {
+    "profile": {
+        "name": "Steve"
+    },
     "highlights": [
         {
             "title": "Accounts created this week",
@@ -34,12 +37,18 @@
             "icon": "mdi-shopping",
             "to": "#",
             "children": [
-                {"name": "Shirts",
-                "to": "/shirts"},
-                {"name": "Shoes",
-                "to": "/shoes"},
-                {"name": "Footballs",
-                "to": "/footballs"} 
+                {
+                    "name": "Shirts",
+                    "to": "/shirts"
+                },
+                {
+                    "name": "Shoes",
+                    "to": "/shoes"
+                },
+                {
+                    "name": "Footballs",
+                    "to": "/footballs"
+                }
             ]
         },
         {
