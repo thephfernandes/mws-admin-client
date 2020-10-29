@@ -106,7 +106,6 @@ import modalRoot from "~/components/layout/modalRoot.vue";
 export default class Mws extends Vue {
   private title: string = process.env.npm_package_name || "MWS Admin Portal";
   private drawer: boolean = true;
-//   private name: string = "Steve";
   private search: string = "";
 
   get jsonData() {
