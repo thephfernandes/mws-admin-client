@@ -18,7 +18,7 @@
       </v-container>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer v-model="drawer" app clipped width="320px">
       <v-list shaped>
         <div v-for="(item, i) in jsonData.menu" :key="i">
           <v-list-group v-if="item.children" :prepend-icon="item.icon">

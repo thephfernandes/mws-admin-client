@@ -23,6 +23,21 @@
             "to": "/"
         },
         {
+            "name": "Content Management",
+            "icon": "mdi-cog",
+            "to": "",
+            "children": [
+                {
+                    "name": "Slider Images",
+                    "to": "/manage/slides"
+                },
+                {
+                    "name": "Featured Matches",
+                    "to": "/manage/featured"
+                }
+            ]
+        },
+        {
             "name": "Customers",
             "icon": "mdi-account-details",
             "to": "/customers"
@@ -35,19 +50,19 @@
         {
             "name": "Products",
             "icon": "mdi-shopping",
-            "to": "#",
+            "to": "/products",
             "children": [
                 {
                     "name": "Shirts",
-                    "to": "/shirts"
+                    "to": "/products/shirts"
                 },
                 {
                     "name": "Shoes",
-                    "to": "/shoes"
+                    "to": "/products/shoes"
                 },
                 {
                     "name": "Footballs",
-                    "to": "/footballs"
+                    "to": "/products/footballs"
                 }
             ]
         },
@@ -70,6 +85,24 @@
             "name": "Financial",
             "icon": "mdi-currency-eur",
             "to": "/financial"
+        }
+    ],
+    "sliders": [
+        {
+            "image": "https://elencos.com.br/wp-content/uploads/2019/07/Sele%C3%A7%C3%A3o-Brasileira-de-2002.jpg",
+            "text": "You can do it!"
+        },
+        {
+            "image": "https://elencos.com.br/wp-content/uploads/2019/07/Sele%C3%A7%C3%A3o-Brasileira-de-2002.jpg",
+            "text": "This shirt is awesome"
+        },
+        {
+            "image": "https://elencos.com.br/wp-content/uploads/2019/07/Sele%C3%A7%C3%A3o-Brasileira-de-2002.jpg",
+            "text": "Did I leave the stove on?"
+        },
+        {
+            "image": "https://elencos.com.br/wp-content/uploads/2019/07/Sele%C3%A7%C3%A3o-Brasileira-de-2002.jpg",
+            "text": "Kanye 2020"
         }
     ]
 }
