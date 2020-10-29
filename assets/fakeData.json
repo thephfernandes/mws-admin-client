@@ -24,17 +24,17 @@
         },
         {
             "name": "Customers",
-            "icon": "mdi-account-group",
+            "icon": "mdi-account-details",
             "to": "/customers"
         },
         {
             "name": "Matches",
-            "icon": "mdi-account-group",
+            "icon": "mdi-soccer-field",
             "to": "/matches"
         },
         {
             "name": "Products",
-            "icon": "mdi-account-group",
+            "icon": "mdi-shopping",
             "to": "#",
             "children": [
                 {
@@ -53,12 +53,12 @@
         },
         {
             "name": "Players",
-            "icon": "mdi-account-group",
+            "icon": "mdi-account-star",
             "to": "/players"
         },
         {
             "name": "Winners",
-            "icon": "mdi-account-group",
+            "icon": "mdi-trophy",
             "to": "/winners"
         },
         {

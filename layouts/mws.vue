@@ -50,10 +50,6 @@
               </v-list-group>
 
               <v-list-item v-else :to="child.to" color="blue" router exact>
-                <v-list-item-action>
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title v-text="child.name"></v-list-item-title>
                 </v-list-item-content>
@@ -134,5 +130,11 @@ $width: 520px;
     margin-top: 1.5rem;
     padding: 0.5rem 1rem;
     max-width: $width;
+}
+
+.v-list-group {
+    .v-list-item {
+        padding-left: 71px;
+    }
 }
 </style>
