@@ -2,13 +2,22 @@
     <v-container class="slider-images">
         <v-row>
             <v-col>
-                <!-- <div v-for="(item, index) in sliders" :key="index"> -->
                 <draggable tag="v-layout" group="slides" v-model="sliders" @start="drag=true" @end="drag=false">
                     <Slide v-for="(item, index) in sliders" :key="index" :callToAction="item.text" :imagePath="item.image"/>
                 </draggable>
-                <!-- </div> -->
             </v-col>
         </v-row> 
+
+    <v-row justify="end">
+      <v-col>
+        <nuxt-link
+          to="/manage/slides/add"
+          class="v-btn v-btn--container theme--light v-size--default ml-auto"
+        >
+          Create new slider
+        </nuxt-link>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -30,7 +39,7 @@ export default class Index extends Vue {
         return "mws";
     }
 
-    get jsonData() {
+  get jsonData() {
     let file = require("~/assets/menuStructure.json");
     return file;
   }
@@ -42,5 +51,4 @@ export default class Index extends Vue {
 </script>
 
 <style>
-
 </style>
