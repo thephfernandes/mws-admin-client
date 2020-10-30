@@ -38,7 +38,7 @@ export default class Index extends Vue {
 
   // computed
   get jsonData() {
-    let file = require("~/assets/fakeData.json");
+    let file = require("~/assets/menuStructure.json");
     return file;
   }
 

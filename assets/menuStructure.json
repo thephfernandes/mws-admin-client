@@ -1,4 +1,7 @@
 {
+    "profile": {
+        "name": "Steve"
+    },
     "highlights": [
         {
             "title": "Accounts created this week",
@@ -21,38 +24,52 @@
         },
         {
             "name": "Customers",
-            "icon": "mdi-account-group",
+            "icon": "mdi-account-details",
             "to": "/customers"
         },
         {
             "name": "Matches",
-            "icon": "mdi-account-group",
+            "icon": "mdi-soccer-field",
             "to": "/matches"
         },
         {
             "name": "Products",
-            "icon": "mdi-account-group",
-            "to": "#"
+            "icon": "mdi-shopping",
+            "to": "#",
+            "children": [
+                {
+                    "name": "Shirts",
+                    "to": "/shirts"
+                },
+                {
+                    "name": "Shoes",
+                    "to": "/shoes"
+                },
+                {
+                    "name": "Footballs",
+                    "to": "/footballs"
+                }
+            ]
         },
         {
             "name": "Players",
-            "icon": "mdi-account-group",
-            "to": "#"
+            "icon": "mdi-account-star",
+            "to": "/players"
         },
         {
             "name": "Winners",
-            "icon": "mdi-account-group",
-            "to": "#"
+            "icon": "mdi-trophy",
+            "to": "/winners"
         },
         {
             "name": "Clubs",
             "icon": "mdi-account-group",
-            "to": "#"
+            "to": "/clubs"
         },
         {
             "name": "Financial",
             "icon": "mdi-currency-eur",
-            "to": "#"
+            "to": "/financial"
         }
     ]
 }
