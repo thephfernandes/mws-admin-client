@@ -3,7 +3,7 @@
         <v-row>
             <v-col>
                 <draggable tag="v-layout" group="slides" v-model="sliders" @start="drag=true" @end="drag=false">
-                    <Slide v-for="(item, index) in sliders" :key="index" :callToAction="item.text" :imagePath="item.image"/>
+                    <Slide v-for="(item, index) in sliders" :key="index" :callToAction="item.text" :imagePath="item.image"/> 
                 </draggable>
             </v-col>
         </v-row> 
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-import Slide from "~/components/content/Slide.vue";
+import Slide from "~/components/content/sliders/Slide.vue";
 import draggable from "vuedraggable";
 
 @Component({
@@ -51,4 +51,9 @@ export default class Index extends Vue {
 </script>
 
 <style>
+.layout {
+    flex-flow: row wrap;
+    /* justify-content: space-between; */
+    
+}
 </style>

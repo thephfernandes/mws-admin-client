@@ -1,28 +1,44 @@
 <template>
     <div>
     This is where the magic happens!
-        <v-data-table>
-            <template v-slot:body="props">
-                <draggable :list="props.items" tag="tbody">
-                    <tr v-for="(item, index) in props.items" :key="index"></tr>
-                    <td>{{ item.home_team }}</td>
-                    <td>{{ item.away_team }}</td>
-                    <td>{{ item.match_date }}</td>
-                    <td>{{ item.finished }}</td>
-                </draggable>
-            </template>
-        </v-data-table>
+    <MatchTable :matchItems="matches"/>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
+import MatchTable from "@/components/content/matches/MatchTable.vue"
 
-@Component
+@Component({
+    components: {
+        MatchTable
+    }
+})
 export default class Index extends Vue {
-  layout() {
-    return "mws";
-  }
+    private matches: Object[] = [
+        {
+            home_team: "manchester",
+            away_team: "liverpool",
+            match_date: "01-01-9999",
+            finished: false,
+        },
+        {
+            home_team: "chelsea",
+            away_team: "totenham",
+            match_date: "01-01-8888",
+            finished: false,
+        },
+        {
+            home_team: "lorem FC",
+            away_team: "ipsum madrid",
+            match_date: "01-01-7777",
+            finished: false
+        }
+    ]
+
+    layout() {
+        return "mws";
+    }
 };
 </script>
 
