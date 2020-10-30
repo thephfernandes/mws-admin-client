@@ -1,5 +1,5 @@
 <template>
-  <v-card width="500px"> 
+  <v-card width="200px"> 
       <v-img
         :src="imagePath"
         class="white--text align-end"
