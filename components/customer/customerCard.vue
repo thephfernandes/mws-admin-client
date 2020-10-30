@@ -11,6 +11,7 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 export default class customerCard extends Vue {
   @Prop({ type: Number, required: true }) readonly title!: number;
   @Prop({ type: String, required: true }) readonly subtitle!: string;
+  
   name() {
     return "CustomerCard";
   }

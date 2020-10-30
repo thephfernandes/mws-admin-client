@@ -2,7 +2,7 @@
   <div class="background">
     <v-container class="login">
       <v-row justify="center" align="center">
-        <v-col jutsify="center" cols="7">
+        <v-col justify="center" cols="7">
           <v-card raised outlined tile dark class="justify-center">
             <v-form class="login-form">
               <v-row justify="center">

@@ -1,4 +1,3 @@
-<!-- Using Vue class component with nuxt property decorator -->
 <template>
   <div>
     <v-row dense>
@@ -7,14 +6,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <Leaderbord :data="customers" />
+      <Leaderboard :data="customers" />
     </v-row>
     <Actions />
   </div>
 </template>
 <script lang="ts">
 import CustomerCard from "~/components/customer/customerCard.vue";
-import Leaderbord from "~/components/customer/leaderbord.vue";
+import Leaderboard from "~/components/customer/leaderboard.vue";
 import Actions from "~/components/customer/actions.vue";
 import axios from "axios";
 import ICustomer from "~/components/customer/ICustomer";
@@ -24,7 +23,7 @@ import { mapState } from "vuex";
 @Component({
   components: {
     CustomerCard,
-    Leaderbord,
+    Leaderboard,
     Actions,
   },
 })
