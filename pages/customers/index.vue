@@ -23,6 +23,7 @@ import highLightCard from "~/components/shared/highlight-card.vue";
 import Actions from "~/components/customer/actions.vue";
 import DataTable from "~/components/customer/datatable.vue";
 import { Component, Vue } from "nuxt-property-decorator";
+import { mapState } from "vuex";
 
 @Component({
   components: {
@@ -41,7 +42,7 @@ export default class Index extends Vue {
 
   // computed
   get jsonData() {
-    let file = require("~/assets/fakeData.json");
+    let file = require("~/assets/menuStructure.json");
     return file;
   }
 

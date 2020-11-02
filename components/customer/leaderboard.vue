@@ -3,7 +3,7 @@
   <v-col>
     <v-card>
       <v-card-title>
-        Leaderbord
+        Leaderboard
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -28,7 +28,7 @@ import Vue, { PropOptions } from "vue";
 import ICustomer from "./ICustomer";
 
 export default Vue.extend({
-  name: "Leaderbord",
+  name: "Leaderboard",
   props: {
     data: {
       type: Array,
