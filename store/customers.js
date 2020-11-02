@@ -1,19 +1,20 @@
+/*jshint esversion: 8*/
 import customersData from '~/assets/data/customers.json';
 
 export const state = () => ({
     list: []
 });
 
-export const getter = {
-    customers: (state) => {
-        return state.list;
-    },
+export const getters = {
     getRecurring: (state) => {
         return state.list.filter((c) => c.recurring)
     },
     totalCustomers: (state) => {
         if (state.list.length == 0) return 0;
         return state.list.length;
+    },
+    getName: (state) => {
+        return state.name;
     }
 };
 
@@ -25,12 +26,12 @@ export const mutations = {
         state.list.push(user);
     },
     remove(state, { user }) {
-        state.list.remove();
+        state.list.remove(user);
     }
 };
 
 export const actions = {
-    getAll({ commit }) {
+    fillAll({ commit }) {
         commit('fill', customersData);
     }
 };
