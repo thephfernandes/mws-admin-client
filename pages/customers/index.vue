@@ -1,31 +1,41 @@
 <template>
   <div>
+    <h1>Customers</h1>
     <v-row dense>
-      <v-col v-for="(item, key) in jsonData.highlights" :key="key">
-        <CustomerCard :title="item.value" :subtitle="item.title" />
+      <v-col>
+        <highLightCard :title="totalCustomers" subtitle="Total accounts" />
+      </v-col>
+      <v-col>
+        <highLightCard :title="accountsCreated" subtitle="Accounts created this week" />
       </v-col>
     </v-row>
     <v-row>
-      <Leaderboard :data="customers" />
+      <v-col>
+        <DataTable :customers="customers" />
+      </v-col>
     </v-row>
     <Actions />
   </div>
 </template>
 <script lang="ts">
-import CustomerCard from "~/components/customer/customerCard.vue";
-import Leaderboard from "~/components/customer/leaderboard.vue";
+import highLightCard from "~/components/shared/highlight-card.vue";
 import Actions from "~/components/customer/actions.vue";
-import axios from "axios";
-import ICustomer from "~/components/customer/ICustomer";
-import { Component, Vue } from "nuxt-property-decorator";
-import { mapState } from "vuex";
+import DataTable from "~/components/customer/datatable.vue";
+import {Component, Vue} from "nuxt-property-decorator";
+import { mapGetters } from "vuex";
 
 @Component({
   components: {
-    CustomerCard,
-    Leaderboard,
+    highLightCard,
     Actions,
+    DataTable,
   },
+  computed: {
+    ...mapGetters('customers', [
+            'totalCustomers',
+            'getRecurring',
+    ])
+  }
 })
 export default class Index extends Vue {
   // Data
@@ -36,18 +46,17 @@ export default class Index extends Vue {
   }
 
   // computed
-  get jsonData() {
-    let file = require("~/assets/menuStructure.json");
-    return file;
+  get customers() {
+    return this.$store.state.customers.list;
   }
 
-  get customers() {
-    return this.$store.state.customer.list;
+  get accountsCreated() {
+    return 10;
   }
 
   // Hooks
   mounted() {
-    this.$store.dispatch("customer/getAll");
+    this.$store.dispatch("customers/fillAll");
   }
 }
 </script>
