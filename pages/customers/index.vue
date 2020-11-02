@@ -1,13 +1,12 @@
-<!-- Using Vue class component with nuxt property decorator -->
 <template>
   <div>
     <h1>Customers</h1>
     <v-row dense>
       <v-col>
-        <highLightCard :title="totalAccounts" subtitle="Total accounts"></highLightCard>
+        <highLightCard :title="totalCustomers" subtitle="Total accounts" />
       </v-col>
       <v-col>
-        <highLightCard :title="accountsCreated" subtitle="Accounts created this week"></highLightCard>
+        <highLightCard :title="accountsCreated" subtitle="Accounts created this week" />
       </v-col>
     </v-row>
     <v-row>
@@ -22,8 +21,8 @@
 import highLightCard from "~/components/shared/highlight-card.vue";
 import Actions from "~/components/customer/actions.vue";
 import DataTable from "~/components/customer/datatable.vue";
-import { Component, Vue } from "nuxt-property-decorator";
-import { mapState } from "vuex";
+import {Component, Vue} from "nuxt-property-decorator";
+import { mapGetters } from "vuex";
 
 @Component({
   components: {
@@ -31,6 +30,12 @@ import { mapState } from "vuex";
     Actions,
     DataTable,
   },
+  computed: {
+    ...mapGetters('customers', [
+            'totalCustomers',
+            'getRecurring',
+    ])
+  }
 })
 export default class Index extends Vue {
   // Data
@@ -41,29 +46,17 @@ export default class Index extends Vue {
   }
 
   // computed
-  get jsonData() {
-    let file = require("~/assets/menuStructure.json");
-    return file;
-  }
-
   get customers() {
     return this.$store.state.customers.list;
   }
 
-  get totalAccounts() {
-    return 9;
-    return this.$store.getters.customers.totalCustomers;
-  }
-
   get accountsCreated() {
-    const rec = this.$store.state.customers.list[0];
-    console.log(rec);
-    return 9;
+    return 10;
   }
 
   // Hooks
   mounted() {
-    this.$store.dispatch("customers/getAll");
+    this.$store.dispatch("customers/fillAll");
   }
 }
 </script>
