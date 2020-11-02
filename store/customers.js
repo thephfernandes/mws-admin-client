@@ -6,16 +6,12 @@ export const state = () => ({
 });
 
 export const getters = {
-    getRecurring: (state) => {
-        return state.list.filter((c) => c.recurring)
+    getTotalRecurring: (state) => {
+        return state.list.filter((c) => c.recurring).length;
     },
     totalCustomers: (state) => {
-        if (state.list.length == 0) return 0;
         return state.list.length;
     },
-    getName: (state) => {
-        return state.name;
-    }
 };
 
 export const mutations = {

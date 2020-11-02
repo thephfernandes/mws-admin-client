@@ -3,10 +3,13 @@
     <h1>Customers</h1>
     <v-row dense>
       <v-col>
-        <highLightCard :title="totalCustomers" subtitle="Total accounts" />
+        <highlight-card :title="totalCustomers" subtitle="Total accounts" />
       </v-col>
       <v-col>
-        <highLightCard :title="accountsCreated" subtitle="Accounts created this week" />
+        <highlight-card :title="accountsCreated" subtitle="Accounts created this week" />
+      </v-col>
+      <v-col>
+        <highlight-card :title="getTotalRecurring" subtitle="Returning customers" />
       </v-col>
     </v-row>
     <v-row>
@@ -26,14 +29,14 @@ import { mapGetters } from "vuex";
 
 @Component({
   components: {
-    highLightCard,
+    'highlight-card': highLightCard,
     Actions,
     DataTable,
   },
   computed: {
     ...mapGetters('customers', [
             'totalCustomers',
-            'getRecurring',
+            'getTotalRecurring',
     ])
   }
 })
