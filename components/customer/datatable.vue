@@ -24,11 +24,11 @@
       </v-col>
     </v-row>
     <v-data-table
-        :search="search"
-        :headers="headers"
-        :items="customers"
-        :item-key="customers.id"
-        :custom-filter="customSearchFilter"
+            :search="search"
+            :headers="headers"
+            :items="customers"
+            :item-key="customers.id"
+            :custom-filter="customSearchFilter"
     >
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
@@ -124,7 +124,8 @@ export default class DataTable extends Vue {
     return [
       {
         text: 'Id',
-        value: 'id'
+        value: 'id',
+        divider: true
       },
       {
         text: 'Name',
@@ -154,6 +155,53 @@ export default class DataTable extends Vue {
       {
         text: 'Address',
         value: 'address'
+      },
+      {
+        text: 'Company',
+        value: 'company'
+      },
+      {
+        text: 'Created',
+        value: 'creation_date',
+        width: 100
+      },
+      {
+        text: 'currency',
+        value: 'currency'
+      },
+      {
+        text: 'Forgot password date',
+        value: 'forgot_password_date',
+        divider: true,
+        width: 100
+      },
+      {
+        text: 'Email unsubscribed',
+        value: 'email_unsubscribed'
+      },
+      {
+        text: 'Email verified',
+        value: 'email_verified'
+      },
+      {
+        text: 'Other club notifs',
+        value: 'other_club_notifs'
+      },
+      {
+        text: 'Payment verified',
+        value: 'payment_verified'
+      },
+      {
+        text: 'Phone verified',
+        value: 'phone_verified'
+      },
+      {
+        text: 'Recurring',
+        value: 'phone_verified'
+      },
+      {
+        text: 'Status',
+        value: 'status'
       }
     ];
   }
