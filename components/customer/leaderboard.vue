@@ -25,7 +25,7 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from "vue";
-import ICustomer from "@/types/ICustomer";
+import ICustomer from "~/interfaces/ICustomer";
 
 export default Vue.extend({
   name: "Leaderboard",
