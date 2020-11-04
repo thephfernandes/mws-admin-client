@@ -2,7 +2,7 @@
   <div class="customers-data">
     <h2>All customers</h2>
     <v-row>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-text-field
                 v-model="search"
                 label="Search"
@@ -11,7 +11,7 @@
                 hide-details
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="4">
         <v-select
                 :items="countries"
                 label="Country"
@@ -19,12 +19,14 @@
                 v-model="country"
         />
       </v-col>
-      <v-col cols="2">
-        <v-btn width="100%" @click="resetFilters">Reset filters</v-btn>
+      <v-col cols="12" md="2">
+        <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
+        <v-btn width="100%" class="mt-1" color="success" @click="goToNewCustomer()"><v-icon class="pr-2">mdi-account-plus</v-icon>New customer</v-btn>
       </v-col>
     </v-row>
     <v-data-table
             :search="search"
+            :sort-desc="['creation_date']"
             :headers="headers"
             :items="customers"
             :item-key="customers.id"
@@ -77,7 +79,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
-import ICustomer from "@/types/ICustomer";
+import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
 
 @Component
@@ -85,7 +87,7 @@ export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
 
-  @Prop({ type: Array, required: true }) readonly customers!: ICustomer[];
+  @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
   name() {
     return "customers-datatable"
@@ -108,6 +110,10 @@ export default class DataTable extends Vue {
     const inEmail = RegExp(search, 'i').test(item.email_address);
     const inTelephone = RegExp(search, 'i').test(item.phone_number);
     return inName || inEmail || inTelephone;
+  }
+
+  goToNewCustomer() {
+    this.$router.push({path: '/customers/add'});
   }
 
   countryFilter(value: any) {
@@ -197,7 +203,7 @@ export default class DataTable extends Vue {
       },
       {
         text: 'Recurring',
-        value: 'phone_verified'
+        value: 'recurring'
       },
       {
         text: 'Status',
