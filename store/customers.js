@@ -12,22 +12,25 @@ export const getters = {
     totalCustomers: (state) => {
         return state.list.length;
     },
+    getLast: (state) => {
+        return state.list[state.list.length - 1];
+    }
 };
 
 export const mutations = {
     fill(state, payload) {
         state.list = payload
     },
-    add(state, { user }) {
-        state.list.push(user);
+    add(state, customer) {
+        state.list.push(customer);
     },
-    remove(state, { user }) {
-        state.list.remove(user);
+    remove(state, customer) {
+        state.list.remove(customer);
     }
 };
 
 export const actions = {
     fillAll({ commit }) {
         commit('fill', customersData);
-    }
+    },
 };
