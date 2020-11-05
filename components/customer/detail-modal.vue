@@ -75,6 +75,25 @@
             </v-list-item>
             <v-list-item>
                 <v-list-item-action>
+                    Other club notifs:
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-simple-checkbox
+                            v-model="customer.other_club_notifs"
+                            disabled
+                    />
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-action>
+                    Status:
+                </v-list-item-action>
+                <v-list-item-content>
+                    {{customer.status}}
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-action>
                     Currency:
                 </v-list-item-action>
                 <v-list-item-content>
