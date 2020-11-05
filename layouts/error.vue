@@ -9,28 +9,19 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  layout: "mws",
-  props: {
-    error: {
-      type: Object,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      pageNotFound: "404 Not Found",
-      otherError: "An error occurred",
-    };
-  },
-  head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
-    return {
-      title,
-    };
-  },
+<script lang="ts">
+  import {Component, Prop, Vue} from "nuxt-property-decorator";
+
+@Component
+export default class Error extends Vue {
+  pageNotFound: string = '404 Not Found';
+  otherError: string = 'An error occurred';
+
+  @Prop({ type: Object, required: false }) readonly error!: Object;
+
+  layout() {
+    return 'mws';
+  }
 };
 </script>
 

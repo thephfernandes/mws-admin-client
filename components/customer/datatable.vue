@@ -74,18 +74,43 @@
                 disabled
         />
       </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+                small
+                class="mr-2"
+                @click="openCustomer(item)"
+        >
+          mdi-magnify
+        </v-icon>
+        <v-icon
+                small
+                @click=""
+        >
+          mdi-delete
+        </v-icon>
+      </template>
     </v-data-table>
+    <v-dialog v-model="dialogDetail" max-width="500px">
+      <detail-modal-customer :customer="customer" />
+    </v-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
+import DetailModalCustomer from "~/components/customer/detail-modal.vue";
 
-@Component
+@Component({
+  components: {
+    'detail-modal-customer': DetailModalCustomer
+  }
+})
 export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
+  dialogDetail: boolean = false;
+  customer: Customer = new Customer();
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
@@ -126,12 +151,23 @@ export default class DataTable extends Vue {
     this.country = '';
   }
 
+  openCustomer(item: Customer) {
+    this.customer = item;
+    this.dialogDetail = true;
+  }
+
   get headers() {
     return [
       {
         text: 'Id',
         value: 'id',
-        divider: true
+      },
+      {
+        text: 'Actions',
+        divider: true,
+        value: 'actions',
+        sortable: false,
+        width: 80
       },
       {
         text: 'Name',
