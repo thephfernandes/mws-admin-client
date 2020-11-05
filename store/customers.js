@@ -14,6 +14,9 @@ export const getters = {
     },
     getLast: (state) => {
         return state.list[state.list.length - 1];
+    },
+    getCustomer: (state) => (id) => {
+        return state.list.find((c) => c.id === id);
     }
 };
 
