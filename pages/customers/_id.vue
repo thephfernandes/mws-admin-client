@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>Edit customer<span v-if="customer.name">: {{customer.name}}</span></v-card-title>
-    <v-card-subtitle>Customer id: {{ customerId}}</v-card-subtitle>
+    <v-card-subtitle>Customer id: {{ customerId }}</v-card-subtitle>
     <v-card-text>
       <v-form
               ref="form"
@@ -10,7 +10,7 @@
       >
         <v-row>
           <v-col cols="12" md="4">
-            <v-text-field label="Name" :value="customer.name" outlined/>
+            <v-text-field label="Name" v-model="customer.name" outlined/>
           </v-col>
           <v-col cols="12" md="4">
             <v-text-field
@@ -22,39 +22,47 @@
             />
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field label="Phone" :value="customer.phone_number" :rules="phoneRules" required outlined />
+            <v-text-field label="Phone" v-model="customer.phone_number" :rules="phoneRules" required outlined />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" md="4">
-            <v-text-field label="Company" :value="customer.company" outlined />
+            <v-text-field label="Company" v-model="customer.company" outlined />
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field label="Address" :value="customer.address" outlined />
+            <v-text-field label="Address" v-model="customer.address" outlined />
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field label="Postal code" :value="customer.postal_code" outlined />
+            <v-text-field label="Postal code" v-model="customer.postal_code" outlined />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" md="6">
-            <v-text-field label="City" :value="customer.city" outlined />
+            <v-text-field label="City" v-model="customer.city" outlined />
           </v-col>
           <v-col cols="12" md="6">
-            <v-select label="Country" :value="customer.country" :items="countries" outlined />
+            <v-select label="Country" v-model="customer.country" :items="countries" outlined />
           </v-col>
         </v-row>
         <v-row align="center">
           <v-col>
-            <v-checkbox required :value="customer.email_verified" label="E-mail verified" />
+            <v-checkbox v-model="customer.email_verified" label="E-mail verified" />
           </v-col>
           <v-col>
-            <v-checkbox required :value="customer.phone_verified" label="Phone verified" />
+            <v-checkbox v-model="customer.phone_verified" label="Phone verified" />
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col>
+            <v-checkbox v-model="customer.email_unsubscribed" label="E-mail unsubscribed" />
+          </v-col>
+          <v-col>
+            <v-checkbox v-model="customer.payment_verified" label="Payment verified" />
           </v-col>
         </v-row>
         <v-row justify="space-between">
           <v-btn @click="goBack()" color="error">Cancel</v-btn>
-          <v-btn @click="addCustomer()" color="success" :disabled="!valid">Save</v-btn>
+          <v-btn @click="updateCustomer()" color="success" :disabled="!valid">Save</v-btn>
         </v-row>
       </v-form>
     </v-card-text>
@@ -68,7 +76,7 @@ import Countries from "~/assets/data/countries.json";
 @Component
 export default class extends Vue {
   private valid: boolean = true;
-  private customerId: number = 0;
+  public customerId: number = 0;
   private customer: Customer = new Customer();
   emailRules = [
     (v: string) => !!v || 'E-mail is required',
@@ -81,7 +89,17 @@ export default class extends Vue {
 
   created() {
     this.customerId = parseInt(this.$route.params.id);
-    this.customer = this.$store.getters['customers/getCustomer'](this.customerId);
+    const customer = this.$store.getters['customers/getCustomer'](this.customerId);
+    this.customer = Object.assign({}, customer);
+  }
+
+  updateCustomer(): void {
+    this.$store.dispatch('customers/update', this.customer);
+    this.$router.push({name: 'customers'});
+  }
+
+  goBack(): void {
+    this.$router.push({name: 'customers'});
   }
 
   get countries() {
@@ -93,7 +111,7 @@ export default class extends Vue {
     });
   }
 
-  layout() {
+  layout(): string {
     return "mws";
   }
 }
