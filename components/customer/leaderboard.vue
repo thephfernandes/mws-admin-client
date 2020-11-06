@@ -24,6 +24,13 @@
                     >
                         mdi-magnify
                     </v-icon>
+                    <v-icon
+                            small
+                            class="mr-2"
+                            @click="editCustomer(item.ID)"
+                    >
+                        mdi-pencil
+                    </v-icon>
                 </template>
             </v-data-table>
         </v-card-text>
@@ -64,6 +71,10 @@ export default class Leaderbord extends Vue {
     openCustomer(id: number) {
         this.customer = this.$store.getters['customers/getCustomer'](id);
         this.dialogDetail = true;
+    }
+
+    editCustomer(customerId: number) {
+        this.$router.push({name: 'customers-id', params: { id: customerId.toString() }});
     }
 
     get headers() {
