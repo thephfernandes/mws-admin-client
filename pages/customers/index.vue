@@ -14,6 +14,11 @@
     </v-row>
     <v-row>
       <v-col>
+        <leader-board />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <DataTable :customers="customers" />
       </v-col>
     </v-row>
@@ -24,12 +29,14 @@
 import highLightCard from "~/components/shared/highlight-card.vue";
 import Actions from "~/components/customer/actions.vue";
 import DataTable from "~/components/customer/datatable.vue";
+import Leaderboard from "~/components/customer/leaderboard.vue";
 import {Component, Vue} from "nuxt-property-decorator";
 import { mapGetters } from "vuex";
 
 @Component({
   components: {
     'highlight-card': highLightCard,
+    'leader-board': Leaderboard,
     Actions,
     DataTable,
   },
