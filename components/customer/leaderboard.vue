@@ -16,17 +16,37 @@
                 <template v-slot:item.Country="{ item }">
                     {{getCountry(item.Country)}}
                 </template>
+                <template v-slot:item.actions="{ item }">
+                    <v-icon
+                            small
+                            class="mr-2"
+                            @click="openCustomer(item.ID)"
+                    >
+                        mdi-magnify
+                    </v-icon>
+                </template>
             </v-data-table>
         </v-card-text>
+        <v-dialog v-model="dialogDetail" max-width="500px">
+            <detail-modal-customer :customer="customer" />
+        </v-dialog>
     </v-card>
 </template>
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 import leaderbord from "~/assets/data/dashboard.json";
 import Countries from "~/assets/data/countries.json";
+import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import {Customer} from "~/models/customer";
 
-@Component
+@Component({
+    components: {
+        'detail-modal-customer': DetailModalCustomer
+    }
+})
 export default class Leaderbord extends Vue {
+    private customer: Customer = new Customer();
+    private dialogDetail: boolean = false;
     name(): string {
         return 'leader-bord';
     }
@@ -41,11 +61,20 @@ export default class Leaderbord extends Vue {
         return c.text;
     }
 
+    openCustomer(id: number) {
+        this.customer = this.$store.getters['customers/getCustomer'](id);
+        this.dialogDetail = true;
+    }
+
     get headers() {
         return [
             {
                 text: 'Id',
-                value: 'ID',
+                value: 'ID'
+            },
+            {
+                text: 'Actions',
+                value: 'actions',
                 divider: true
             },
             {
