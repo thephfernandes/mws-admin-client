@@ -84,6 +84,13 @@
         </v-icon>
         <v-icon
                 small
+                class="mr-2"
+                @click="editCustomer(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+                small
                 @click=""
         >
           mdi-delete
@@ -146,14 +153,18 @@ export default class DataTable extends Vue {
     return value.toLowerCase().includes(this.country.toLowerCase());
   }
 
-  resetFilters() {
+  resetFilters(): void {
     this.search = '';
     this.country = '';
   }
 
-  openCustomer(item: Customer) {
+  openCustomer(item: Customer): void {
     this.customer = item;
     this.dialogDetail = true;
+  }
+
+  editCustomer(item: Customer) {
+    this.$router.push({name: 'customers-id', params: { id: item.id.toString() }});
   }
 
   get headers() {
@@ -167,7 +178,7 @@ export default class DataTable extends Vue {
         divider: true,
         value: 'actions',
         sortable: false,
-        width: 80
+        width: 120
       },
       {
         text: 'Name',

@@ -3,7 +3,7 @@
         <v-card-title class="primary darken-1">
             <span class="headline white--text">Customer {{customer.name}}</span>
             <v-spacer></v-spacer>
-            <v-btn dark icon>
+            <v-btn dark icon @click="editCustomer()">
                 <v-icon>mdi-pencil</v-icon>
             </v-btn>
         </v-card-title>
@@ -128,8 +128,12 @@ import Countries from "~/assets/data/countries.json"
 export default class DetailModalCustomer extends Vue {
     @Prop({ type: Object, required: true }) readonly customer!: Customer;
 
-    name() {
+    name(): string {
         return 'detail-modal-customer';
+    }
+
+    editCustomer(): void {
+        this.$router.push({name: 'customers-id', params: { id: this.customer.id.toString() }});
     }
 
     getCountry(code: string): string {
@@ -138,7 +142,7 @@ export default class DetailModalCustomer extends Vue {
         return country.text;
     }
 
-    formatDate(string: string) {
+    formatDate(string: string): string {
         const date = new Date(string);
         const year = date.getFullYear();
         const month = date.getMonth();
