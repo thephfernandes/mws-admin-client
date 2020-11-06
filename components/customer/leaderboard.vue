@@ -1,14 +1,14 @@
 <template>
-    <v-card class="leaderbord">
+    <v-card class="leaderboard">
         <v-card-title>
-            Leaderbord
+            Leaderboard
         </v-card-title>
         <v-card-subtitle>
-            Leaderbord show top 5 customers with highest total money spent.
+            Leaderboard show top 5 customers with highest total money spent.
         </v-card-subtitle>
         <v-card-text>
             <v-data-table
-                    :items="leaderbord"
+                    :items="leaderboard"
                     :headers="headers"
                     :sort-desc="['TotalSpent']"
                     hide-default-footer
@@ -41,7 +41,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-import leaderbord from "~/assets/data/dashboard.json";
+import leaderboard from "~/assets/data/dashboard.json";
 import Countries from "~/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
 import {Customer} from "~/models/customer";
@@ -51,15 +51,15 @@ import {Customer} from "~/models/customer";
         'detail-modal-customer': DetailModalCustomer
     }
 })
-export default class Leaderbord extends Vue {
+export default class Leaderboard extends Vue {
     private customer: Customer = new Customer();
     private dialogDetail: boolean = false;
     name(): string {
-        return 'leader-bord';
+        return 'leader-board';
     }
 
-    get leaderbord() {
-        return leaderbord.Leaderboards;
+    get leaderboard() {
+        return leaderboard.Leaderboards;
     }
 
     getCountry(code: string): string {
