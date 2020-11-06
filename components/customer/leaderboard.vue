@@ -1,53 +1,70 @@
 <template>
-  <!-- Todo: Make this component a global datatable component -->
-  <v-col>
-    <v-card>
-      <v-card-title>
-        Leaderboard
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          label="Search"
-          append-icon="mdi-magnify"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table
-        :items="data"
-        :headers="headers"
-        loading="true"
-        :search="search"
-        :items-per-page="5"
-      ></v-data-table>
+    <v-card class="leaderbord">
+        <v-card-title>
+            Leaderbord
+        </v-card-title>
+        <v-card-subtitle>
+            Leaderbord show top 5 customers with highest total money spent.
+        </v-card-subtitle>
+        <v-card-text>
+            <v-data-table
+                    :items="leaderbord"
+                    :headers="headers"
+                    :sort-desc="['TotalSpent']"
+                    hide-default-footer
+            >
+                <template v-slot:item.Country="{ item }">
+                    {{getCountry(item.Country)}}
+                </template>
+            </v-data-table>
+        </v-card-text>
     </v-card>
-  </v-col>
 </template>
 <script lang="ts">
-import Vue, { PropOptions } from "vue";
-import ICustomer from "~/interfaces/ICustomer";
+import { Component, Vue } from "nuxt-property-decorator";
+import leaderbord from "~/assets/data/dashboard.json";
+import Countries from "~/assets/data/countries.json";
 
-export default Vue.extend({
-  name: "Leaderboard",
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    } as PropOptions<ICustomer[]>,
-  },
-  data() {
-    return {
-      search: "" as string,
-    };
-  },
-  computed: {
-    headers() {
-      if (this.data.length == 0) return;
-      const keys = Object.keys(this.data[0]);
-      let headers = [] as Object[];
-      keys.forEach((item, index) => headers.push({ text: item, value: item }));
-      return headers;
-    },
-  },
-});
+@Component
+export default class Leaderbord extends Vue {
+    name(): string {
+        return 'leader-bord';
+    }
+
+    get leaderbord() {
+        return leaderbord.Leaderboards;
+    }
+
+    getCountry(code: string): string {
+        const c = Countries.find((c) => c.value === code.toUpperCase());
+        if (c === undefined) return 'Unknown country';
+        return c.text;
+    }
+
+    get headers() {
+        return [
+            {
+                text: 'Id',
+                value: 'ID',
+                divider: true
+            },
+            {
+                text: 'Name',
+                value: 'Name'
+            },
+            {
+                text: 'Email',
+                value: 'Emailaddress'
+            },
+            {
+                text: 'Country',
+                value: 'Country'
+            },
+            {
+                text: 'Total spent',
+                value: 'TotalSpent'
+            }
+        ];
+    }
+}
 </script>
