@@ -1,23 +1,81 @@
 <template>
   <div class="customers-data">
     <h2>All customers</h2>
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-text-field
-                v-model="search"
-                label="Search"
-                append-icon="mdi-magnify"
-                single-line
-                hide-details
-        />
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-select
-                :items="countries"
-                label="Country"
-                append-icon="mdi-globe-model"
-                v-model="country"
-        />
+    <v-row align="center">
+      <v-col cols="12" md="10">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+                    v-model="search"
+                    label="Search for name, email & telephone"
+                    append-icon="mdi-magnify"
+                    single-line
+                    hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+                    :items="countries"
+                    label="Country"
+                    append-icon="mdi-globe-model"
+                    v-model="country"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-menu
+                    v-model="menuStartDate"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                        v-model="startDate"
+                        label="Filter start date"
+                        prepend-icon="mdi-calendar"
+                        v-bind="attrs"
+                        v-on="on"
+                />
+              </template>
+              <v-date-picker
+                      v-model="startDate"
+                      @input="menuStartDate = false"
+                      first-day-of-week="1"
+                      locale="SORT_GEORGIAN_MODERN"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-menu
+                    v-model="menuEndDate"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                        v-model="endDate"
+                        label="Filter end date"
+                        prepend-icon="mdi-calendar"
+                        v-bind="attrs"
+                        v-on="on"
+                />
+              </template>
+              <v-date-picker
+                      v-model="endDate"
+                      @input="menuEndDate = false"
+                      first-day-of-week="1"
+                      locale="SORT_GEORGIAN_MODERN"
+              />
+            </v-menu>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12" md="2">
         <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
@@ -136,6 +194,10 @@ export default class DataTable extends Vue {
   dialogDelete: boolean = false;
   customer: Customer = new Customer();
   deleted: boolean = false;
+  menuStartDate: boolean = false;
+  menuEndDate: boolean = false;
+  startDate: string = new Date().toISOString().substr(0, 10);
+  endDate: string = new Date().toISOString().substr(0, 10);
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
@@ -143,11 +205,15 @@ export default class DataTable extends Vue {
     return "customers-datatable"
   }
 
+  mounted() {
+    this.setStartDate();
+  }
+
   formatDate(string: string) {
     const date = new Date(string);
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDay();
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
     return `${day}-${month}-${year}`;
   }
 
@@ -155,7 +221,7 @@ export default class DataTable extends Vue {
     return countries;
   }
 
-  customSearchFilter(value: any, search: string, item: any, filters: any, filter: any) {
+  customSearchFilter(value: any, search: string, item: any) {
     const inName = RegExp(search, 'i').test(item.name);
     const inEmail = RegExp(search, 'i').test(item.email_address);
     const inTelephone = RegExp(search, 'i').test(item.phone_number);
@@ -182,9 +248,30 @@ export default class DataTable extends Vue {
     return value.toLowerCase().includes(this.country.toLowerCase());
   }
 
+  dateFilter(value: string) {
+    const date = new Date(value).toISOString().substr(0, 10);
+    if (this.startDate == '' && this.endDate == '') {
+      return value;
+    } else if (date >= this.startDate && date <= this.endDate) {
+      return value;
+    } else if (date >= this.startDate && this.endDate == '') {
+      return value;
+    } else if (date <= this.endDate && this.startDate == '') {
+      return value;
+    }
+  }
+
   resetFilters(): void {
     this.search = '';
     this.country = '';
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  setStartDate() {
+    const today = new Date();
+    today.setMonth(today.getMonth() - 2);
+    this.startDate = today.toISOString().substr(0, 10);
   }
 
   openCustomer(item: Customer): void {
@@ -245,7 +332,8 @@ export default class DataTable extends Vue {
       {
         text: 'Created',
         value: 'creation_date',
-        width: 100
+        width: 100,
+        filter: this.dateFilter
       },
       {
         text: 'currency',
