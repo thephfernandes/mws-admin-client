@@ -91,7 +91,7 @@
         </v-icon>
         <v-icon
                 small
-                @click=""
+                @click="removeCustomer(item)"
         >
           mdi-delete
         </v-icon>
@@ -100,6 +100,22 @@
     <v-dialog v-model="dialogDetail" max-width="500px">
       <detail-modal-customer :customer="customer" />
     </v-dialog>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Delete customer?</v-card-title>
+        <v-card-subtitle v-if="customer.name">{{customer.name}}</v-card-subtitle>
+        <v-card-subtitle>{{customer.email_address}}</v-card-subtitle>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialogDelete = false">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="removeCustomerConfirm">Delete</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar v-model="deleted">
+      {{customer.email_address}} is deleted
+    </v-snackbar>
   </div>
 </template>
 <script lang="ts">
@@ -117,7 +133,9 @@ export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
   dialogDetail: boolean = false;
+  dialogDelete: boolean = false;
   customer: Customer = new Customer();
+  deleted: boolean = false;
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
@@ -146,6 +164,17 @@ export default class DataTable extends Vue {
 
   goToNewCustomer() {
     this.$router.push({path: '/customers/add'});
+  }
+
+  removeCustomer(customer: Customer): void {
+    this.customer = customer;
+    this.dialogDelete = true;
+  }
+
+  removeCustomerConfirm(): void {
+    this.$store.dispatch('customers/remove', this.customer);
+    this.dialogDelete = false;
+    this.deleted = true;
   }
 
   countryFilter(value: any) {

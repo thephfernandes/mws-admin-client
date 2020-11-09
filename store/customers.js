@@ -28,7 +28,7 @@ export const mutations = {
         state.list.push(customer);
     },
     remove(state, customer) {
-        state.list.remove(customer);
+        state.list.splice(state.list.indexOf(customer), 1)
     },
     update(state, customer) {
         const i = state.list.findIndex((c) => c.id === customer.id);
@@ -45,5 +45,8 @@ export const actions = {
     },
     add({ commit }, customer) {
         commit('commit', customer);
+    },
+    remove({ commit }, customer) {
+        commit('remove', customer);
     }
 };
