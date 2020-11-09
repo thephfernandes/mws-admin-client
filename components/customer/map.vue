@@ -1,6 +1,58 @@
 <template>
     <div class="map">
         <h2>Registered accounts per country</h2>
+        <v-row>
+            <v-col>
+                <v-menu
+                        v-model="menuStartDate"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="290px"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                                v-model="startDate"
+                                label="Start date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                        />
+                    </template>
+                    <v-date-picker
+                            v-model="startDate"
+                            @input="menuStartDate = false"
+                    />
+                </v-menu>
+            </v-col>
+            <v-col>
+                <v-menu
+                        v-model="menuEndDate"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="290px"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                                v-model="endDate"
+                                label="End date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                        />
+                    </template>
+                    <v-date-picker
+                            v-model="endDate"
+                            @input="menuEndDate = false"
+                    />
+                </v-menu>
+            </v-col>
+        </v-row>
         <div ref="mapSection" class="mapSection"></div>
     </div>
 </template>
@@ -15,6 +67,10 @@ am4core.options.autoDispose = true;
 
 @Component
 export default class Map extends Vue {
+    startDate: string = new Date().toISOString().substr(0, 10);
+    menuStartDate: boolean = false;
+    menuEndDate: boolean = false;
+    endDate: string = new Date().toISOString().substr(0, 10);
     name(): string {
         return 'map';
     }
