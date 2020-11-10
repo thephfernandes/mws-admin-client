@@ -23,6 +23,11 @@
       </v-col>
     </v-row>
     <Actions />
+    <v-row>
+      <v-col>
+        <Map />
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script lang="ts">
@@ -30,6 +35,7 @@ import highLightCard from "~/components/shared/highlight-card.vue";
 import Actions from "~/components/customer/actions.vue";
 import DataTable from "~/components/customer/datatable.vue";
 import Leaderboard from "~/components/customer/leaderboard.vue";
+import Map from "~/components/customer/map.vue";
 import {Component, Vue} from "nuxt-property-decorator";
 import { mapGetters } from "vuex";
 
@@ -39,6 +45,7 @@ import { mapGetters } from "vuex";
     'leader-board': Leaderboard,
     Actions,
     DataTable,
+    Map,
   },
   computed: {
     ...mapGetters('customers', [
