@@ -169,3 +169,13 @@ export default class DetailModalCustomer extends Vue {
     }
 }
 </script>
+<style lang="scss" scoped>
+    .item-action {
+        width: 100%;
+    }
+    .detail-modal {
+        &__action {
+            flex-grow: 0;
+        }
+    }
+</style>
