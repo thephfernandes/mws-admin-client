@@ -92,7 +92,7 @@
                     {{customer.status}}
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="customer.currency">
                 <v-list-item-action>
                     Currency:
                 </v-list-item-action>
