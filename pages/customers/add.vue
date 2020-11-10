@@ -30,11 +30,14 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field label="City" v-model="customer.city" outlined />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-select label="Country" v-model="customer.country" :items="countries" outlined />
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field label="Password" outlined value="MWS2020!" />
           </v-col>
         </v-row>
         <v-row align="center">
