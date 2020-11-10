@@ -110,14 +110,17 @@
                 <v-divider />
                 <v-list>
                     <v-list-item>
-                        <v-list-item-action>
-                            <v-row>
+                        <v-list-item-action class="item-action">
+                            <v-row justify="space-between">
                                 <v-col>
                                     <v-icon v-if="customer.payment_verified">mdi-credit-card-check</v-icon>
                                     <v-icon v-else>mdi-credit-card-remove</v-icon>
                                     <v-icon v-if="customer.recurring">mdi-account-reactivate</v-icon>
                                     <v-icon v-if="customer.currency == 'GBP'">mdi-currency-gbp</v-icon>
                                     <v-icon v-if="customer.currency == 'EUR'">mdi-currency-eur</v-icon>
+                                </v-col>
+                                <v-col class="detail-modal__action">
+                                    <v-btn>Send guide <v-icon>mdi-send</v-icon></v-btn>
                                 </v-col>
                             </v-row>
                         </v-list-item-action>
