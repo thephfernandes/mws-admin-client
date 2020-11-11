@@ -2,20 +2,6 @@
     "profile": {
         "name": "Steve"
     },
-    "highlights": [
-        {
-            "title": "Accounts created this week",
-            "value": 1200
-        },
-        {
-            "title": "Total accounts",
-            "value": 1200
-        },
-        {
-            "title": "Returning customers",
-            "value": 1200
-        }
-    ],
     "menu": [
         {
             "name": "Home",
@@ -41,50 +27,6 @@
             "name": "Customers",
             "icon": "mdi-account-details",
             "to": "/customers"
-        },
-        {
-            "name": "Matches",
-            "icon": "mdi-soccer-field",
-            "to": "/matches"
-        },
-        {
-            "name": "Products",
-            "icon": "mdi-shopping",
-            "to": "/products",
-            "children": [
-                {
-                    "name": "Shirts",
-                    "to": "/products/shirts"
-                },
-                {
-                    "name": "Shoes",
-                    "to": "/products/shoes"
-                },
-                {
-                    "name": "Footballs",
-                    "to": "/products/footballs"
-                }
-            ]
-        },
-        {
-            "name": "Players",
-            "icon": "mdi-account-star",
-            "to": "/players"
-        },
-        {
-            "name": "Winners",
-            "icon": "mdi-trophy",
-            "to": "/winners"
-        },
-        {
-            "name": "Clubs",
-            "icon": "mdi-account-group",
-            "to": "/clubs"
-        },
-        {
-            "name": "Financial",
-            "icon": "mdi-currency-eur",
-            "to": "/financial"
         }
     ],
     "sliders": [
