@@ -15,7 +15,7 @@
             <v-text-field label="E-mail" v-model="customer.email_address" :rules="emailRules" required outlined />
           </v-col>
           <v-col cols="12" md="4">
-            <vue-tel-input v-model="phone"  required :maxLen="10" @country-changed="onCountryChange" @input="onPhoneChange"/>
+            <vue-tel-input v-model="phone"  required :maxLen="15" @country-changed="onCountryChange" @input="onPhoneChange"/>
           </v-col>
         </v-row>
         <v-row>
@@ -54,6 +54,7 @@
         </v-row>
       </v-form>
     </v-card-text>
+    <v-snackbar v-model="PhoneError" color="red">Phone number must have 10 digits</v-snackbar>
   </v-card>
 </template>
 <script lang="ts">
@@ -67,6 +68,7 @@ export default class extends Vue {
   private customer: Customer = new Customer();
   private phone: string = '';
   private phoneCountry: any = '';
+  private PhoneError: boolean = false;
   private emailRules = [
           (v: string) => !!v || 'E-mail is required',
           (v: string) => /.+@.+/.test(v) || 'E-mail must be valid'
@@ -86,8 +88,16 @@ export default class extends Vue {
   }
 
   addCustomer() {
-    this.$store.commit("customers/add", this.customer);
-    this.$router.push({name: 'customers'});
+    if (this.phoneIsValid()) {
+      this.$store.commit("customers/add", this.customer);
+      this.$router.push({name: 'customers'});
+    } else {
+      this.PhoneError = true;
+    }
+  }
+
+  phoneIsValid(): boolean {
+    return this.customer.phone_number.length >= 10;
   }
 
   goBack() {

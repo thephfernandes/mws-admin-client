@@ -76,6 +76,7 @@
         >
         </v-textarea>
     <v-btn @click="saveNote">Save note</v-btn>
+    <v-snackbar v-model="PhoneError" color="red">Phone number must have 10 digits</v-snackbar>
   </div>
 </template>
 <script lang="ts">
@@ -89,6 +90,7 @@ export default class extends Vue {
   public customerId: number = 0;
   private customer: Customer = new Customer();
   private note: Object = '';
+  private PhoneError: boolean = false;
   emailRules = [
     (v: string) => !!v || 'E-mail is required',
     (v: string) => /.+@.+/.test(v) || 'E-mail must be valid'
@@ -107,8 +109,16 @@ export default class extends Vue {
   }
 
   updateCustomer(): void {
-    this.$store.dispatch('customers/update', this.customer);
-    this.$router.push({name: 'customers'});
+    if (this.phoneIsValid()) {
+      this.$store.dispatch('customers/update', this.customer);
+      this.$router.push({name: 'customers'});
+    } else {
+      this.PhoneError = true;
+    }
+  }
+
+  phoneIsValid(): boolean {
+    return this.customer.phone_number.length >= 10;
   }
 
   saveNote() {
