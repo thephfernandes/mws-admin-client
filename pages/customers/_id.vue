@@ -23,7 +23,7 @@
               />
             </v-col>
             <v-col cols="12" md="4">
-              <vue-tel-input v-model="customer.phone_number" :maxLen="15" />
+              <vue-tel-input v-model="customer.phone_number" :maxLen="15" required />
             </v-col>
           </v-row>
           <v-row>
