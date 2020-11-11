@@ -15,7 +15,7 @@
             <v-text-field label="E-mail" v-model="customer.email_address" :rules="emailRules" required outlined />
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field label="Phone" v-model="customer.phone_number" :rules="phoneRules" required outlined />
+            <vue-tel-input v-model="phone"  required :maxLen="10" @country-changed="onCountryChange" @input="onPhoneChange"/>
           </v-col>
         </v-row>
         <v-row>
@@ -61,22 +61,28 @@ import { Vue, Component } from "nuxt-property-decorator";
 import Countries from "@/assets/data/countries.json";
 import { Customer } from "~/models/customer";
 
-
 @Component
 export default class extends Vue {
-  valid: boolean = true;
-  customer: Customer = new Customer();
-  emailRules = [
+  private valid: boolean = true;
+  private customer: Customer = new Customer();
+  private phone: string = '';
+  private phoneCountry: any = '';
+  private emailRules = [
           (v: string) => !!v || 'E-mail is required',
           (v: string) => /.+@.+/.test(v) || 'E-mail must be valid'
-  ];
-  phoneRules = [
-          (v: string) => !!v || 'Phone is required',
-          (v: string) => v.length == 10 || 'Phone number must have 10 digits'
   ];
 
   layout() {
     return "mws";
+  }
+
+  onCountryChange(country: any) {
+    this.phoneCountry = country;
+    this.customer.phone_number = `+${country.dialCode + this.phone}`;
+  }
+
+  onPhoneChange(tel: string) {
+    this.customer.phone_number = `+${this.phoneCountry.dialCode + tel}`;
   }
 
   addCustomer() {
@@ -99,3 +105,10 @@ export default class extends Vue {
   }
 }
 </script>
+<style lang="scss">
+  .vti {
+    &__input {
+      height: 56px;
+    }
+  }
+</style>

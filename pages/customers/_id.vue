@@ -23,7 +23,7 @@
               />
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field label="Phone" v-model="customer.phone_number" :rules="phoneRules" required outlined />
+              <vue-tel-input v-model="customer.phone_number" :maxLen="15" />
             </v-col>
           </v-row>
           <v-row>
@@ -92,9 +92,6 @@ export default class extends Vue {
   emailRules = [
     (v: string) => !!v || 'E-mail is required',
     (v: string) => /.+@.+/.test(v) || 'E-mail must be valid'
-  ];
-  phoneRules = [
-    (v: string) => !!v || 'Phone is required',
   ];
 
   created() {
