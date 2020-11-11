@@ -19,6 +19,7 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "bootstrap": "^4.5.2",
     "nuxt": "^2.14.0",
+    "vue-tel-input": "^4.4.2",
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/vuetify": "^1.11.2",
+    "@types/vue-tel-input": "^2.1.2",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

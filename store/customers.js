@@ -2,7 +2,8 @@
 import customersData from '~/assets/data/customers.json';
 
 export const state = () => ({
-    list: []
+    list: [],
+    notes: [{id: 99, text: 'This customer is important!'}]
 });
 
 export const getters = {
@@ -17,6 +18,12 @@ export const getters = {
     },
     getCustomer: (state) => (id) => {
         return state.list.find((c) => c.id === id);
+    },
+    getNotes: (state) => {
+        return state.notes;
+    },
+    getNote: (state) => (id) => {
+        return state.notes.find((n) => n.id === id);
     }
 };
 
@@ -33,6 +40,16 @@ export const mutations = {
     update(state, customer) {
         const i = state.list.findIndex((c) => c.id === customer.id);
         state.list[i] = customer;
+    },
+    addNote(state, note) {
+        state.notes.push(note);
+    },
+    removeNote(state, note) {
+        state.notes.splice(state.notes.indexOf(note), 1);
+    },
+    updateNote(state, note) {
+        const i = state.notes.findIndex((n) => n.id === note.id);
+        state.notes[i] = note;
     }
 };
 
@@ -48,5 +65,11 @@ export const actions = {
     },
     remove({ commit }, customer) {
         commit('remove', customer);
+    },
+    addNote({ commit }, note) {
+        commit('addNote', note);
+    },
+    updateNote({ commit }, note) {
+        commit('updateNote', note);
     }
 };
