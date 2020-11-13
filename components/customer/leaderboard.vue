@@ -19,6 +19,9 @@
                         {{item.Emailaddress}}
                     </span>
                 </template>
+                <template v-slot:item.ID="{ item }">
+                    <NuxtLink :to="`/customers/${item.ID}`" class="link">{{item.ID}}</NuxtLink>
+                </template>
                 <template v-slot:item.Country="{ item }">
                     {{getCountry(item.Country)}}
                 </template>
@@ -141,5 +144,8 @@ export default class Leaderboard extends Vue {
          cursor: pointer;
          color: $color-primary-1;
      }
+    }
+    .link {
+        text-decoration: none;
     }
 </style>

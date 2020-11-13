@@ -100,6 +100,9 @@
           {{item.email_address}}
         </span>
       </template>
+      <template v-slot:item.id="{ item }">
+        <NuxtLink :to="`/customers/${item.id}`" class="link">{{item.id}}</NuxtLink>
+      </template>
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
       </template>
@@ -405,5 +408,8 @@ export default class DataTable extends Vue {
       cursor: pointer;
       color: $color-primary-1;
     }
+  }
+  .link {
+    text-decoration: none;
   }
 </style>
