@@ -13,6 +13,11 @@
                     :sort-desc="['TotalSpent']"
                     hide-default-footer
             >
+                <template v-slot:item.Emailaddress="{ item }">
+                    <span class="copy" v-clipboard:copy="item.Emailaddress" v-clipboard:success="onCopy">
+                        {{item.Emailaddress}}
+                    </span>
+                </template>
                 <template v-slot:item.Country="{ item }">
                     {{getCountry(item.Country)}}
                 </template>
@@ -37,14 +42,20 @@
         <v-dialog v-model="dialogDetail" max-width="500px">
             <detail-modal-customer :customer="customer" />
         </v-dialog>
+        <v-snackbar color="green" timeout="800" v-model="isCopied">
+            Content copied to clipboard.
+        </v-snackbar>
     </v-card>
 </template>
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
+import VueClipboard from "vue-clipboard2";
 import leaderboard from "~/assets/data/dashboard.json";
 import Countries from "~/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
 import {Customer} from "~/models/customer";
+
+Vue.use(VueClipboard);
 
 @Component({
     components: {
@@ -54,12 +65,17 @@ import {Customer} from "~/models/customer";
 export default class Leaderboard extends Vue {
     private customer: Customer = new Customer();
     private dialogDetail: boolean = false;
+    private isCopied: boolean = false;
     name(): string {
         return 'leader-board';
     }
 
     get leaderboard() {
         return leaderboard.Leaderboards;
+    }
+
+    onCopy() {
+        this.isCopied = true;
     }
 
     getCountry(code: string): string {
@@ -108,3 +124,12 @@ export default class Leaderboard extends Vue {
     }
 }
 </script>
+<style lang="scss" scoped>
+    .copy {
+        text-decoration: underline;
+    &:hover {
+         cursor: pointer;
+         color: $color-primary-1;
+     }
+    }
+</style>
