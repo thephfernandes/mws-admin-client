@@ -1,6 +1,7 @@
 <template>
     <v-card class="leaderboard">
         <v-card-title>
+            <v-icon class="mr-2">mdi-trophy</v-icon>
             Leaderboard
         </v-card-title>
         <v-card-subtitle>
