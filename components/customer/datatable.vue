@@ -90,6 +90,11 @@
             :item-key="customers.id"
             :custom-filter="customSearchFilter"
     >
+      <template v-slot:item.phone_number="{ item }">
+        <span class="copy" v-clipboard:copy="item.phone_number" v-clipboard:success="onCopy">
+          {{item.phone_number}}
+        </span>
+      </template>
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
       </template>
@@ -174,13 +179,19 @@
     <v-snackbar v-model="deleted">
       {{customer.email_address}} is deleted
     </v-snackbar>
+    <v-snackbar v-model="isCopied" timeout="800" color="green">
+      Phone number copied to clipboard.
+    </v-snackbar>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
+import VueClipboard from "vue-clipboard2";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+
+Vue.use(VueClipboard);
 
 @Component({
   components: {
@@ -198,6 +209,7 @@ export default class DataTable extends Vue {
   menuEndDate: boolean = false;
   startDate: string = new Date().toISOString().substr(0, 10);
   endDate: string = new Date().toISOString().substr(0, 10);
+  isCopied: boolean = false;
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
@@ -207,6 +219,10 @@ export default class DataTable extends Vue {
 
   mounted() {
     this.setStartDate();
+  }
+
+  onCopy() {
+    this.isCopied = true;
   }
 
   formatDate(string: string) {
@@ -377,3 +393,12 @@ export default class DataTable extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .copy {
+    text-decoration: underline;
+    &:hover {
+      cursor: pointer;
+      color: $color-primary-1;
+    }
+  }
+</style>
