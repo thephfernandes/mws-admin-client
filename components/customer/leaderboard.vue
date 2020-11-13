@@ -21,6 +21,9 @@
                 <template v-slot:item.Country="{ item }">
                     {{getCountry(item.Country)}}
                 </template>
+                <template v-slot:item.TotalSpent="{ item }">
+                    &euro; {{ currencyFormat(item.TotalSpent) }}
+                </template>
                 <template v-slot:item.actions="{ item }">
                     <v-icon
                             small
@@ -76,6 +79,12 @@ export default class Leaderboard extends Vue {
 
     onCopy() {
         this.isCopied = true;
+    }
+
+    currencyFormat(amount: string): string {
+        let totalSpent = parseFloat(amount).toFixed(2);
+        totalSpent = totalSpent.replace('.', ',');
+        return totalSpent;
     }
 
     getCountry(code: string): string {
