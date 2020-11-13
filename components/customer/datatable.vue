@@ -90,6 +90,9 @@
             :item-key="customers.id"
             :custom-filter="customSearchFilter"
     >
+      <template v-slot:item.id="{ item }">
+        <NuxtLink :to="`/customers/${item.id}`" class="link">{{item.id}}</NuxtLink>
+      </template>
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
       </template>
@@ -377,3 +380,8 @@ export default class DataTable extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .link {
+    text-decoration: none;
+  }
+</style>
