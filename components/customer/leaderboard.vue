@@ -13,6 +13,9 @@
                     :sort-desc="['TotalSpent']"
                     hide-default-footer
             >
+                <template v-slot:item.ID="{ item }">
+                    <NuxtLink :to="`/customers/${item.ID}`" class="link">{{item.ID}}</NuxtLink>
+                </template>
                 <template v-slot:item.Country="{ item }">
                     {{getCountry(item.Country)}}
                 </template>
@@ -108,3 +111,8 @@ export default class Leaderboard extends Vue {
     }
 }
 </script>
+<style lang="scss" scoped>
+    .link {
+        text-decoration: none;
+    }
+</style>
