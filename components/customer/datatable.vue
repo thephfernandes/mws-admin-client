@@ -95,6 +95,11 @@
           {{item.phone_number}}
         </span>
       </template>
+      <template v-slot:item.email_address="{ item }">
+        <span class="copy" v-clipboard:copy="item.email_address" v-clipboard:success="onCopy">
+          {{item.email_address}}
+        </span>
+      </template>
       <template v-slot:item.creation_date="{ item }">
         {{ formatDate(item.creation_date) }}
       </template>
@@ -180,7 +185,7 @@
       {{customer.email_address}} is deleted
     </v-snackbar>
     <v-snackbar v-model="isCopied" timeout="800" color="green">
-      Phone number copied to clipboard.
+      Content copied to clipboard.
     </v-snackbar>
   </div>
 </template>
