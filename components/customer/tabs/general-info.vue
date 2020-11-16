@@ -31,15 +31,41 @@
                             <v-text-field label="Company" v-model="customer.company" outlined />
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field label="Address" v-model="customer.address" outlined />
+                            <v-text-field label="Address 1" v-model="customer.address" outlined />
                         </v-col>
                         <v-col cols="12" md="4">
+                            <v-text-field label="Address 2" v-model="customer.address2" outlined />
+                        </v-col>
+                        <v-col cols="12" md="6">
                             <v-text-field label="Postal code" v-model="customer.postal_code" outlined />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field label="City" v-model="customer.city" outlined />
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-divider />
+                            <v-checkbox label="Billing address" v-model="hasBillingAddress" color="secondary" />
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="hasBillingAddress">
+                        <v-col cols="12" md="3">
+                            <v-text-field label="Billing address 1" v-model="customer.billing_address1" solo />
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field label="Billing address 2"  v-model="customer.billing_address2" solo />
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field label="Billing postal code" v-model="customer.billing_postalcode" solo />
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field label="Billing city" v-model="customer.billing_city" solo />
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="12" md="6">
-                            <v-text-field label="City" v-model="customer.city" outlined />
+                            <v-text-field label="VAT number" v-model="customer.vat_number" outlined />
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-select label="Country" v-model="customer.country" :items="countries" outlined />
@@ -91,6 +117,7 @@
         private customer: Customer = new Customer();
         private note: Object = '';
         private PhoneError: boolean = false;
+        private hasBillingAddress: boolean = false;
 
         @Prop({ required: true }) readonly customerId!: number;
 
