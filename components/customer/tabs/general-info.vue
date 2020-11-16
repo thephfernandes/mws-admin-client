@@ -81,7 +81,7 @@
                     </v-row>
                     <v-row align="center">
                         <v-col>
-                            <v-checkbox v-model="customer.email_unsubscribed" label="E-mail unsubscribed" />
+                            <v-checkbox v-model="!customer.email_unsubscribed" label="E-mail subscribed" />
                         </v-col>
                         <v-col>
                             <v-checkbox v-model="customer.payment_verified" label="Payment verified" />
