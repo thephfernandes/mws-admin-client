@@ -89,6 +89,7 @@
             :items="customers"
             :item-key="customers.id"
             :custom-filter="customSearchFilter"
+            :footer-props="footerPropsOptions"
     >
       <template v-slot:item.phone_number="{ item }">
         <span class="copy" v-clipboard:copy="item.phone_number" v-clipboard:success="onCopy">
@@ -218,6 +219,9 @@ export default class DataTable extends Vue {
   startDate: string = '';
   endDate: string = '';
   isCopied: boolean = false;
+  footerPropsOptions = {
+    'items-per-page-options': [5, 10, 25, 50]
+  };
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
