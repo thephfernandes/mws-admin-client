@@ -291,7 +291,8 @@ export default class DataTable extends Vue {
       },
       {
         text: 'Name',
-        value: 'name'
+        value: 'name',
+        width: 200
       },
       {
         text: 'Email',
