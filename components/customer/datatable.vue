@@ -8,7 +8,7 @@
             <v-text-field
                     v-model="search"
                     label="Search for name, email & telephone"
-                    append-icon="mdi-magnify"
+                    prepend-icon="mdi-magnify"
                     single-line
                     hide-details
             />
@@ -17,7 +17,7 @@
             <v-select
                     :items="countries"
                     label="Country"
-                    append-icon="mdi-globe-model"
+                    prepend-icon="mdi-globe-model"
                     v-model="country"
             />
           </v-col>
@@ -79,7 +79,14 @@
       </v-col>
       <v-col cols="12" md="2">
         <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
-        <v-btn width="100%" class="mt-1" color="success" @click="goToNewCustomer()"><v-icon class="pr-2">mdi-account-plus</v-icon>New customer</v-btn>
+        <v-btn width="100%" class="mt-1 mb-1" color="success" @click="goToNewCustomer()">
+          <v-icon class="pr-2">mdi-account-plus</v-icon>
+          New customer
+        </v-btn>
+        <v-btn width="100%" class="mt-1">
+          <v-icon class="pr-2">mdi-download</v-icon>
+          Export as CSV
+        </v-btn>
       </v-col>
     </v-row>
     <v-data-table
