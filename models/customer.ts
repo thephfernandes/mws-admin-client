@@ -19,6 +19,14 @@ export class Customer {
     public recurring: boolean = false;
     public status: boolean = false;
 
+    public vat_number: string = '';
+    public address2: string = '';
+    public billing_address1: string = '';
+    public billing_address2: string = '';
+    public billing_postalcode: string = '';
+    public billing_city: string = '';
+
+
     constructor() {
         this.setId();
         this.setDate();
