@@ -99,6 +99,12 @@
       <template v-slot:item.forgot_password_date="{ item }">
         {{ formatDate(item.forgot_password_date) }}
       </template>
+      <template v-slot:item.status="{ item }">
+        {{ getCustomerStatus(item.status) }}
+      </template>
+      <template v-slot:item.country="{ item }">
+        {{ item.country.toUpperCase() }}
+      </template>
       <template v-slot:item.email_verified="{ item }">
         <v-simple-checkbox
                 v-model="item.email_verified"
@@ -114,12 +120,6 @@
       <template v-slot:item.payment_verified="{ item }">
         <v-simple-checkbox
                 v-model="item.payment_verified"
-                disabled
-        />
-      </template>
-      <template v-slot:item.recurring="{ item }">
-        <v-simple-checkbox
-                v-model="item.recurring"
                 disabled
         />
       </template>
@@ -184,6 +184,7 @@ import { Component, Vue, Prop } from "nuxt-property-decorator";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import { customerStatusEnum } from "~/enums/customerStatus";
 
 @Component({
   components: {
@@ -205,7 +206,7 @@ export default class DataTable extends Vue {
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
   name() {
-    return "customers-datatable"
+    return "customers-datatable";
   }
 
   formatDate(string: string) {
@@ -218,6 +219,10 @@ export default class DataTable extends Vue {
 
   get countries() {
     return countries;
+  }
+
+  getCustomerStatus(statusCode: number) {
+    return customerStatusEnum[statusCode];
   }
 
   customSearchFilter(value: any, search: string, item: any) {
