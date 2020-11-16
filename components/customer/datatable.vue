@@ -308,36 +308,20 @@ export default class DataTable extends Vue {
         filter: this.countryFilter
       },
       {
-        text: 'Postal Code',
-        value: 'postal_code'
-      },
-      {
-        text: 'City',
-        value: 'city'
-      },
-      {
-        text: 'Address',
-        value: 'address'
-      },
-      {
-        text: 'Company',
-        value: 'company'
-      },
-      {
         text: 'Created',
         value: 'creation_date',
         width: 100,
         filter: this.dateFilter
       },
       {
-        text: 'currency',
-        value: 'currency'
-      },
-      {
         text: 'Forgot password date',
         value: 'forgot_password_date',
-        divider: true,
         width: 100
+      },
+      {
+        text: 'Status',
+        value: 'status',
+        divider: true
       },
       {
         text: 'Email unsubscribed',
@@ -358,14 +342,6 @@ export default class DataTable extends Vue {
       {
         text: 'Phone verified',
         value: 'phone_verified'
-      },
-      {
-        text: 'Recurring',
-        value: 'recurring'
-      },
-      {
-        text: 'Status',
-        value: 'status'
       }
     ];
   }
