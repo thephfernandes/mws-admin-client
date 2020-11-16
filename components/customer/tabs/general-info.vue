@@ -95,13 +95,14 @@
             </v-card-text>
         </div>
         <v-card-title>Notes</v-card-title>
-        <v-textarea
-                label="Enter some notes"
-                solo
-                v-model="note.text"
-        >
-        </v-textarea>
-        <v-btn @click="saveNote">Save note</v-btn>
+        <v-card-text>
+            <v-textarea
+                    label="Enter some notes"
+                    outlined
+                    v-model="note.text"
+            >
+            </v-textarea>
+        </v-card-text>
         <v-snackbar v-model="PhoneError" color="red">Phone number must have 10 digits</v-snackbar>
     </div>
 </template>
@@ -148,6 +149,7 @@
             } else {
                 this.PhoneError = true;
             }
+            this.saveNote();
         }
 
         phoneIsValid(): boolean {
