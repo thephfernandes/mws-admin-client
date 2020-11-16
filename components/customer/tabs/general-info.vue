@@ -87,9 +87,15 @@
                             <v-checkbox v-model="customer.payment_verified" label="Payment verified" />
                         </v-col>
                     </v-row>
-                    <v-row justify="space-between">
-                        <v-btn @click="goBack()" color="error">Cancel</v-btn>
-                        <v-btn @click="updateCustomer()" color="success" :disabled="!valid">Save</v-btn>
+                    <v-row justify="space-around">
+                        <v-btn @click="goBack()" color="error" width="200">
+                            <v-icon class="mr-2">mdi-close</v-icon>
+                            Cancel
+                        </v-btn>
+                        <v-btn @click="updateCustomer()" color="success" :disabled="!valid" width="200">
+                            <v-icon class="mr-2">mdi-check</v-icon>
+                            Save
+                        </v-btn>
                     </v-row>
                 </v-form>
             </v-card-text>
