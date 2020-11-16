@@ -35,7 +35,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                         v-model="startDate"
-                        label="Filter start date"
+                        label="From created at"
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
                         v-on="on"
@@ -61,7 +61,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                         v-model="endDate"
-                        label="Filter end date"
+                        label="To created at"
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
                         v-on="on"
@@ -216,8 +216,8 @@ export default class DataTable extends Vue {
   deleted: boolean = false;
   menuStartDate: boolean = false;
   menuEndDate: boolean = false;
-  startDate: string = new Date().toISOString().substr(0, 10);
-  endDate: string = new Date().toISOString().substr(0, 10);
+  startDate: string = '';
+  endDate: string = '';
   isCopied: boolean = false;
   footerPropsOptions = {
     'items-per-page-options': [5, 10, 25, 50]
@@ -227,10 +227,6 @@ export default class DataTable extends Vue {
 
   name() {
     return "customers-datatable"
-  }
-
-  mounted() {
-    this.setStartDate();
   }
 
   onCopy() {
@@ -294,12 +290,6 @@ export default class DataTable extends Vue {
     this.country = '';
     this.startDate = '';
     this.endDate = '';
-  }
-
-  setStartDate() {
-    const today = new Date();
-    today.setMonth(today.getMonth() - 2);
-    this.startDate = today.toISOString().substr(0, 10);
   }
 
   openCustomer(item: Customer): void {
