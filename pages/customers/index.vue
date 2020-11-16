@@ -22,7 +22,6 @@
         <DataTable :customers="customers" />
       </v-col>
     </v-row>
-    <Actions />
     <v-row>
       <v-col>
         <Map />
@@ -32,7 +31,6 @@
 </template>
 <script lang="ts">
 import HighlightCardComponent from "~/components/shared/highlight-card.vue";
-import Actions from "~/components/customer/actions.vue";
 import DataTable from "~/components/customer/datatable.vue";
 import Leaderboard from "~/components/customer/leaderboard.vue";
 import Map from "~/components/customer/map.vue";
@@ -44,7 +42,6 @@ import { mapGetters } from "vuex";
   components: {
     'highlight-card': HighlightCardComponent,
     'leader-board': Leaderboard,
-    Actions,
     DataTable,
     Map,
   },

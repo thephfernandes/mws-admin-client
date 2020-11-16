@@ -8,7 +8,7 @@
             <v-text-field
                     v-model="search"
                     label="Search for name, email & telephone"
-                    append-icon="mdi-magnify"
+                    prepend-icon="mdi-magnify"
                     single-line
                     hide-details
             />
@@ -17,7 +17,7 @@
             <v-select
                     :items="countries"
                     label="Country"
-                    append-icon="mdi-globe-model"
+                    prepend-icon="mdi-globe-model"
                     v-model="country"
             />
           </v-col>
@@ -79,7 +79,14 @@
       </v-col>
       <v-col cols="12" md="2">
         <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
-        <v-btn width="100%" class="mt-1" color="success" @click="goToNewCustomer()"><v-icon class="pr-2">mdi-account-plus</v-icon>New customer</v-btn>
+        <v-btn width="100%" class="mt-1 mb-1" color="success" @click="goToNewCustomer()">
+          <v-icon class="pr-2">mdi-account-plus</v-icon>
+          New customer
+        </v-btn>
+        <v-btn width="100%" class="mt-1">
+          <v-icon class="pr-2">mdi-download</v-icon>
+          Export as CSV
+        </v-btn>
       </v-col>
     </v-row>
     <v-data-table
@@ -110,6 +117,12 @@
       <template v-slot:item.forgot_password_date="{ item }">
         {{ formatDate(item.forgot_password_date) }}
       </template>
+      <template v-slot:item.status="{ item }">
+        {{ getCustomerStatus(item.status) }}
+      </template>
+      <template v-slot:item.country="{ item }">
+        {{ item.country.toUpperCase() }}
+      </template>
       <template v-slot:item.email_verified="{ item }">
         <v-simple-checkbox
                 v-model="item.email_verified"
@@ -125,12 +138,6 @@
       <template v-slot:item.payment_verified="{ item }">
         <v-simple-checkbox
                 v-model="item.payment_verified"
-                disabled
-        />
-      </template>
-      <template v-slot:item.recurring="{ item }">
-        <v-simple-checkbox
-                v-model="item.recurring"
                 disabled
         />
       </template>
@@ -199,6 +206,7 @@ import VueClipboard from "vue-clipboard2";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import { customerStatusEnum } from "~/enums/customerStatus";
 
 Vue.use(VueClipboard);
 
@@ -226,7 +234,7 @@ export default class DataTable extends Vue {
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
   name() {
-    return "customers-datatable"
+    return "customers-datatable";
   }
 
   onCopy() {
@@ -243,6 +251,10 @@ export default class DataTable extends Vue {
 
   get countries() {
     return countries;
+  }
+
+  getCustomerStatus(statusCode: number) {
+    return customerStatusEnum[statusCode];
   }
 
   customSearchFilter(value: any, search: string, item: any) {
@@ -316,7 +328,8 @@ export default class DataTable extends Vue {
       },
       {
         text: 'Name',
-        value: 'name'
+        value: 'name',
+        width: 200
       },
       {
         text: 'Email',
@@ -332,36 +345,20 @@ export default class DataTable extends Vue {
         filter: this.countryFilter
       },
       {
-        text: 'Postal Code',
-        value: 'postal_code'
-      },
-      {
-        text: 'City',
-        value: 'city'
-      },
-      {
-        text: 'Address',
-        value: 'address'
-      },
-      {
-        text: 'Company',
-        value: 'company'
-      },
-      {
         text: 'Created',
         value: 'creation_date',
         width: 100,
         filter: this.dateFilter
       },
       {
-        text: 'currency',
-        value: 'currency'
-      },
-      {
         text: 'Forgot password date',
         value: 'forgot_password_date',
-        divider: true,
         width: 100
+      },
+      {
+        text: 'Status',
+        value: 'status',
+        divider: true
       },
       {
         text: 'Email unsubscribed',
@@ -382,14 +379,6 @@ export default class DataTable extends Vue {
       {
         text: 'Phone verified',
         value: 'phone_verified'
-      },
-      {
-        text: 'Recurring',
-        value: 'recurring'
-      },
-      {
-        text: 'Status',
-        value: 'status'
       }
     ];
   }
