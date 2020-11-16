@@ -72,19 +72,14 @@
                         </v-col>
                     </v-row>
                     <v-row align="center">
-                        <v-col>
-                            <v-checkbox v-model="customer.email_verified" label="E-mail verified" />
-                        </v-col>
-                        <v-col>
-                            <v-checkbox v-model="customer.phone_verified" label="Phone verified" />
-                        </v-col>
-                    </v-row>
-                    <v-row align="center">
-                        <v-col>
+                        <v-col cols="12" md="6">
                             <v-checkbox v-model="!customer.email_unsubscribed" label="E-mail subscribed" />
-                        </v-col>
-                        <v-col>
                             <v-checkbox v-model="customer.payment_verified" label="Payment verified" />
+                            <v-checkbox v-model="customer.other_club_notifs" label="Notify other clubs" />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-checkbox v-model="customer.phone_verified" label="Phone verified" />
+                            <v-checkbox v-model="customer.email_verified" label="E-mail verified" />
                         </v-col>
                     </v-row>
                     <v-row justify="space-around">
