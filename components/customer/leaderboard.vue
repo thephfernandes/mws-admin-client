@@ -43,11 +43,20 @@
                     >
                         mdi-pencil
                     </v-icon>
+                    <v-icon
+                            small
+                            @click="openSendModal(item.ID)"
+                    >
+                        mdi-send
+                    </v-icon>
                 </template>
             </v-data-table>
         </v-card-text>
         <v-dialog v-model="dialogDetail" max-width="500px">
             <detail-modal-customer :customer="customer" />
+        </v-dialog>
+        <v-dialog v-model="dialogSend" max-width="500px">
+            <send-modal-customer :customer="customer" />
         </v-dialog>
         <v-snackbar color="green" timeout="800" v-model="isCopied">
             Content copied to clipboard.
@@ -60,18 +69,21 @@ import VueClipboard from "vue-clipboard2";
 import leaderboard from "~/assets/data/dashboard.json";
 import Countries from "~/assets/data/countries.json";
 import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import SendModalComponent from "~/components/customer/send-modal.vue";
 import {Customer} from "~/models/customer";
 
 Vue.use(VueClipboard);
 
 @Component({
     components: {
-        'detail-modal-customer': DetailModalCustomer
+        'detail-modal-customer': DetailModalCustomer,
+        'send-modal-customer': SendModalComponent,
     }
 })
 export default class Leaderboard extends Vue {
     private customer: Customer = new Customer();
     private dialogDetail: boolean = false;
+    private dialogSend: boolean = false;
     private isCopied: boolean = false;
     name(): string {
         return 'leader-board';
@@ -98,8 +110,17 @@ export default class Leaderboard extends Vue {
     }
 
     openCustomer(id: number) {
-        this.customer = this.$store.getters['customers/getCustomer'](id);
+        this.setCustomer(id);
         this.dialogDetail = true;
+    }
+
+    setCustomer(id: number) {
+        this.customer = this.$store.getters['customers/getCustomer'](id);
+    }
+
+    openSendModal(id: number): void {
+        this.setCustomer(id);
+        this.dialogSend = true;
     }
 
     editCustomer(customerId: number) {

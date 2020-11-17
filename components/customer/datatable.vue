@@ -157,13 +157,6 @@
         <v-icon
                 small
                 class="mr-2"
-                @click="openCustomer(item)"
-        >
-          mdi-magnify
-        </v-icon>
-        <v-icon
-                small
-                class="mr-2"
                 @click="editCustomer(item)"
         >
           mdi-pencil
@@ -174,10 +167,16 @@
         >
           mdi-archive
         </v-icon>
+        <v-icon
+                small
+                @click="openSendModal(item)"
+        >
+          mdi-send
+        </v-icon>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialogDetail" max-width="500px">
-      <detail-modal-customer :customer="customer" />
+    <v-dialog v-model="dialogSend" max-width="500px">
+      <send-modal :customer="customer"/>
     </v-dialog>
     <v-dialog v-model="dialogArchive" max-width="500px">
       <v-card>
@@ -223,20 +222,20 @@ import { Component, Vue, Prop } from "nuxt-property-decorator";
 import VueClipboard from "vue-clipboard2";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
-import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import SendModalComponent from "~/components/customer/send-modal.vue";
 import { customerStatusEnum } from "~/enums/customerStatus";
 
 Vue.use(VueClipboard);
 
 @Component({
   components: {
-    'detail-modal-customer': DetailModalCustomer
+    'send-modal': SendModalComponent
   }
 })
 export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
-  dialogDetail: boolean = false;
+  dialogSend: boolean = false;
   dialogArchive: boolean = false;
   customer: Customer = new Customer();
   archived: boolean = false;
@@ -322,9 +321,9 @@ export default class DataTable extends Vue {
     this.endDate = '';
   }
 
-  openCustomer(item: Customer): void {
+  openSendModal(item: Customer): void {
     this.customer = item;
-    this.dialogDetail = true;
+    this.dialogSend = true;
   }
 
   editCustomer(item: Customer) {
