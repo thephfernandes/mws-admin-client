@@ -1,3 +1,5 @@
+import { customerStatusEnum } from "~/enums/customerStatus.ts";
+
 export class Customer {
     public id: number = 1100;
     public name: string = '';
@@ -17,7 +19,7 @@ export class Customer {
     public payment_verified: boolean = false;
     public phone_verified: boolean = false;
     public recurring: boolean = false;
-    public status: boolean = false;
+    public status: customerStatusEnum = customerStatusEnum.None;
 
     constructor() {
         this.setId();
