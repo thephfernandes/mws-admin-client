@@ -1,6 +1,15 @@
 <template>
   <v-card>
-    <v-card-title>Add a customer</v-card-title>
+    <v-card-title>
+      <v-row align="center">
+        <v-col cols="12" md="1">
+          <v-btn large text @click="goBack"><v-icon>mdi-chevron-left</v-icon>Customers</v-btn>
+        </v-col>
+        <v-col cols="12" md="11">
+          <v-card-title>Add a new customer</v-card-title>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-card-text>
       <v-form
               ref="form"
@@ -141,7 +150,6 @@ export default class extends Vue {
 
   goBack() {
     this.$router.push({name: 'customers'});
-
   }
 
   get countries() {
