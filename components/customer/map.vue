@@ -1,6 +1,7 @@
 <template>
     <div class="map">
         <h2>Registered accounts per country</h2>
+        Total accounts registered <v-chip>{{totalRegistered}}</v-chip>
         <v-row>
             <v-col>
                 <v-menu
@@ -14,7 +15,7 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                                 v-model="startDate"
-                                label="Start date"
+                                label="From created at"
                                 prepend-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
@@ -39,7 +40,7 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                                 v-model="endDate"
-                                label="End date"
+                                label="To created at"
                                 prepend-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
@@ -67,10 +68,10 @@ am4core.options.autoDispose = true;
 
 @Component
 export default class Map extends Vue {
-    startDate: string = new Date().toISOString().substr(0, 10);
+    startDate: string = '';
     menuStartDate: boolean = false;
     menuEndDate: boolean = false;
-    endDate: string = new Date().toISOString().substr(0, 10);
+    endDate: string = '';
     name(): string {
         return 'map';
     }
@@ -105,6 +106,10 @@ export default class Map extends Vue {
 
     get countries() {
         return dashboard.num_accounts_per_country.map(({country: label, num: value})=>({id: label.toLocaleUpperCase(), value: value}));
+    }
+
+    get totalRegistered() {
+        return dashboard.num_total_accounts;
     }
 }
 </script>

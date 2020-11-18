@@ -8,7 +8,7 @@
             <v-text-field
                     v-model="search"
                     label="Search for name, email & telephone"
-                    append-icon="mdi-magnify"
+                    prepend-icon="mdi-magnify"
                     single-line
                     hide-details
             />
@@ -17,7 +17,7 @@
             <v-select
                     :items="countries"
                     label="Country"
-                    append-icon="mdi-globe-model"
+                    prepend-icon="mdi-globe-model"
                     v-model="country"
             />
           </v-col>
@@ -35,7 +35,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                         v-model="startDate"
-                        label="Filter start date"
+                        label="From created at"
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
                         v-on="on"
@@ -61,7 +61,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                         v-model="endDate"
-                        label="Filter end date"
+                        label="To created at"
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
                         v-on="on"
@@ -79,7 +79,14 @@
       </v-col>
       <v-col cols="12" md="2">
         <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
-        <v-btn width="100%" class="mt-1" color="success" @click="goToNewCustomer()"><v-icon class="pr-2">mdi-account-plus</v-icon>New customer</v-btn>
+        <v-btn width="100%" class="mt-1 mb-1" color="success" @click="goToNewCustomer()">
+          <v-icon class="pr-2">mdi-account-plus</v-icon>
+          New customer
+        </v-btn>
+        <v-btn width="100%" class="mt-1">
+          <v-icon class="pr-2">mdi-download</v-icon>
+          Export as CSV
+        </v-btn>
       </v-col>
     </v-row>
     <v-data-table
@@ -89,7 +96,18 @@
             :items="customers"
             :item-key="customers.id"
             :custom-filter="customSearchFilter"
+            :footer-props="footerPropsOptions"
     >
+      <template v-slot:item.phone_number="{ item }">
+        <span class="copy" v-clipboard:copy="item.phone_number" v-clipboard:success="onCopy">
+          {{item.phone_number}}
+        </span>
+      </template>
+      <template v-slot:item.email_address="{ item }">
+        <span class="copy" v-clipboard:copy="item.email_address" v-clipboard:success="onCopy">
+          {{item.email_address}}
+        </span>
+      </template>
       <template v-slot:item.id="{ item }">
         <NuxtLink :to="`/customers/${item.id}`" class="link">{{item.id}}</NuxtLink>
       </template>
@@ -98,6 +116,12 @@
       </template>
       <template v-slot:item.forgot_password_date="{ item }">
         {{ formatDate(item.forgot_password_date) }}
+      </template>
+      <template v-slot:item.status="{ item }">
+        {{ getCustomerStatus(item.status) }}
+      </template>
+      <template v-slot:item.country="{ item }">
+        {{ item.country.toUpperCase() }}
       </template>
       <template v-slot:item.email_verified="{ item }">
         <v-simple-checkbox
@@ -117,12 +141,6 @@
                 disabled
         />
       </template>
-      <template v-slot:item.recurring="{ item }">
-        <v-simple-checkbox
-                v-model="item.recurring"
-                disabled
-        />
-      </template>
       <template v-slot:item.other_club_notifs="{ item }">
         <v-simple-checkbox
                 v-model="item.other_club_notifs"
@@ -139,77 +157,105 @@
         <v-icon
                 small
                 class="mr-2"
-                @click="openCustomer(item)"
-        >
-          mdi-magnify
-        </v-icon>
-        <v-icon
-                small
-                class="mr-2"
                 @click="editCustomer(item)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
                 small
-                @click="removeCustomer(item)"
+                @click="archiveCustomer(item)"
         >
-          mdi-delete
+          mdi-archive
+        </v-icon>
+        <v-icon
+                small
+                @click="openSendModal(item)"
+        >
+          mdi-send
         </v-icon>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialogDetail" max-width="500px">
-      <detail-modal-customer :customer="customer" />
+    <v-dialog v-model="dialogSend" max-width="500px">
+      <send-modal :customer="customer"/>
     </v-dialog>
-    <v-dialog v-model="dialogDelete" max-width="500px">
+    <v-dialog v-model="dialogArchive" max-width="500px">
       <v-card>
-        <v-card-title class="headline">Delete customer?</v-card-title>
-        <v-card-subtitle v-if="customer.name">{{customer.name}}</v-card-subtitle>
-        <v-card-subtitle>{{customer.email_address}}</v-card-subtitle>
+        <v-card-title class="error">
+          <span class="headline white--text">
+            Archive
+            <span v-if="customer.name">{{customer.name}}?</span>
+            <span v-if="!customer.name">customer?</span>
+          </span>
+
+        </v-card-title>
+        <v-card-text>
+          <v-list>
+            <v-list-item>
+              Id: {{ customer.id }}
+            </v-list-item>
+            <v-list-item>
+              Email: {{ customer.email_address }}
+            </v-list-item>
+            <v-list-item>
+              Phone: {{ customer.phone_number }}
+            </v-list-item>
+          </v-list>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogDelete = false">Cancel</v-btn>
-          <v-btn color="blue darken-1" text @click="removeCustomerConfirm">Delete</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogArchive = false">Cancel</v-btn>
+          <v-btn color="error" text @click="archiveCustomerConfirm">Archive</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="deleted">
-      {{customer.email_address}} is deleted
+    <v-snackbar v-model="archived">
+      {{customer.email_address}} has been archived
+    </v-snackbar>
+    <v-snackbar v-model="isCopied" timeout="800" color="green">
+      Content copied to clipboard.
     </v-snackbar>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
+import VueClipboard from "vue-clipboard2";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
-import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import SendModalComponent from "~/components/customer/send-modal.vue";
+import { customerStatusEnum } from "~/enums/customerStatus";
+
+Vue.use(VueClipboard);
 
 @Component({
   components: {
-    'detail-modal-customer': DetailModalCustomer
+    'send-modal': SendModalComponent
   }
 })
 export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
-  dialogDetail: boolean = false;
-  dialogDelete: boolean = false;
+  dialogSend: boolean = false;
+  dialogArchive: boolean = false;
   customer: Customer = new Customer();
-  deleted: boolean = false;
+  archived: boolean = false;
   menuStartDate: boolean = false;
   menuEndDate: boolean = false;
-  startDate: string = new Date().toISOString().substr(0, 10);
-  endDate: string = new Date().toISOString().substr(0, 10);
+  startDate: string = '';
+  endDate: string = '';
+  isCopied: boolean = false;
+  footerPropsOptions = {
+    'items-per-page-options': [5, 10, 25, 50]
+  };
 
   @Prop({ type: Array, required: true }) readonly customers!: Customer[];
 
   name() {
-    return "customers-datatable"
+    return "customers-datatable";
   }
 
-  mounted() {
-    this.setStartDate();
+  onCopy() {
+    this.isCopied = true;
   }
 
   formatDate(string: string) {
@@ -224,6 +270,10 @@ export default class DataTable extends Vue {
     return countries;
   }
 
+  getCustomerStatus(statusCode: number) {
+    return customerStatusEnum[statusCode];
+  }
+
   customSearchFilter(value: any, search: string, item: any) {
     const inName = RegExp(search, 'i').test(item.name);
     const inEmail = RegExp(search, 'i').test(item.email_address);
@@ -235,15 +285,15 @@ export default class DataTable extends Vue {
     this.$router.push({path: '/customers/add'});
   }
 
-  removeCustomer(customer: Customer): void {
+  archiveCustomer(customer: Customer): void {
     this.customer = customer;
-    this.dialogDelete = true;
+    this.dialogArchive = true;
   }
 
-  removeCustomerConfirm(): void {
-    this.$store.dispatch('customers/remove', this.customer);
-    this.dialogDelete = false;
-    this.deleted = true;
+  archiveCustomerConfirm(): void {
+    this.$store.dispatch('customers/suspend', this.customer);
+    this.dialogArchive = false;
+    this.archived = true;
   }
 
   countryFilter(value: any) {
@@ -271,15 +321,9 @@ export default class DataTable extends Vue {
     this.endDate = '';
   }
 
-  setStartDate() {
-    const today = new Date();
-    today.setMonth(today.getMonth() - 2);
-    this.startDate = today.toISOString().substr(0, 10);
-  }
-
-  openCustomer(item: Customer): void {
+  openSendModal(item: Customer): void {
     this.customer = item;
-    this.dialogDetail = true;
+    this.dialogSend = true;
   }
 
   editCustomer(item: Customer) {
@@ -301,7 +345,8 @@ export default class DataTable extends Vue {
       },
       {
         text: 'Name',
-        value: 'name'
+        value: 'name',
+        width: 200
       },
       {
         text: 'Email',
@@ -317,36 +362,20 @@ export default class DataTable extends Vue {
         filter: this.countryFilter
       },
       {
-        text: 'Postal Code',
-        value: 'postal_code'
-      },
-      {
-        text: 'City',
-        value: 'city'
-      },
-      {
-        text: 'Address',
-        value: 'address'
-      },
-      {
-        text: 'Company',
-        value: 'company'
-      },
-      {
         text: 'Created',
         value: 'creation_date',
         width: 100,
         filter: this.dateFilter
       },
       {
-        text: 'currency',
-        value: 'currency'
-      },
-      {
         text: 'Forgot password date',
         value: 'forgot_password_date',
-        divider: true,
         width: 100
+      },
+      {
+        text: 'Status',
+        value: 'status',
+        divider: true
       },
       {
         text: 'Email unsubscribed',
@@ -367,20 +396,19 @@ export default class DataTable extends Vue {
       {
         text: 'Phone verified',
         value: 'phone_verified'
-      },
-      {
-        text: 'Recurring',
-        value: 'recurring'
-      },
-      {
-        text: 'Status',
-        value: 'status'
       }
     ];
   }
 }
 </script>
 <style lang="scss" scoped>
+  .copy {
+    text-decoration: underline;
+    &:hover {
+      cursor: pointer;
+      color: $color-primary-1;
+    }
+  }
   .link {
     text-decoration: none;
   }
