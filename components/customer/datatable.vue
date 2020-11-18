@@ -1,6 +1,6 @@
 <template>
   <div class="customers-data">
-    <h2>All customers</h2>
+    <v-card-title>All customers</v-card-title>
     <v-row align="center">
       <v-col cols="12" md="10">
         <v-row>
@@ -164,6 +164,7 @@
         <v-icon
                 small
                 @click="archiveCustomer(item)"
+                class="mr-2"
         >
           mdi-archive
         </v-icon>
