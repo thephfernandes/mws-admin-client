@@ -29,7 +29,7 @@
             <v-text-field label="Address 1" v-model="customer.address" outlined />
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field label="Address 2" outlined />
+            <v-text-field label="Address 2" v-model="customer.address2" outlined />
           </v-col>
         </v-row>
         <v-row>
@@ -48,16 +48,16 @@
         </v-row>
         <v-row v-if="hasBillingAddress">
           <v-col cols="12" md="3">
-            <v-text-field label="Billing address 1" solo-inverted />
+            <v-text-field label="Billing address 1" v-model="customer.billing_address1" solo-inverted />
           </v-col>
           <v-col cols="12" md="3">
-            <v-text-field label="Billing address 2" solo-inverted />
+            <v-text-field label="Billing address 2" v-model="customer.billing_address2" solo-inverted />
           </v-col>
           <v-col cols="12" md="3">
-            <v-text-field label="Billing postal code" solo-inverted />
+            <v-text-field label="Billing postal code" v-model="customer.postal_code" solo-inverted />
           </v-col>
           <v-col cols="12" md="3">
-            <v-text-field label="Billing city" solo-inverted />
+            <v-text-field label="Billing city" v-model="customer.billing_city" solo-inverted />
           </v-col>
         </v-row>
         <v-row>
