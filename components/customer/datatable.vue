@@ -159,43 +159,60 @@
         <v-icon
                 small
                 class="mr-2"
-                @click="openCustomer(item)"
-        >
-          mdi-magnify
-        </v-icon>
-        <v-icon
-                small
-                class="mr-2"
                 @click="editCustomer(item)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
                 small
-                @click="removeCustomer(item)"
+                @click="archiveCustomer(item)"
         >
-          mdi-delete
+          mdi-archive
+        </v-icon>
+        <v-icon
+                small
+                @click="openSendModal(item)"
+        >
+          mdi-send
         </v-icon>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialogDetail" max-width="500px">
-      <detail-modal-customer :customer="customer" />
+    <v-dialog v-model="dialogSend" max-width="500px">
+      <send-modal :customer="customer"/>
     </v-dialog>
-    <v-dialog v-model="dialogDelete" max-width="500px">
+    <v-dialog v-model="dialogArchive" max-width="500px">
       <v-card>
-        <v-card-title class="headline">Delete customer?</v-card-title>
-        <v-card-subtitle v-if="customer.name">{{customer.name}}</v-card-subtitle>
-        <v-card-subtitle>{{customer.email_address}}</v-card-subtitle>
+        <v-card-title class="error">
+          <span class="headline white--text">
+            Archive
+            <span v-if="customer.name">{{customer.name}}?</span>
+            <span v-if="!customer.name">customer?</span>
+          </span>
+
+        </v-card-title>
+        <v-card-text>
+          <v-list>
+            <v-list-item>
+              Id: {{ customer.id }}
+            </v-list-item>
+            <v-list-item>
+              Email: {{ customer.email_address }}
+            </v-list-item>
+            <v-list-item>
+              Phone: {{ customer.phone_number }}
+            </v-list-item>
+          </v-list>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogDelete = false">Cancel</v-btn>
-          <v-btn color="blue darken-1" text @click="removeCustomerConfirm">Delete</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogArchive = false">Cancel</v-btn>
+          <v-btn color="error" text @click="archiveCustomerConfirm">Archive</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="deleted">
-      {{customer.email_address}} is deleted
+    <v-snackbar v-model="archived">
+      {{customer.email_address}} has been archived
     </v-snackbar>
     <v-snackbar v-model="isCopied" timeout="800" color="green">
       Content copied to clipboard.
@@ -207,23 +224,23 @@ import { Component, Vue, Prop } from "nuxt-property-decorator";
 import VueClipboard from "vue-clipboard2";
 import { Customer} from "~/models/customer";
 import countries from "@/assets/data/countries.json";
-import DetailModalCustomer from "~/components/customer/detail-modal.vue";
+import SendModalComponent from "~/components/customer/send-modal.vue";
 import { customerStatusEnum } from "~/enums/customerStatus";
 
 Vue.use(VueClipboard);
 
 @Component({
   components: {
-    'detail-modal-customer': DetailModalCustomer
+    'send-modal': SendModalComponent
   }
 })
 export default class DataTable extends Vue {
   search: string = '';
   country: string = '';
-  dialogDetail: boolean = false;
-  dialogDelete: boolean = false;
+  dialogSend: boolean = false;
+  dialogArchive: boolean = false;
   customer: Customer = new Customer();
-  deleted: boolean = false;
+  archived: boolean = false;
   menuStartDate: boolean = false;
   menuEndDate: boolean = false;
   startDate: string = '';
@@ -270,15 +287,15 @@ export default class DataTable extends Vue {
     this.$router.push({path: '/customers/add'});
   }
 
-  removeCustomer(customer: Customer): void {
+  archiveCustomer(customer: Customer): void {
     this.customer = customer;
-    this.dialogDelete = true;
+    this.dialogArchive = true;
   }
 
-  removeCustomerConfirm(): void {
-    this.$store.dispatch('customers/remove', this.customer);
-    this.dialogDelete = false;
-    this.deleted = true;
+  archiveCustomerConfirm(): void {
+    this.$store.dispatch('customers/suspend', this.customer);
+    this.dialogArchive = false;
+    this.archived = true;
   }
 
   countryFilter(value: any) {
@@ -306,9 +323,9 @@ export default class DataTable extends Vue {
     this.endDate = '';
   }
 
-  openCustomer(item: Customer): void {
+  openSendModal(item: Customer): void {
     this.customer = item;
-    this.dialogDetail = true;
+    this.dialogSend = true;
   }
 
   editCustomer(item: Customer) {
