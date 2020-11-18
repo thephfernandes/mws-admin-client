@@ -1,60 +1,62 @@
 <template>
     <div class="map">
-        <h2>Registered accounts per country</h2>
-        Total accounts registered <v-chip>{{totalRegistered}}</v-chip>
-        <v-row>
-            <v-col>
-                <v-menu
-                        v-model="menuStartDate"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
+        <v-card-title>Registered accounts per country</v-card-title>
+        <v-card-subtitle>Total accounts registered <v-chip>{{totalRegistered}}</v-chip></v-card-subtitle>
+        <v-card-text>
+            <v-row>
+                <v-col>
+                    <v-menu
+                            v-model="menuStartDate"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                    v-model="startDate"
+                                    label="From created at"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                            />
+                        </template>
+                        <v-date-picker
                                 v-model="startDate"
-                                label="From created at"
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
+                                @input="menuStartDate = false"
                         />
-                    </template>
-                    <v-date-picker
-                            v-model="startDate"
-                            @input="menuStartDate = false"
-                    />
-                </v-menu>
-            </v-col>
-            <v-col>
-                <v-menu
-                        v-model="menuEndDate"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
+                    </v-menu>
+                </v-col>
+                <v-col>
+                    <v-menu
+                            v-model="menuEndDate"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                    v-model="endDate"
+                                    label="To created at"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                            />
+                        </template>
+                        <v-date-picker
                                 v-model="endDate"
-                                label="To created at"
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
+                                @input="menuEndDate = false"
                         />
-                    </template>
-                    <v-date-picker
-                            v-model="endDate"
-                            @input="menuEndDate = false"
-                    />
-                </v-menu>
-            </v-col>
-        </v-row>
-        <div ref="mapSection" class="mapSection"></div>
+                    </v-menu>
+                </v-col>
+            </v-row>
+            <div ref="mapSection" class="mapSection"></div>
+        </v-card-text>
     </div>
 </template>
 <script lang="ts">
