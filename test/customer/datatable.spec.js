@@ -11,7 +11,6 @@ describe('datatable.vue', () => {
 
     beforeEach(() => {
         vuetify = new Vuetify();
-
     });
 
     test('Component renders', () => {
