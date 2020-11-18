@@ -164,6 +164,7 @@
         <v-icon
                 small
                 @click="archiveCustomer(item)"
+                class="mr-2"
         >
           mdi-archive
         </v-icon>
