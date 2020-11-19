@@ -151,7 +151,7 @@
       </template>
       <template v-slot:item.email_unsubscribed="{ item }">
         <v-simple-checkbox
-                v-model="item.email_unsubscribed"
+                v-model="!item.email_unsubscribed"
                 disabled
         />
       </template>
@@ -381,7 +381,7 @@ export default class DataTable extends Vue {
         divider: true
       },
       {
-        text: 'Email unsubscribed',
+        text: 'Email subscribed',
         value: 'email_unsubscribed'
       },
       {
