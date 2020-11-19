@@ -11,6 +11,7 @@
                     prepend-icon="mdi-magnify"
                     single-line
                     hide-details
+                    id="test-search"
             />
           </v-col>
           <v-col cols="12" md="6">
@@ -19,6 +20,7 @@
                     label="Country"
                     prepend-icon="mdi-globe-model"
                     v-model="country"
+                    id="test-countrySelect"
             />
           </v-col>
         </v-row>
@@ -78,12 +80,12 @@
         </v-row>
       </v-col>
       <v-col cols="12" md="2">
-        <v-btn width="100%" @click="resetFilters" class="mb-1">Reset filters</v-btn>
-        <v-btn width="100%" class="mt-1 mb-1" color="success" @click="goToNewCustomer()">
+        <v-btn width="100%" @click="resetFilters" class="mb-1" id="test-resetFilters">Reset filters</v-btn>
+        <v-btn width="100%" class="mt-1 mb-1" id="test-newCustomer" color="success" @click="goToNewCustomer()">
           <v-icon class="pr-2">mdi-account-plus</v-icon>
           New customer
         </v-btn>
-        <v-btn width="100%" class="mt-1">
+        <v-btn width="100%" class="mt-1" id="test-csvDownload">
           <v-icon class="pr-2">mdi-download</v-icon>
           Export as CSV
         </v-btn>
@@ -149,7 +151,7 @@
       </template>
       <template v-slot:item.email_unsubscribed="{ item }">
         <v-simple-checkbox
-                v-model="item.email_unsubscribed"
+                v-model="!item.email_unsubscribed"
                 disabled
         />
       </template>
@@ -379,7 +381,7 @@ export default class DataTable extends Vue {
         divider: true
       },
       {
-        text: 'Email unsubscribed',
+        text: 'Email subscribed',
         value: 'email_unsubscribed'
       },
       {

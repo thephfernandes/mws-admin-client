@@ -24,6 +24,7 @@
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.1",
     "@nuxt/types": "^2.14.4",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/eslint-config": "^3.1.0",
