@@ -70,7 +70,10 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" md="6">
+            <v-text-field label="VAT number" v-model="customer.vat_number" outlined />
+          </v-col>
+          <v-col cols="12" md="6">
             <v-select label="Country" v-model="customer.country" :items="countries" outlined />
           </v-col>
         </v-row>
