@@ -69,6 +69,12 @@ export default class extends Vue {
     this.activeTab = tab.id;
   }
 
+  head() {
+    return {
+      title: 'Customer '+this.customerId
+    }
+  }
+
   get tab() {
     return this.activeTab;
   }

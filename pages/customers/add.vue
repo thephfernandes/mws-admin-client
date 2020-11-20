@@ -123,6 +123,12 @@ export default class extends Vue {
     return "mws";
   }
 
+  head() {
+    return {
+      title: 'Add customer'
+    }
+  }
+
   onCountryChange(country: any) {
     this.phoneCountry = country;
     this.customer.phone_number = `+${country.dialCode + this.phone}`;
