@@ -27,6 +27,11 @@
             "name": "Customers",
             "icon": "mdi-account-details",
             "to": "/customers"
+        },
+        {
+            "name": "Orders",
+            "icon": "mdi-clipboard-list",
+            "to": "/orders"
         }
     ],
     "sliders": [
