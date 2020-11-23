@@ -40,8 +40,6 @@ export const mutations = {
     suspend(state, customer) {
         const c = state.list.find((c) => c.id === customer.id);
         c.status = 4;
-        const i = state.list.findIndex((c) => c.id === customer.id);
-        state.list[i] = c;
     },
     update(state, customer) {
         const i = state.list.findIndex((c) => c.id === customer.id);

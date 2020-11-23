@@ -119,8 +119,6 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         }
 
         saveShippingStatus() {
-            console.log(this.order.OrderShippingStatus);
-            console.log(ShippingStatusEnum[this.order.OrderShippingStatus]);
             this.$store.dispatch('orders/updateShippingStatus', this.order);
         }
 
