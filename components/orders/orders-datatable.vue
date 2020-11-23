@@ -1,3 +1,4 @@
+import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
         <v-data-table
@@ -45,16 +46,26 @@
                 </v-chip-group>
             </template>
             <template v-slot:item.Shipping="{ item }">
-                <v-chip
-                        :color="
-                        (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
-                        : item.OrderShippingStatus === 4 ? 'red' : 'gray'
-                        "
-                        :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
-                >
-                    <v-icon class="mr-2">mdi-truck</v-icon>
-                    {{getShippingStatus(item.OrderShippingStatus)}}
-                </v-chip>
+                <v-edit-dialog large @save="saveShippingStatus" @open="openShippingStatus(item)">
+                    <v-chip
+                            :color="
+                            (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
+                            : item.OrderShippingStatus === 4 ? 'red' : 'gray'
+                            "
+                            :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
+                    >
+                        <v-icon class="mr-2">mdi-truck</v-icon>
+                        {{getShippingStatus(item.OrderShippingStatus)}}
+                    </v-chip>
+                    <template v-slot:input>
+                        <v-select
+                                :items="getAllShippingStatus()"
+                                single-line
+                                prepend-icon="mdi-truck"
+                                v-model="order.OrderShippingStatus"
+                        />
+                    </template>
+                </v-edit-dialog>
             </template>
             <template v-slot:item.MatchID="{ item }">
                 <nuxt-link :to="`/events/${item.MatchID}`" class="link">{{item.MatchID}}</nuxt-link>
@@ -78,10 +89,11 @@
     </div>
 </template>
 <script lang="ts">
-    import { Component, Vue, Prop } from "nuxt-property-decorator";
-    import { IOrder } from "../../interfaces/IOrder";
+    import {Component, Prop, Vue} from "nuxt-property-decorator";
+    import {IOrder} from "../../interfaces/IOrder";
     import Datatable from "~/components/customer/datatable.vue";
-    import { ShippingStatusEnum } from "~/enums/shippingStatus.ts";
+    import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
+    import {Order} from "~/models/order";
 
     @Component({
         components: {Datatable}
@@ -91,6 +103,8 @@
             'items-per-page-options': [5, 10, 25, 50]
         };
         reminder: boolean = false;
+        shippingStatus: ShippingStatusEnum = ShippingStatusEnum.Pending;
+        order: Order = new Order();
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -99,6 +113,22 @@
         }
 
         toShippingDetails(): void {}
+
+        openShippingStatus(item: Order) {
+            this.order = Object.assign({}, item)
+        }
+
+        saveShippingStatus() {
+            console.log(this.order.OrderShippingStatus);
+            console.log(ShippingStatusEnum[this.order.OrderShippingStatus]);
+            this.$store.dispatch('orders/updateShippingStatus', this.order);
+        }
+
+        getAllShippingStatus() {
+            let shippingStatus = Object.values(ShippingStatusEnum);
+            shippingStatus = shippingStatus.slice(0, shippingStatus.length / 2);
+            return shippingStatus.map((value, key) => ({text: value, value: key}));
+        }
 
         toOrder(orderId: number): void {
             this.$router.push({name: 'orders-id', params: { id: orderId.toString() }});
