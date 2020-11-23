@@ -37,6 +37,25 @@
                     mdi-credit-card-clock-outline
                 </v-icon>
             </template>
+            <template v-slot:item.Status="{ item }">
+                <v-chip-group>
+                    <v-chip small :color="item.OrderShirtPaid ? 'green' : 'red'" text-color="white">Paid</v-chip>
+                    <v-chip small text-color="white" :color="item.UserAddress ? 'green' : 'red'">Address</v-chip>
+                    <v-icon v-if="item.OrderNotes">mdi-note-text</v-icon>
+                </v-chip-group>
+            </template>
+            <template v-slot:item.Shipping="{ item }">
+                <v-chip
+                        :color="
+                        (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
+                        : item.OrderShippingStatus === 4 ? 'red' : 'gray'
+                        "
+                        :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
+                >
+                    <v-icon class="mr-2">mdi-truck</v-icon>
+                    {{getShippingStatus(item.OrderShippingStatus)}}
+                </v-chip>
+            </template>
             <template v-slot:item.MatchID="{ item }">
                 <nuxt-link :to="`/events/${item.MatchID}`" class="link">{{item.MatchID}}</nuxt-link>
             </template>
@@ -62,6 +81,8 @@
     import { Component, Vue, Prop } from "nuxt-property-decorator";
     import { IOrder } from "../../interfaces/IOrder";
     import Datatable from "~/components/customer/datatable.vue";
+    import { ShippingStatusEnum } from "~/enums/shippingStatus.ts";
+
     @Component({
         components: {Datatable}
     })
@@ -81,6 +102,10 @@
 
         toOrder(orderId: number): void {
             this.$router.push({name: 'orders-id', params: { id: orderId.toString() }});
+        }
+
+        getShippingStatus(status: number): string {
+            return ShippingStatusEnum[status];
         }
 
         formatDate(string: string) {
@@ -103,6 +128,10 @@
                 {
                     text: 'Status',
                     value: 'Status'
+                },
+                {
+                    text: 'Shipping',
+                    value: 'Shipping'
                 },
                 {
                     text: 'Actions',
