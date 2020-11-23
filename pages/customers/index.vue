@@ -3,10 +3,10 @@
     <h1>Customers</h1>
     <v-row dense>
       <v-col>
-        <highlight-card :title="totalCustomers" subtitle="Total accounts" />
+        <highlight-card :title="totalCustomers.toString()" subtitle="Total accounts" />
       </v-col>
       <v-col>
-        <highlight-card :title="accountsCreated" subtitle="Accounts created this week" />
+        <highlight-card :title="accountsCreated.toString()" subtitle="Accounts created this week" />
       </v-col>
       <v-col>
         <highlight-card :title="totalAmountSpent" subtitle="Total amount spent" :currency="0" />
@@ -65,8 +65,10 @@ export default class Index extends Vue {
     return 10;
   }
 
-  get totalAmountSpent(): number {
-    return Dashboard.Leaderboards.reduce((total, currentValue) => (total + currentValue.TotalSpent), 0);
+  get totalAmountSpent(): string {
+    const totalAmountSpent = Dashboard.Leaderboards.reduce((total, currentValue) => (total + currentValue.TotalSpent), 0);
+    const formatted = totalAmountSpent.toFixed(2);
+    return `€ ${formatted.replace('.', ',')}`;
   }
 
   mounted() {
