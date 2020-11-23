@@ -57,6 +57,12 @@ export default class Index extends Vue {
     return "mws";
   }
 
+  head() {
+    return {
+      title: 'Customers'
+    };
+  }
+
   get customers() {
     return this.$store.state.customers.list;
   }

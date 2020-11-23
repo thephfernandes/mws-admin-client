@@ -1,15 +1,9 @@
 <template>
   <v-card>
-    <v-card-title>
-      <v-row align="center">
-        <v-col cols="12" md="1">
-          <v-btn large text @click="goBack"><v-icon>mdi-chevron-left</v-icon>Customers</v-btn>
-        </v-col>
-        <v-col cols="12" md="11">
-          <v-card-title>Add a new customer</v-card-title>
-        </v-col>
-      </v-row>
-    </v-card-title>
+    <v-row align="center">
+      <v-btn large text @click="goBack"><v-icon>mdi-chevron-left</v-icon>Customers</v-btn>
+      <v-card-title>Add a new customer</v-card-title>
+    </v-row>
     <v-card-text>
       <v-form
               ref="form"
@@ -70,7 +64,10 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" md="6">
+            <v-text-field label="VAT number" v-model="customer.vat_number" outlined />
+          </v-col>
+          <v-col cols="12" md="6">
             <v-select label="Country" v-model="customer.country" :items="countries" outlined />
           </v-col>
         </v-row>
@@ -124,6 +121,12 @@ export default class extends Vue {
 
   layout() {
     return "mws";
+  }
+
+  head() {
+    return {
+      title: 'Add customer'
+    }
   }
 
   onCountryChange(country: any) {
