@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <v-img src="/404.GIF" alt="404 gif" contain="true" max-height="200" />
+    <v-img src="/404.GIF" alt="404 gif" :contain="true" max-height="200" />
     <v-alert type="error">
-      <h1 v-if="error.statusCode === 404">{{ pageNotFound }}</h1>
-      <h1 v-else>{{ otherError }}</h1>
+      <h1>{{ error.statusCode }} {{ error.message }}</h1>
     </v-alert>
-    <v-btn nuxt="true" to="/">Home page</v-btn>
+    <v-btn :nuxt="true" to="/">Home page</v-btn>
   </v-app>
 </template>
 
@@ -14,9 +13,6 @@
 
 @Component
 export default class Error extends Vue {
-  pageNotFound: string = '404 Not Found';
-  otherError: string = 'An error occurred';
-
   @Prop({ type: Object, required: false }) readonly error!: Object;
 
   layout() {
