@@ -14,11 +14,18 @@ export const getters = {
 export const mutations = {
     fill(state, payload) {
         state.orders = payload;
-    }
+    },
+    updateShippingStatus(state, order) {
+        const o = state.orders.find((o) => o.OrderID === order.OrderID);
+        o.OrderShippingStatus = order.OrderShippingStatus;
+    },
 };
 
 export const actions = {
     fillAll({ commit }) {
         commit('fill', ordersData);
     },
+    updateShippingStatus({ commit }, order) {
+        commit('updateShippingStatus', order);
+    }
 };
