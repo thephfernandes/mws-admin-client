@@ -1,6 +1,10 @@
 <template>
     <div class="orders-data">
-        <v-data-table :items="orders" :headers="headers">
+        <v-data-table
+                :items="orders"
+                :headers="headers"
+                :footer-props="footerPropsOptions"
+        >
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
             </template>
@@ -30,7 +34,9 @@
         components: {Datatable}
     })
     export default class OrdersTableComponent extends Vue {
-
+        footerPropsOptions = {
+            'items-per-page-options': [5, 10, 25, 50]
+        };
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
