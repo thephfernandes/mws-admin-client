@@ -46,5 +46,11 @@
         get mostLoyalWinner() {
             return OrdersDashboard.most_loyal_winner;
         }
+
+        head() {
+            return {
+                title: 'Orders'
+            }
+        }
     }
 </script>
