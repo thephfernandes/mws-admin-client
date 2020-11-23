@@ -24,6 +24,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                     mdi-truck
                 </v-icon>
                 <v-icon
+                        v-if="!item.UserAddress"
                         @click="reminder = true"
                         small
                         class="ml-2"
@@ -31,6 +32,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                     mdi-google-maps
                 </v-icon>
                 <v-icon
+                        v-if="!item.OrderShirtPaid"
                         @click="reminder = true"
                         small
                         class="ml-2"
@@ -39,11 +41,17 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 </v-icon>
             </template>
             <template v-slot:item.Status="{ item }">
-                <v-chip-group>
+                <div class="status-group">
                     <v-chip small :color="item.OrderShirtPaid ? 'green' : 'red'" text-color="white">Paid</v-chip>
-                    <v-chip small text-color="white" :color="item.UserAddress ? 'green' : 'red'">Address</v-chip>
-                    <v-icon v-if="item.OrderNotes">mdi-note-text</v-icon>
-                </v-chip-group>
+                    <v-chip
+                            small
+                            text-color="white" :color="item.UserAddress ? 'green' : 'red'"
+                            class="ml-2"
+                    >
+                        Address
+                    </v-chip>
+                    <v-icon v-if="item.OrderNotes" class="ml-2">mdi-note-text</v-icon>
+                </div>
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-edit-dialog large @save="saveShippingStatus" @open="openShippingStatus(item)">
@@ -85,8 +93,11 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 {{ formatDate(item.OrderCreationDate) }}
             </template>
         </v-data-table>
-        <v-snackbar v-model="reminder" color="green" :timeout="500">
+        <v-snackbar v-model="reminder" :timeout="500">
             Reminder sent.
+        </v-snackbar>
+        <v-snackbar v-model="shippingStatus">
+            Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
     </div>
 </template>
@@ -105,7 +116,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             'items-per-page-options': [5, 10, 25, 50]
         };
         reminder: boolean = false;
-        shippingStatus: ShippingStatusEnum = ShippingStatusEnum.Pending;
+        shippingStatus: boolean = false;
         order: Order = new Order();
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
@@ -122,6 +133,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
 
         saveShippingStatus() {
             this.$store.dispatch('orders/updateShippingStatus', this.order);
+            this.shippingStatus = true;
         }
 
         getAllShippingStatus() {
@@ -195,5 +207,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <style lang="scss" scoped>
     .link {
         text-decoration: none;
+    }
+    .status-group {
+        display: flex;
     }
 </style>
