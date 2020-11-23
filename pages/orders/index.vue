@@ -66,6 +66,7 @@
 
         mounted() {
             this.$store.dispatch('orders/fillAll');
+            this.$store.dispatch('customers/fillAll');
         }
     }
 </script>
