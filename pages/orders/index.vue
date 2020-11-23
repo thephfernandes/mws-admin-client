@@ -12,17 +12,24 @@
                 <highlight-card :title="mostLoyalWinner.email" subtitle="Most loyal winner" :text="mostLoyalWinner.amount.toString()" />
             </v-col>
         </v-row>
+        <v-row>
+            <v-col>
+                <orders-table :orders="orders" />
+            </v-col>
+        </v-row>
     </div>
 </template>
 <script lang="ts">
     import {Component, Vue} from "nuxt-property-decorator";
     import OrdersDashboard from "~/assets/data/orders-dashboard.json";
     import HighlightCardComponent from "~/components/shared/highlight-card.vue";
+    import OrdersTableComponent from "~/components/orders/orders-datatable.vue";
 
 
     @Component({
         components: {
-            'highlight-card': HighlightCardComponent
+            'highlight-card': HighlightCardComponent,
+            'orders-table': OrdersTableComponent
         }
     })
     export default class IndexOrders extends Vue {
@@ -47,10 +54,19 @@
             return OrdersDashboard.most_loyal_winner;
         }
 
+        get orders() {
+            return this.$store.getters['orders/getOrders'];
+        }
+
         head() {
             return {
                 title: 'Orders'
             }
+        }
+
+        mounted() {
+            this.$store.dispatch('orders/fillAll');
+            this.$store.dispatch('customers/fillAll');
         }
     }
 </script>

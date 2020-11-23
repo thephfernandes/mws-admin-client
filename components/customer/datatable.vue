@@ -263,10 +263,12 @@ export default class DataTable extends Vue {
 
   formatDate(string: string) {
     const date = new Date(string);
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth() + 1;
-    const day = date.getUTCDate();
-    return `${day}-${month}-${year}`;
+    const options = {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour12: false,
+      timeZone: 'Europe/Amsterdam'
+    };
+    return new Intl.DateTimeFormat('nl-NL', options).format(date);
   }
 
   get countries() {
