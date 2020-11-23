@@ -47,16 +47,18 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-edit-dialog large @save="saveShippingStatus" @open="openShippingStatus(item)">
-                    <v-chip
-                            :color="
-                            (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
-                            : item.OrderShippingStatus === 4 ? 'red' : 'gray'
-                            "
-                            :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
-                    >
-                        <v-icon class="mr-2">mdi-truck</v-icon>
-                        {{getShippingStatus(item.OrderShippingStatus)}}
-                    </v-chip>
+                    <v-chip-group>
+                        <v-chip
+                                :color="
+                                (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
+                                : item.OrderShippingStatus === 4 ? 'red' : 'gray'
+                                "
+                                :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
+                        >
+                            <v-icon class="mr-2">mdi-truck</v-icon>
+                            {{getShippingStatus(item.OrderShippingStatus)}}
+                        </v-chip>
+                    </v-chip-group>
                     <template v-slot:input>
                         <v-select
                                 :items="getAllShippingStatus()"
