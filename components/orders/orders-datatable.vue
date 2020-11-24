@@ -10,35 +10,63 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
             </template>
             <template v-slot:item.Actions="{ item }">
-                <v-icon
-                        @click="toOrder(item.OrderID)"
-                        small
-                >
-                    mdi-pencil
-                </v-icon>
-                <v-icon
-                        @click="toShippingDetails"
-                        small
-                        class="ml-2"
-                >
-                    mdi-truck
-                </v-icon>
-                <v-icon
-                        v-if="!item.UserAddress"
-                        @click="reminder = true"
-                        small
-                        class="ml-2"
-                >
-                    mdi-google-maps
-                </v-icon>
-                <v-icon
-                        v-if="!item.OrderShirtPaid"
-                        @click="reminder = true"
-                        small
-                        class="ml-2"
-                >
-                    mdi-credit-card-clock-outline
-                </v-icon>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                                @click="toOrder(item.OrderID)"
+                                small
+                                v-bind="attrs"
+                                v-on="on"
+                        >
+                            mdi-pencil
+                        </v-icon>
+                    </template>
+                    <span>Edit order</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                                @click="toShippingDetails"
+                                small
+                                class="ml-2"
+                                v-bind="attrs"
+                                v-on="on"
+                        >
+                            mdi-truck
+                        </v-icon>
+                    </template>
+                    <span>Shipping detail</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                                v-if="!item.UserAddress"
+                                @click="reminder = true"
+                                small
+                                class="ml-2"
+                                v-bind="attrs"
+                                v-on="on"
+                        >
+                            mdi-google-maps
+                        </v-icon>
+                    </template>
+                    <span>Send address reminder</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                                v-if="!item.OrderShirtPaid"
+                                @click="reminder = true"
+                                small
+                                class="ml-2"
+                                v-bind="attrs"
+                                v-on="on"
+                        >
+                            mdi-credit-card-clock-outline
+                        </v-icon>
+                    </template>
+                    <span>Send payment reminder</span>
+                </v-tooltip>
             </template>
             <template v-slot:item.Status="{ item }">
                 <div class="status-group">
