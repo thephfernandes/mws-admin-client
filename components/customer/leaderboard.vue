@@ -29,26 +29,47 @@
                     &euro; {{ currencyFormat(item.TotalSpent) }}
                 </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-icon
-                            small
-                            class="mr-2"
-                            @click="openCustomer(item.ID)"
-                    >
-                        mdi-magnify
-                    </v-icon>
-                    <v-icon
-                            small
-                            class="mr-2"
-                            @click="editCustomer(item.ID)"
-                    >
-                        mdi-pencil
-                    </v-icon>
-                    <v-icon
-                            small
-                            @click="openSendModal(item.ID)"
-                    >
-                        mdi-send
-                    </v-icon>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                                    small
+                                    class="mr-2"
+                                    @click="openCustomer(item.ID)"
+                                    v-bind="attrs"
+                                    v-on="on"
+                            >
+                                mdi-magnify
+                            </v-icon>
+                        </template>
+                        <span>Preview customer</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                                    small
+                                    class="mr-2"
+                                    @click="editCustomer(item.ID)"
+                                    v-bind="attrs"
+                                    v-on="on"
+                            >
+                                mdi-pencil
+                            </v-icon>
+                        </template>
+                        <span>Edit customer</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                                    small
+                                    @click="openSendModal(item.ID)"
+                                    v-bind="attrs"
+                                    v-on="on"
+                            >
+                                mdi-send
+                            </v-icon>
+                        </template>
+                        <span>Send customer ...</span>
+                    </v-tooltip>
                 </template>
             </v-data-table>
         </v-card-text>

@@ -156,26 +156,47 @@
         />
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon
-                small
-                class="mr-2"
-                @click="editCustomer(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-                small
-                @click="archiveCustomer(item)"
-                class="mr-2"
-        >
-          mdi-archive
-        </v-icon>
-        <v-icon
-                small
-                @click="openSendModal(item)"
-        >
-          mdi-send
-        </v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+                    small
+                    class="mr-2"
+                    @click="editCustomer(item)"
+                    v-bind="attrs"
+                    v-on="on"
+            >
+              mdi-pencil
+            </v-icon>
+          </template>
+          <span>Edit customer</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+                    small
+                    @click="archiveCustomer(item)"
+                    class="mr-2"
+                    v-bind="attrs"
+                    v-on="on"
+            >
+              mdi-archive
+            </v-icon>
+          </template>
+          <span>Archive customer</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+                    small
+                    @click="openSendModal(item)"
+                    v-bind="attrs"
+                    v-on="on"
+            >
+              mdi-send
+            </v-icon>
+          </template>
+          <span>Send customer ...</span>
+        </v-tooltip>
       </template>
     </v-data-table>
     <v-dialog v-model="dialogSend" max-width="500px">
