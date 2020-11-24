@@ -113,6 +113,30 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             <template v-slot:item.UserCountry="{ item }">
                 {{item.UserCountry.toUpperCase()}}
             </template>
+            <template v-slot:item.ProductPrice="{ item }">
+                &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
+            </template>
+            <template v-slot:item.OrderFraming="{ item }">
+                <v-chip :color="item.OrderFraming ? 'green' : 'red'">
+                    <v-icon>mdi-image-frame</v-icon>
+                    <span
+                            v-if="item.OrderFraming"
+                            class="ml-2"
+                    >
+                        {{ getFramingStatus(item.OrderFramingStatus) }}
+                    </span>
+                </v-chip>
+            </template>
+            <template v-slot:item.OrderAddressReminder="{ item }">
+                <v-chip small>
+                    <v-icon small class="mr-2">mdi-google-maps</v-icon>
+                    {{item.OrderAddressReminder}}
+                </v-chip>
+                <v-chip small class="mt-1">
+                    <v-icon small class="mr-2">mdi-credit-card-clock-outline</v-icon>
+                    {{item.OrderPaymentReminder}}
+                </v-chip>
+            </template>
         </v-data-table>
         <v-snackbar v-model="reminder" :timeout="500">
             Reminder sent.
@@ -128,6 +152,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
     import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
+    import {FramingStatus} from "~/enums/framingStatus";
 
     @Component({
         components: {Datatable}
@@ -171,6 +196,10 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             return shippingStatus.map((value, key) => ({text: value, value: key}));
         }
 
+        getFramingStatus(status: number): string {
+            return FramingStatus[status];
+        }
+
         toOrder(orderId: number): void {
             this.$router.push({name: 'orders-id', params: { id: orderId.toString() }});
         }
@@ -212,6 +241,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 {
                     text: 'Actions',
                     value: 'Actions',
+                    width: 150,
                     divider: true
                 },
                 {
@@ -224,7 +254,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'Player',
-                    value: 'PlayerName'
+                    value: 'PlayerName',
+                    width: 150
                 },
                 {
                     text: 'Customer',
@@ -251,11 +282,12 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'Price',
-                    value: 'ProductPrice'
+                    value: 'ProductPrice',
+                    width: 100
                 },
                 {
                     text: 'Customer Phone',
-                    value: 'CustomerPhone'
+                    value: 'UserPhoneNumber'
                 },
                 {
                     text: 'Framing',
