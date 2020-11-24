@@ -6,6 +6,11 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 <v-card>
                     <v-card-title>Choose optional columns</v-card-title>
                     <v-card-text>
+                        <v-switch
+                                :label="AllHeaders ? 'Deselect all' : 'Select all'"
+                                hide-details
+                                v-model="AllHeaders"
+                        />
                         <v-checkbox
                                 v-for="header in customHeaders"
                                 :key="header.value"
@@ -147,7 +152,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
     </div>
 </template>
 <script lang="ts">
-    import {Component, Prop, Vue} from "nuxt-property-decorator";
+    import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
     import {IOrder} from "../../interfaces/IOrder";
     import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
@@ -166,7 +171,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         order: Order = new Order();
         headers: Array<Object> = [];
         customHeaders: Array<Object> = [];
-        selectedHeaders = [];
+        selectedHeaders: Array<Object> = [];
+        AllHeaders: boolean = false;
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -188,6 +194,17 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         saveShippingStatus() {
             this.$store.dispatch('orders/updateShippingStatus', this.order);
             this.shippingStatus = true;
+        }
+
+        @Watch('AllHeaders')
+        onAllHeadersChange(val: boolean) {
+            this.selectedHeaders = [];
+            if (val) {
+                this.customHeaders.forEach((c) => {
+                    this.selectedHeaders.push(c);
+                })
+            }
+            this.updateHeaders();
         }
 
         getAllShippingStatus() {
