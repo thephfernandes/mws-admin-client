@@ -153,7 +153,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
 </template>
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-    import {IOrder} from "../../interfaces/IOrder";
+    import {IOrder} from "~/interfaces/IOrder";
     import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
