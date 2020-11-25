@@ -1,7 +1,10 @@
 export enum FramingStatus {
-    ShirtAtOffice,
-    ShirtAtFrameShop,
-    ShirtBackInOffice,
-    FrameShirtSent,
-    Unknown
+    NoFrameWanted,
+    AwaitingContact,
+    PendingCustomer,
+    InvoiceSent,
+    Paid,
+    ToFramer,
+    Shipped,
+    Delivered
 }
