@@ -4,13 +4,13 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
       <v-card-text>
         <v-row>
           <v-col cols="12" md="4">
-            <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable />
+            <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable outlined />
           </v-col>
           <v-col cols="12" md="4">
             <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
           </v-col>
           <v-col cols="12" md="4">
-            <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable />
+            <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
           </v-col>
         </v-row>
         <v-row>
