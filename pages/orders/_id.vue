@@ -18,7 +18,7 @@
         <general-info-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
-        Framing
+        <framing-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
         Invoices
@@ -35,10 +35,12 @@
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
 import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
+import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 
 @Component({
   components: {
-    'general-info-component': OrderGeneralInfoComponent
+    'general-info-component': OrderGeneralInfoComponent,
+    'framing-component': OrderFramingComponent
   }
 })
 export default class extends Vue {
