@@ -34,7 +34,7 @@
           />
           <label class="mt-4 mb-1 shipping-status__title">Shipping status</label>
           <v-radio-group v-model="framing.OrderFramingStatus">
-            <v-radio v-for="status in getAllShippingStatus()" :label="status.text" hide-details />
+            <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" hide-details />
           </v-radio-group>
         </v-col>
         <v-col cols="12" md="6">
