@@ -1,6 +1,29 @@
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
+        <v-row>
+            <v-col>
+                <v-card>
+                    <v-card-title>Choose optional columns</v-card-title>
+                    <v-card-text>
+                        <v-switch
+                                :label="AllHeaders ? 'Deselect all' : 'Select all'"
+                                hide-details
+                                v-model="AllHeaders"
+                        />
+                        <v-checkbox
+                                v-for="header in customHeaders"
+                                :key="header.value"
+                                v-model="selectedHeaders"
+                                :label="header.text"
+                                :value="selectedHeaders.length ===  0 ? header : header"
+                                @click="updateHeaders"
+                                hide-details
+                        />
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
         <v-data-table
                 :items="orders"
                 :headers="headers"
@@ -120,6 +143,33 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             <template v-slot:item.OrderCreationDate="{ item }">
                 {{ formatDate(item.OrderCreationDate) }}
             </template>
+            <template v-slot:item.UserCountry="{ item }">
+                {{item.UserCountry.toUpperCase()}}
+            </template>
+            <template v-slot:item.ProductPrice="{ item }">
+                &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
+            </template>
+            <template v-slot:item.OrderFraming="{ item }">
+                <v-chip :color="item.OrderFraming ? 'green' : 'red'">
+                    <v-icon>mdi-image-frame</v-icon>
+                    <span
+                            v-if="item.OrderFraming"
+                            class="ml-2"
+                    >
+                        {{ getFramingStatus(item.OrderFramingStatus) }}
+                    </span>
+                </v-chip>
+            </template>
+            <template v-slot:item.OrderAddressReminder="{ item }">
+                <v-chip small>
+                    <v-icon small class="mr-2">mdi-google-maps</v-icon>
+                    {{item.OrderAddressReminder}}
+                </v-chip>
+                <v-chip small class="mt-1">
+                    <v-icon small class="mr-2">mdi-credit-card-clock-outline</v-icon>
+                    {{item.OrderPaymentReminder}}
+                </v-chip>
+            </template>
         </v-data-table>
         <v-snackbar v-model="reminder" :timeout="500">
             Reminder sent.
@@ -130,11 +180,12 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
     </div>
 </template>
 <script lang="ts">
-    import {Component, Prop, Vue} from "nuxt-property-decorator";
-    import {IOrder} from "../../interfaces/IOrder";
+    import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
+    import {IOrder} from "~/interfaces/IOrder";
     import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
+    import {FramingStatus} from "~/enums/framingStatus";
 
     @Component({
         components: {Datatable}
@@ -146,11 +197,20 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         reminder: boolean = false;
         shippingStatus: boolean = false;
         order: Order = new Order();
+        headers: Array<Object> = [];
+        customHeaders: Array<Object> = [];
+        selectedHeaders: Array<Object> = [];
+        AllHeaders: boolean = false;
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
         name(): string {
             return 'orders-table-component'
+        }
+
+        created() {
+            this.createHeaders();
+            this.createCustomHeaders();
         }
 
         toShippingDetails(): void {}
@@ -164,10 +224,25 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             this.shippingStatus = true;
         }
 
+        @Watch('AllHeaders')
+        onAllHeadersChange(val: boolean) {
+            this.selectedHeaders = [];
+            if (val) {
+                this.customHeaders.forEach((c) => {
+                    this.selectedHeaders.push(c);
+                })
+            }
+            this.updateHeaders();
+        }
+
         getAllShippingStatus() {
             let shippingStatus = Object.values(ShippingStatusEnum);
             shippingStatus = shippingStatus.slice(0, shippingStatus.length / 2);
             return shippingStatus.map((value, key) => ({text: value, value: key}));
+        }
+
+        getFramingStatus(status: number): string {
+            return FramingStatus[status];
         }
 
         toOrder(orderId: number): void {
@@ -189,8 +264,13 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             return new Intl.DateTimeFormat('nl-NL', options).format(date);
         }
 
-        get headers() {
-            return [
+        updateHeaders(): void {
+            this.createHeaders();
+            this.headers = this.headers.concat(this.selectedHeaders);
+        }
+
+        createHeaders() {
+            this.headers = [
                 {
                     text: 'Id',
                     value: 'OrderID'
@@ -206,6 +286,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 {
                     text: 'Actions',
                     value: 'Actions',
+                    width: 150,
                     divider: true
                 },
                 {
@@ -218,7 +299,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'Player',
-                    value: 'PlayerName'
+                    value: 'PlayerName',
+                    width: 150
                 },
                 {
                     text: 'Customer',
@@ -226,7 +308,43 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'Order date',
-                    value: 'OrderCreationDate'
+                    value: 'OrderCreationDate',
+                    width: 150
+                }
+            ]
+        }
+
+        createCustomHeaders(): void {
+            this.customHeaders = [
+                {
+                    text: 'Cub name',
+                    value: 'ClubName',
+                    width: 200
+                },
+                {
+                    text: 'User Country',
+                    value: 'UserCountry'
+                },
+                {
+                    text: 'Price',
+                    value: 'ProductPrice',
+                    width: 100
+                },
+                {
+                    text: 'Customer Phone',
+                    value: 'UserPhoneNumber'
+                },
+                {
+                    text: 'Framing',
+                    value: 'OrderFraming'
+                },
+                {
+                    text: 'Opponent',
+                    value: 'Opponent'
+                },
+                {
+                    text: 'Reminder',
+                    value: 'OrderAddressReminder'
                 }
             ]
         }
