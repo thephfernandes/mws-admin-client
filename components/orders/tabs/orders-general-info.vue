@@ -72,6 +72,14 @@
             <v-alert color="warning">Watch out! Do not send a package AND a frame! You can see if you ordered any of them by looking at the framing status for example.</v-alert>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="6">
+            <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+          </v-col>
+          <v-col cols="6">
+            <v-btn block><v-icon class="mr-2">mdi-truck</v-icon>DHL Shipping</v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
     </div>
   </div>
