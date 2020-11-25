@@ -15,8 +15,7 @@
     </v-row>
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        General info
-        {{orderId}}
+        <general-info-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
         Framing
@@ -35,8 +34,13 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
+import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
 
-@Component
+@Component({
+  components: {
+    'general-info-component': OrderGeneralInfoComponent
+  }
+})
 export default class extends Vue {
   orderId: number = 0;
   private activeTab: number = 0;
