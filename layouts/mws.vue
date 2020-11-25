@@ -1,17 +1,30 @@
 <template>
   <v-app>
     <modalRoot />
-    <v-app-bar dark dense clipped-left app color="#35495e">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-container class="mr-auto">
-        <v-row>
+    <v-app-bar dark clipped-left app color="#35495e">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-container>
+        <v-row dense>
           <v-col cols="12">
-            <v-toolbar-title v-text="title"></v-toolbar-title>
-            <v-text-field label="Search" solo clearable dense v-model="search">
-            </v-text-field>
-            <div class="profile-greeting ml-auto">
-              <strong v-html="greeting"></strong>
-              <v-avatar size="36px"></v-avatar>
+            <v-toolbar-title v-text="title" class="mr-2" />
+            <v-text-field
+                    label="Search"
+                    solo
+                    clearable
+                    dense
+                    v-model="search"
+                    hide-details
+                    prepend-inner-icon="mdi-magnify"
+                    class="search"
+            />
+            <v-spacer />
+            <div class="profile-greeting">
+              <strong v-html="greeting" />
+              <v-avatar size="36px" color="green">
+                <v-icon>
+                  mdi-soccer
+                </v-icon>
+              </v-avatar>
             </div>
           </v-col>
         </v-row>
@@ -136,5 +149,9 @@ $width: 520px;
     .v-list-item {
         padding-left: 71px;
     }
+}
+
+.search {
+  margin-top: 0;
 }
 </style>
