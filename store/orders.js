@@ -12,6 +12,9 @@ export const getters = {
     getMatchesId: (state) => {
         const matchesId = state.orders.map((o) => o.MatchID);
         return matchesId.filter((item, pos) => matchesId.indexOf(item) === pos);
+    },
+    getOrder: (state) => (id) => {
+        return state.orders.find((o) => o.OrderID === id);
     }
 };
 
@@ -23,6 +26,10 @@ export const mutations = {
         const o = state.orders.find((o) => o.OrderID === order.OrderID);
         o.OrderShippingStatus = order.OrderShippingStatus;
     },
+    updateOrder(state, order) {
+        const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
+        state.orders[i] = order;
+    }
 };
 
 export const actions = {
@@ -31,5 +38,8 @@ export const actions = {
     },
     updateShippingStatus({ commit }, order) {
         commit('updateShippingStatus', order);
+    },
+    updateOrder({ commit }, order) {
+        commit('updateOrder', order);
     }
 };
