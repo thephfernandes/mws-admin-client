@@ -167,7 +167,7 @@
         }
 
         goBack(): void {
-            this.$router.push({name: 'customers'});
+            this.$router.back();
         }
 
         get countries() {
