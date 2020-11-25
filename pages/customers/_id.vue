@@ -30,7 +30,7 @@
   </v-card>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from "nuxt-property-decorator";
+import { Vue, Component } from "nuxt-property-decorator";
 import GeneralInfoComponent from "~/components/customer/tabs/general-info.vue";
 import FinanceComponent from "~/components/customer/tabs/finance.vue";
 import ProductHistoryComponent from "~/components/customer/tabs/product-history.vue";
