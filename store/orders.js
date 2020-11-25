@@ -9,6 +9,10 @@ export const getters = {
     getOrders: (state) => {
         return state.orders;
     },
+    getMatchesId: (state) => {
+        const matchesId = state.orders.map((o) => o.MatchID);
+        return matchesId.filter((item, pos) => matchesId.indexOf(item) === pos);
+    },
     getOrder: (state) => (id) => {
         return state.orders.find((o) => o.OrderID === id);
     }

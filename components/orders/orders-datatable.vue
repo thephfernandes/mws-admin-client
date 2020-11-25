@@ -2,7 +2,17 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
         <v-row>
-            <v-col>
+            <v-col cols="12" md="8">
+                <v-card-title>Filter</v-card-title>
+                <v-card-text>
+                    <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable />
+                    <v-text-field label="Certificates" v-model="searchCertificate" clearable />
+                    <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable />
+                    <v-text-field label="Search" outlined clearable />
+                    <v-btn @click="resetFilters">Reset</v-btn>
+                </v-card-text>
+            </v-col>
+            <v-col cols="12" md="4">
                 <v-card>
                     <v-card-title>Choose optional columns</v-card-title>
                     <v-card-text>
@@ -201,6 +211,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         customHeaders: Array<Object> = [];
         selectedHeaders: Array<Object> = [];
         AllHeaders: boolean = false;
+        searchCertificate: string = '';
+        searchMatch: string = '';
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -241,6 +253,11 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             return shippingStatus.map((value, key) => ({text: value, value: key}));
         }
 
+        resetFilters(): void {
+          this.searchMatch = '';
+          this.searchCertificate = '';
+        }
+
         getFramingStatus(status: number): string {
             return FramingStatus[status];
         }
@@ -253,7 +270,24 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             return ShippingStatusEnum[status];
         }
 
-        formatDate(string: string) {
+        get matchesId() {
+            return this.$store.getters['orders/getMatchesId'];
+        }
+
+        certificateFilter(value: number) {
+            if (!this.searchCertificate) return true;
+            return value.toString().includes(this.searchCertificate);
+        }
+
+        matchFilter(value: number) {
+          if (!this.searchMatch) return true;
+          if (this.searchMatch.toString() === value.toString()) {
+            return value;
+          }
+        }
+
+
+            formatDate(string: string) {
             const date = new Date(string);
             const options = {
                 year: 'numeric', month: 'numeric', day: 'numeric',
@@ -291,11 +325,13 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'Certificate #',
-                    value: 'OrderCertificateNumber'
+                    value: 'OrderCertificateNumber',
+                    filter: this.certificateFilter
                 },
                 {
                     text: 'MatchId',
-                    value: 'MatchID'
+                    value: 'MatchID',
+                    filter: this.matchFilter
                 },
                 {
                     text: 'Player',
