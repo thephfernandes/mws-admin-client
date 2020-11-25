@@ -71,9 +71,6 @@
             <v-alert color="warning">Use this button to pay for a DHL shipping of 1 to 3 shirts in a single package. Using this button will update the shipping status, cost, and other information on the order part only. If you wish to send a framed shirt, please use the appropriate section below.</v-alert>
             <v-alert color="warning">Watch out! Do not send a package AND a frame! You can see if you ordered any of them by looking at the framing status for example.</v-alert>
           </v-col>
-          <v-col>
-            <pre>{{order}}</pre>
-          </v-col>
         </v-row>
       </v-card-text>
     </div>
