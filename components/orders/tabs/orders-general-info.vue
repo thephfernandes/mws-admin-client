@@ -45,7 +45,7 @@
             <v-text-field label="Address Reminders Sent" v-model="order.OrderAddressReminder" type="number" outlined />
             Shipping status
             <v-radio-group v-model="order.OrderShippingStatus">
-              <v-radio v-for="status in getAllShippingStatus()" :label="status.text"></v-radio>
+              <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" />
             </v-radio-group>
             <v-text-field label="For whom" outlined />
             <v-text-field label="Shipment tracking number" outlined />
