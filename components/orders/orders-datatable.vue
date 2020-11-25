@@ -4,13 +4,12 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         <v-row>
             <v-col cols="12" md="8">
                 <v-card-title>Filter</v-card-title>
-                {{searchMatch}}
                 <v-card-text>
                     <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable />
                     <v-text-field label="Certificates" v-model="searchCertificate" clearable />
                     <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable />
                     <v-text-field label="Search" outlined clearable />
-                    <v-btn>Reset</v-btn>
+                    <v-btn @click="resetFilters">Reset</v-btn>
                 </v-card-text>
             </v-col>
             <v-col cols="12" md="4">
@@ -254,6 +253,11 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             return shippingStatus.map((value, key) => ({text: value, value: key}));
         }
 
+        resetFilters(): void {
+          this.searchMatch = '';
+          this.searchCertificate = '';
+        }
+
         getFramingStatus(status: number): string {
             return FramingStatus[status];
         }
@@ -276,7 +280,10 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         }
 
         matchFilter(value: number) {
-
+          if (!this.searchMatch) return true;
+          if (this.searchMatch.toString() === value.toString()) {
+            return value;
+          }
         }
 
 
@@ -323,7 +330,8 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 },
                 {
                     text: 'MatchId',
-                    value: 'MatchID'
+                    value: 'MatchID',
+                    filter: this.matchFilter
                 },
                 {
                     text: 'Player',
