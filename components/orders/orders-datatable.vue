@@ -2,49 +2,60 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
       <v-card-text>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable outlined />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field label="Search" outlined clearable />
-            <v-btn @click="resetFilters">Reset</v-btn>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-card>
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Choose optional columns</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-card-text>
-                      <v-switch
-                          :label="AllHeaders ? 'Deselect all' : 'Select all'"
-                          hide-details
-                          v-model="AllHeaders"
-                      />
-                      <v-checkbox
-                          v-for="header in customHeaders"
-                          :key="header.value"
-                          v-model="selectedHeaders"
-                          :label="header.text"
-                          :value="selectedHeaders.length ===  0 ? header : header"
-                          @click="updateHeaders"
-                          hide-details
-                      />
-                    </v-card-text>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </v-card>
-          </v-col>
+        <v-row align="center">
+            <v-col cols="8" md="10">
+                <v-row>
+                    <v-col cols="12" md="4">
+                        <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable outlined />
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field label="Search" outlined clearable />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-card>
+                            <v-expansion-panels>
+                                <v-expansion-panel>
+                                    <v-expansion-panel-header>Choose optional columns</v-expansion-panel-header>
+                                    <v-expansion-panel-content>
+                                        <v-card-text>
+                                            <v-switch
+                                                    :label="AllHeaders ? 'Deselect all' : 'Select all'"
+                                                    hide-details
+                                                    v-model="AllHeaders"
+                                            />
+                                            <v-checkbox
+                                                    v-for="header in customHeaders"
+                                                    :key="header.value"
+                                                    v-model="selectedHeaders"
+                                                    :label="header.text"
+                                                    :value="selectedHeaders.length ===  0 ? header : header"
+                                                    @click="updateHeaders"
+                                                    hide-details
+                                            />
+                                        </v-card-text>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+            <v-col cols="4" md="2">
+                <v-row>
+                    <v-col cols="12">
+                        <v-btn block @click="resetFilters">Reset filters</v-btn>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-btn block><v-icon class="mr-2">mdi-download</v-icon>Export as csv</v-btn>
+                    </v-col>
+                </v-row>
+            </v-col>
         </v-row>
       </v-card-text>
         <v-data-table
