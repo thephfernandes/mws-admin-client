@@ -366,7 +366,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         createCustomHeaders(): void {
             this.customHeaders = [
                 {
-                    text: 'Cub name',
+                    text: 'Club Name',
                     value: 'ClubName',
                     width: 200
                 },

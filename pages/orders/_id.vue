@@ -2,7 +2,7 @@
   <v-card>
     <v-row align="center">
       <v-col cols="12" md="2">
-        <v-btn text large><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
+        <v-btn text large @click="goToOrders"><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
       </v-col>
       <v-col cols="12" md="10">
         <v-tabs v-model="tab" grow>
@@ -18,7 +18,7 @@
         <general-info-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
-        Framing
+        <framing-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
         Invoices
@@ -35,10 +35,12 @@
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
 import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
+import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 
 @Component({
   components: {
-    'general-info-component': OrderGeneralInfoComponent
+    'general-info-component': OrderGeneralInfoComponent,
+    'framing-component': OrderFramingComponent
   }
 })
 export default class extends Vue {
@@ -84,6 +86,10 @@ export default class extends Vue {
     return {
       title: 'Order '+ this.orderId
     }
+  }
+
+  goToOrders(): void {
+    this.$router.push({name: 'orders'});
   }
 
   layout(): string {
