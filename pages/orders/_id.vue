@@ -2,7 +2,7 @@
   <v-card>
     <v-row align="center">
       <v-col cols="12" md="2">
-        <v-btn text large><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
+        <v-btn text large @click="goToOrders"><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
       </v-col>
       <v-col cols="12" md="10">
         <v-tabs v-model="tab" grow>
@@ -86,6 +86,10 @@ export default class extends Vue {
     return {
       title: 'Order '+ this.orderId
     }
+  }
+
+  goToOrders(): void {
+    this.$router.push({name: 'orders'});
   }
 
   layout(): string {
