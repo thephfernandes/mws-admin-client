@@ -17,13 +17,26 @@
               :value="getFrameBorderColor(framing.BorderColorOptionID)"
           />
           <v-select
+                  label="Passe Partout"
+                  outlined
+                  v-model="framing.PassePartoutOptionID"
+                  :items="getAllPassePartout()"
+                  :value="getPassePartoutOption(framing.PassePartoutOptionID)"
+          />
+          <v-select
+                  label="Number of custom pictures"
+                  outlined
+                  v-model="framing.NumberOfCustomPics"
+                  :items="['None', '2 Pictures', '3 Pictures']"
+          />
+          <v-select
               label="Plate"
               outlined
               v-model="framing.PlateOptionID"
               :items="getAllPlateOptions()"
               :value="getPlateOption(framing.PlateOptionID)"
           />
-          other
+          Other plate
           <v-checkbox
               v-if="framing"
               v-for="plate of otherFramePlateOptions"
@@ -32,15 +45,21 @@
               hide-details
               v-model="plate.model"
           />
+        </v-col>
+        <v-col cols="12" md="6">
+          <h3 class="mb-2">Shipping</h3>
+          <v-text-field label="Shipment Tracking Number" v-model="framing.StandaloneTrackingNumber" outlined />
+          <v-text-field label="Shipment Identification Number" outlined />
+          <v-text-field label="Shipping costs" v-model="framing.StandaloneShippingCosts" outlined />
           <label class="mt-4 mb-1 shipping-status__title">Shipping status</label>
           <v-radio-group v-model="framing.OrderFramingStatus">
             <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" hide-details />
           </v-radio-group>
         </v-col>
-        <v-col cols="12" md="6">
-          <pre>{{order}}</pre>
-          <pre>{{framing}}</pre>
-        </v-col>
+      </v-row>
+      <v-row justify="space-around">
+        <v-btn color="primary" @click="updateFraming()">Send request to framing</v-btn>
+        <v-btn color="secondary">Request shipping</v-btn>
       </v-row>
     </v-card-text>
   </div>
@@ -52,6 +71,7 @@ import Framing from "~/models/framing";
 import {FrameBorderColor} from "~/enums/frameBorderColor";
 import {FramePlateOption} from "~/enums/framePlateOption";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
+import {FramePassePartout} from "~/enums/framePassePartout";
 
 @Component
 export default class OrdersFramingComponent extends Vue {
@@ -95,6 +115,11 @@ export default class OrdersFramingComponent extends Vue {
     this.framing = Object.assign({}, framing);
   }
 
+  updateFraming(): void {
+    this.$store.dispatch('orders/updateFraming', this.framing);
+    this.$router.push({name: 'orders'});
+  }
+
   formatDate(string: string) {
     const date = new Date(string);
     const options = {
@@ -130,6 +155,16 @@ export default class OrdersFramingComponent extends Vue {
     let shippingStatus = Object.values(ShippingStatusEnum);
     shippingStatus = shippingStatus.slice(0, shippingStatus.length / 2);
     return shippingStatus.map((value, key) => ({text: value, value: key}));
+  }
+
+  getAllPassePartout() {
+    let options = Object.values(FramePassePartout);
+    options = options.slice(0, options.length / 2);
+    return options.map((value, key) => ({text: value, value: key}));
+  }
+
+  getPassePartoutOption(option: number) {
+    return FramePassePartout[option];
   }
 }
 </script>
