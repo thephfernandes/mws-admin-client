@@ -65,8 +65,9 @@
         }
 
         mounted() {
-            this.$store.dispatch('orders/fillAll');
-            this.$store.dispatch('customers/fillAll');
+          this.$store.dispatch('orders/fillOrders');
+          this.$store.dispatch('orders/fillFraming');
+          this.$store.dispatch('customers/fillAll');
         }
     }
 </script>

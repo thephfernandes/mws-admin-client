@@ -2,7 +2,7 @@
   <v-card>
     <v-row align="center">
       <v-col cols="12" md="2">
-        <v-btn text large @click="goBack"><v-icon>mdi-chevron-left</v-icon>Customers</v-btn>
+        <v-btn text large @click="goToCustomers"><v-icon>mdi-chevron-left</v-icon>Customers</v-btn>
       </v-col>
       <v-col cols="12" md="10">
         <v-tabs v-model="tab" grow>
@@ -86,7 +86,7 @@ export default class extends Vue {
     this.$router.push({ query: {tab: tab.slug } });
   }
 
-  goBack(): void {
+  goToCustomers(): void {
     this.$router.push({name: 'customers'});
   }
 
