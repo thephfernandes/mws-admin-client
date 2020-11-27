@@ -84,7 +84,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
-                                @click="toShippingDetails"
+                                @click="shippingDetail = true"
                                 small
                                 class="ml-2"
                                 v-bind="attrs"
@@ -227,6 +227,9 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
+        <v-dialog v-model="shippingDetail" max-width="500px">
+            <shipping-detail />
+        </v-dialog>
     </div>
 </template>
 <script lang="ts">
@@ -236,9 +239,13 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
+    import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
 
     @Component({
-        components: {Datatable}
+        components: {
+            Datatable,
+            'shipping-detail': ShippingDetailModalComponent
+        }
     })
     export default class OrdersTableComponent extends Vue {
         footerPropsOptions = {
@@ -253,6 +260,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         AllHeaders: boolean = false;
         searchCertificate: string = '';
         searchMatch: string = '';
+        shippingDetail: boolean = false;
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -264,8 +272,6 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
             this.createHeaders();
             this.createCustomHeaders();
         }
-
-        toShippingDetails(): void {}
 
         openShippingStatus(item: Order) {
             this.order = Object.assign({}, item)
