@@ -28,9 +28,6 @@ export const mutations = {
         state.orders = payload;
     },
     fillFraming(state, payload) {
-        if (state.framing.length > 0) {
-            return;
-        }
         state.framing.push(payload);
     },
     updateFraming(state, frame) {
