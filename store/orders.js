@@ -2,11 +2,13 @@
 import ordersData from '~/assets/data/orders.json';
 import framingItem from '~/assets/data/framing-3734.json';
 import productItem from '~/assets/data/product-3911.json';
+import eventItem from '~/assets/data/match-282.json';
 
 export const state = () => ({
     orders: [],
     framing: [],
-    products: []
+    products: [],
+    events: []
 });
 
 export const getters = {
@@ -25,6 +27,10 @@ export const getters = {
     },
     getProduct: (state) => (id) => {
         return state.products.find((p) => p.ID === id);
+    },
+    getEvent: (state) => (id) => {
+        return state.events.find((e) => e.id === id);
+
     }
 };
 
@@ -49,6 +55,9 @@ export const mutations = {
     updateOrder(state, order) {
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
+    },
+    fillEvents(state, payload) {
+        state.events.push(payload);
     }
 };
 
@@ -70,5 +79,8 @@ export const actions = {
     },
     updateOrder({ commit }, order) {
         commit('updateOrder', order);
+    },
+    fillEvents({commit}) {
+        commit('fillEvents', eventItem);
     }
 };
