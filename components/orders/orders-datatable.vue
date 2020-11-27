@@ -1,4 +1,5 @@
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
+import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
       <v-card-text>
@@ -123,6 +124,21 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                         </v-icon>
                     </template>
                     <span>Send payment reminder</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                                v-if="item.OrderShippingStatus !== 3"
+                                small
+                                class="ml-2"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="markAsShipped(item)"
+                        >
+                            mdi-check-bold
+                        </v-icon>
+                    </template>
+                    <span>Mark as shipped</span>
                 </v-tooltip>
             </template>
             <template v-slot:item.Status="{ item }">
@@ -256,6 +272,13 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         }
 
         saveShippingStatus() {
+            this.$store.dispatch('orders/updateShippingStatus', this.order);
+            this.shippingStatus = true;
+        }
+
+        markAsShipped(item: Order) {
+            this.openShippingStatus(item);
+            this.order.OrderShippingStatus = ShippingStatusEnum.Shipped;
             this.$store.dispatch('orders/updateShippingStatus', this.order);
             this.shippingStatus = true;
         }
