@@ -154,5 +154,4 @@ export default class OrdersGeneralInfoComponent extends Vue {
     this.$router.back();
   }
 }
-
 </script>
