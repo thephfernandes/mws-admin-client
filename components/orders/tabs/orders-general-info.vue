@@ -96,9 +96,7 @@
           <customer-card :customerId="order.UserID" />
         </v-col>
         <v-col cols="12" md="4">
-          <v-card tile :to="`/products/${order.ProductID}`">
-            <v-card-title>Product info</v-card-title>
-          </v-card>
+          <product-card :productId="order.ProductID" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -111,10 +109,12 @@ import {FramingStatus} from "~/enums/framingStatus";
 import {PaymentMethods} from "~/enums/paymentMethod";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
 import CustomerCardComponent from "~/components/orders/cards/customer-card.vue";
+import ProductCardComponent from "~/components/orders/cards/product-card.vue";
 
 @Component({
   components: {
-    'customer-card': CustomerCardComponent
+    'customer-card': CustomerCardComponent,
+    'product-card': ProductCardComponent
   }
 })
 export default class OrdersGeneralInfoComponent extends Vue {
