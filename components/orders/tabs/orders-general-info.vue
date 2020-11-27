@@ -82,6 +82,26 @@
         </v-row>
       </v-card-text>
     </div>
+    <v-card-text>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-card tile :to="`/events/${order.MatchID}`">
+            <v-card-title>Event info</v-card-title>
+            <v-card-text>
+              <pre>{{order}}</pre>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4">
+          <customer-card :customerId="order.UserID" />
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-card tile :to="`/products/${order.ProductID}`">
+            <v-card-title>Product info</v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card-text>
   </div>
 </template>
 <script lang="ts">
@@ -90,8 +110,13 @@ import {Order} from "~/models/order";
 import {FramingStatus} from "~/enums/framingStatus";
 import {PaymentMethods} from "~/enums/paymentMethod";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
+import CustomerCardComponent from "~/components/orders/cards/customer-card.vue";
 
-@Component
+@Component({
+  components: {
+    'customer-card': CustomerCardComponent
+  }
+})
 export default class OrdersGeneralInfoComponent extends Vue {
   order: Order = new Order();
   invoiceSent: boolean = false;
