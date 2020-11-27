@@ -1,10 +1,12 @@
 /*jshint esversion: 8*/
 import ordersData from '~/assets/data/orders.json';
-import framingItem from '~/assets/data/framing-3734.json'
+import framingItem from '~/assets/data/framing-3734.json';
+import productItem from '~/assets/data/product-3911.json';
 
 export const state = () => ({
     orders: [],
-    framing: []
+    framing: [],
+    products: []
 });
 
 export const getters = {
@@ -20,6 +22,9 @@ export const getters = {
     },
     getFraming: (state) => (id) => {
         return state.framing.find((f) => f.ID === id);
+    },
+    getProduct: (state) => (id) => {
+        return state.products.find((p) => p.ID === id);
     }
 };
 
@@ -33,6 +38,9 @@ export const mutations = {
     updateFraming(state, frame) {
         const i = state.framing.findIndex((f) => f.ID === frame.ID);
         state.framing[i] = frame;
+    },
+    fillProducts(state, payload) {
+        state.products.push(payload);
     },
     updateShippingStatus(state, order) {
         const o = state.orders.find((o) => o.OrderID === order.OrderID);
@@ -53,6 +61,9 @@ export const actions = {
     },
     updateFraming({ commit }, framingItem) {
         commit('updateFraming', framingItem);
+    },
+    fillProducts({ commit }) {
+        commit('fillProducts', productItem);
     },
     updateShippingStatus({ commit }, order) {
         commit('updateShippingStatus', order);
