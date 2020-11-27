@@ -2,7 +2,7 @@
     <v-card tile :to="`/customers/${customerId}`">
         <v-img :src="headerImage" height="200px" width="auto">
             <v-card-title class="white--text">Customer info</v-card-title>
-            <v-card-subtitle class="white--text">Customer id: {{customerId}}</v-card-subtitle>
+            <v-card-subtitle class="white--text">ID: {{customerId}}</v-card-subtitle>
         </v-img>
         <v-card-text>
             <v-list>
@@ -27,19 +27,17 @@
 </template>
 <script lang="ts">
     import {Vue, Component, Prop} from "nuxt-property-decorator";
-    import {Customer} from "~/models/customer";
 
     @Component
     export default class CustomerCardComponent extends Vue {
         @Prop({ required: true }) readonly customerId!: number;
-        customer: Customer = new Customer();
 
         name(): string {
             return 'customer-card-component';
         }
 
-        created() {
-            this.customer = this.$store.getters['customers/getCustomer'](this.customerId);
+        get customer() {
+            return this.$store.getters['customers/getCustomer'](this.customerId);
         }
 
         get  headerImage() {
