@@ -1,8 +1,8 @@
 /*jshint esversion: 8*/
 import ordersData from '~/assets/data/orders.json';
-import framingItem from '~/assets/data/framing-3734.json';
-import productItem from '~/assets/data/product-3911.json';
-import eventItem from '~/assets/data/match-282.json';
+import framingItem from '~/assets/data/framing/framing-3734.json';
+import productItem from '~/assets/data/products/product-3911.json';
+import eventItem from '~/assets/data/matches/match-282.json';
 
 export const state = () => ({
     orders: [],
