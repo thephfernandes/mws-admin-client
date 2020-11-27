@@ -3,7 +3,7 @@
     <v-card-title>Framing options</v-card-title>
     <v-card-subtitle>
       Framing id: {{ framing.ID }} <br>
-      Created at: {{ formatDate(order.OrderCreationDate) }}
+      Created at: {{ order.OrderCreationDate | dateFormat(true) }}
     </v-card-subtitle>
     <v-card-text>
       <v-row>
@@ -118,17 +118,6 @@ export default class OrdersFramingComponent extends Vue {
   updateFraming(): void {
     this.$store.dispatch('orders/updateFraming', this.framing);
     this.$router.push({name: 'orders'});
-  }
-
-  formatDate(string: string) {
-    const date = new Date(string);
-    const options = {
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric',
-      hour12: false,
-      timeZone: 'Europe/Amsterdam'
-    };
-    return new Intl.DateTimeFormat('nl-NL', options).format(date);
   }
 
   getAllFrameBorderColors() {

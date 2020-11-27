@@ -114,10 +114,10 @@
         <NuxtLink :to="`/customers/${item.id}`" class="link">{{item.id}}</NuxtLink>
       </template>
       <template v-slot:item.creation_date="{ item }">
-        {{ formatDate(item.creation_date) }}
+        {{ item.creation_date | dateFormat }}
       </template>
       <template v-slot:item.forgot_password_date="{ item }">
-        {{ formatDate(item.forgot_password_date) }}
+        {{ item.forgot_password_date | dateFormat }}
       </template>
       <template v-slot:item.status="{ item }">
         {{ getCustomerStatus(item.status) }}
@@ -280,16 +280,6 @@ export default class DataTable extends Vue {
 
   onCopy() {
     this.isCopied = true;
-  }
-
-  formatDate(string: string) {
-    const date = new Date(string);
-    const options = {
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour12: false,
-      timeZone: 'Europe/Amsterdam'
-    };
-    return new Intl.DateTimeFormat('nl-NL', options).format(date);
   }
 
   get countries() {

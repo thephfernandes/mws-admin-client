@@ -175,7 +175,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
             </template>
             <template v-slot:item.OrderCreationDate="{ item }">
-                {{ formatDate(item.OrderCreationDate) }}
+                {{ item.OrderCreationDate | dateFormat(true) }}
             </template>
             <template v-slot:item.UserCountry="{ item }">
                 {{item.UserCountry.toUpperCase()}}
@@ -308,18 +308,6 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
           if (this.searchMatch.toString() === value.toString()) {
             return value;
           }
-        }
-
-
-            formatDate(string: string) {
-            const date = new Date(string);
-            const options = {
-                year: 'numeric', month: 'numeric', day: 'numeric',
-                hour: 'numeric', minute: 'numeric',
-                hour12: false,
-                timeZone: 'Europe/Amsterdam'
-            };
-            return new Intl.DateTimeFormat('nl-NL', options).format(date);
         }
 
         updateHeaders(): void {
