@@ -64,7 +64,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api",
+    baseURL: process.env.DEV_API_URL,
     https: true,
     proxy: false
   },
