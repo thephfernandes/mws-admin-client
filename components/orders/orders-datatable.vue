@@ -1,4 +1,3 @@
-import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
       <v-card-text>
@@ -15,7 +14,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                         <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-text-field label="Search" outlined clearable />
+                        <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-card>
@@ -62,6 +61,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
                 :items="orders"
                 :headers="headers"
                 :footer-props="footerPropsOptions"
+                :search="search"
         >
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
@@ -237,6 +237,7 @@ import {ShippingStatusEnum} from "~/enums/shippingStatus";
         AllHeaders: boolean = false;
         searchCertificate: string = '';
         searchMatch: string = '';
+        search: string = '';
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
