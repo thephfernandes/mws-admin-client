@@ -68,7 +68,24 @@ export default class Index extends Vue {
   };
 
   private login(): void {
-    console.log("Username:", this.username, "\nPassword:", this.password);
+    this.$auth
+            .loginWith('local', {
+              data: {
+                Username: this.username,
+                Password: this.password
+              },
+              headers: {
+                'x-functions-key': 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+              }
+            })
+            .then((response: any) => {
+              if (response.status !== 200) return;
+              this.$auth.setUserToken(response.data);
+              this.$auth.setUser({userName: 'admin'});
+            })
+            .catch((error) => {
+              console.error(error);
+            });
   }
 }
 </script>

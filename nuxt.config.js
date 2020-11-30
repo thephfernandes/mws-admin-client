@@ -56,15 +56,32 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/style-resources"
+    "@nuxtjs/style-resources",
+    "@nuxtjs/auth"
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "https://jsonplaceholder.typicode.com",
+    baseURL: "https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api",
     https: true,
+    proxy: false
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: false }
+        },
+        tokenRequired: false,
+        autoFetchUser: false,
+        logout: false
+      }
+    }
+  },
+  router: {
+    middleware: ['auth']
   },
   /*
    ** vuetify module configuration
