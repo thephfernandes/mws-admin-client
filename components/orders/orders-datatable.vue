@@ -142,7 +142,16 @@
             </template>
             <template v-slot:item.Status="{ item }">
                 <div class="status-group">
-                    <v-chip small :color="item.OrderShirtPaid ? 'green' : 'red'" text-color="white">Paid</v-chip>
+                    <v-chip-group>
+                        <v-chip
+                                small
+                                :color="item.OrderShirtPaid ? 'green' : 'red'"
+                                text-color="white"
+                                @click="toggleShirtPaid(item)"
+                        >
+                            Paid
+                        </v-chip>
+                    </v-chip-group>
                     <v-chip
                             small
                             text-color="white" :color="item.UserAddress ? 'green' : 'red'"
@@ -154,7 +163,7 @@
                 </div>
             </template>
             <template v-slot:item.Shipping="{ item }">
-                <v-edit-dialog large @save="saveShippingStatus" @open="openShippingStatus(item)">
+                <v-edit-dialog large @save="saveShippingStatus" @open="setOrder(item)">
                     <v-chip-group>
                         <v-chip
                                 :color="
@@ -273,7 +282,7 @@
             this.createCustomHeaders();
         }
 
-        openShippingStatus(item: Order) {
+        setOrder(item: Order): void {
             this.order = Object.assign({}, item)
         }
 
@@ -282,8 +291,13 @@
             this.shippingStatus = true;
         }
 
+        toggleShirtPaid(item: Order): void {
+            this.$store.dispatch('orders/toggleShirtPaid', item.OrderID);
+            console.log(this.order.OrderShirtPaid);
+        }
+
         markAsShipped(item: Order) {
-            this.openShippingStatus(item);
+            this.setOrder(item);
             this.order.OrderShippingStatus = ShippingStatusEnum.Shipped;
             this.$store.dispatch('orders/updateShippingStatus', this.order);
             this.shippingStatus = true;
@@ -434,5 +448,6 @@
     }
     .status-group {
         display: flex;
+        align-items: center;
     }
 </style>
