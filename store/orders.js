@@ -52,7 +52,12 @@ export const mutations = {
         const o = state.orders.find((o) => o.OrderID === order.OrderID);
         o.OrderShippingStatus = order.OrderShippingStatus;
     },
+    toggleShirtPaid(state, orderId) {
+        const o = state.orders.find((o) => o.OrderID === orderId);
+        o.OrderShirtPaid = !o.OrderShirtPaid;
+    },
     updateOrder(state, order) {
+        console.log(order);
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
     },
@@ -82,5 +87,8 @@ export const actions = {
     },
     fillEvents({commit}) {
         commit('fillEvents', eventItem);
+    },
+    toggleShirtPaid({ commit }, orderId) {
+        commit('toggleShirtPaid', orderId);
     }
 };
