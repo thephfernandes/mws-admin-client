@@ -309,6 +309,7 @@
         resetFilters(): void {
           this.searchMatch = '';
           this.searchCertificate = '';
+          this.search = '';
         }
 
         getFramingStatus(status: number): string {
