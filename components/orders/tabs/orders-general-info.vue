@@ -82,6 +82,16 @@
         </v-row>
       </v-card-text>
     </div>
+    <v-card-text>
+      <v-row>
+        <v-col cols="12" md="6">
+          <event-card :eventId="order.MatchID" />
+        </v-col>
+        <v-col cols="12" md="6">
+          <customer-card :customerId="order.UserID" />
+        </v-col>
+      </v-row>
+    </v-card-text>
   </div>
 </template>
 <script lang="ts">
@@ -90,8 +100,15 @@ import {Order} from "~/models/order";
 import {FramingStatus} from "~/enums/framingStatus";
 import {PaymentMethods} from "~/enums/paymentMethod";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
+import CustomerCardComponent from "~/components/orders/cards/customer-card.vue";
+import EventCardComponent from "~/components/orders/cards/event-card.vue";
 
-@Component
+@Component({
+  components: {
+    'customer-card': CustomerCardComponent,
+    'event-card': EventCardComponent
+  }
+})
 export default class OrdersGeneralInfoComponent extends Vue {
   order: Order = new Order();
   invoiceSent: boolean = false;
@@ -137,5 +154,4 @@ export default class OrdersGeneralInfoComponent extends Vue {
     this.$router.back();
   }
 }
-
 </script>

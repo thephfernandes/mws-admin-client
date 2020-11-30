@@ -1,10 +1,14 @@
 /*jshint esversion: 8*/
 import ordersData from '~/assets/data/orders.json';
-import framingItem from '~/assets/data/framing-3734.json'
+import framingItem from '~/assets/data/framing/framing-3734.json';
+import productItem from '~/assets/data/products/product-3911.json';
+import eventItem from '~/assets/data/matches/match-282.json';
 
 export const state = () => ({
     orders: [],
-    framing: []
+    framing: [],
+    products: [],
+    events: []
 });
 
 export const getters = {
@@ -20,6 +24,13 @@ export const getters = {
     },
     getFraming: (state) => (id) => {
         return state.framing.find((f) => f.ID === id);
+    },
+    getProduct: (state) => (id) => {
+        return state.products.find((p) => p.ID === id);
+    },
+    getEvent: (state) => (id) => {
+        return state.events.find((e) => e.id === id);
+
     }
 };
 
@@ -34,6 +45,9 @@ export const mutations = {
         const i = state.framing.findIndex((f) => f.ID === frame.ID);
         state.framing[i] = frame;
     },
+    fillProducts(state, payload) {
+        state.products.push(payload);
+    },
     updateShippingStatus(state, order) {
         const o = state.orders.find((o) => o.OrderID === order.OrderID);
         o.OrderShippingStatus = order.OrderShippingStatus;
@@ -41,6 +55,9 @@ export const mutations = {
     updateOrder(state, order) {
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
+    },
+    fillEvents(state, payload) {
+        state.events.push(payload);
     }
 };
 
@@ -54,10 +71,16 @@ export const actions = {
     updateFraming({ commit }, framingItem) {
         commit('updateFraming', framingItem);
     },
+    fillProducts({ commit }) {
+        commit('fillProducts', productItem);
+    },
     updateShippingStatus({ commit }, order) {
         commit('updateShippingStatus', order);
     },
     updateOrder({ commit }, order) {
         commit('updateOrder', order);
+    },
+    fillEvents({commit}) {
+        commit('fillEvents', eventItem);
     }
 };
