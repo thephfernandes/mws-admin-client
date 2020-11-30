@@ -1,5 +1,3 @@
-import {ShippingStatusEnum} from "~/enums/shippingStatus";
-import {ShippingStatusEnum} from "~/enums/shippingStatus";
 <template>
     <div class="orders-data">
       <v-card-text>
