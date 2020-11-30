@@ -1,0 +1,55 @@
+{
+    "profile": {
+        "name": "Steve"
+    },
+    "menu": [
+        {
+            "name": "Home",
+            "icon": "mdi-home",
+            "to": "/"
+        },
+        {
+            "name": "Content Management",
+            "icon": "mdi-cog",
+            "to": "",
+            "children": [
+                {
+                    "name": "Slider Images",
+                    "to": "/manage/slides"
+                },
+                {
+                    "name": "Featured Matches",
+                    "to": "/manage/featured"
+                }
+            ]
+        },
+        {
+            "name": "Customers",
+            "icon": "mdi-account-details",
+            "to": "/customers"
+        },
+        {
+            "name": "Orders",
+            "icon": "mdi-clipboard-list",
+            "to": "/orders"
+        }
+    ],
+    "sliders": [
+        {
+            "image": "https://elencos.com.br/wp-content/uploads/2019/07/Sele%C3%A7%C3%A3o-Brasileira-de-2002.jpg",
+            "text": "You can do it!"
+        },
+        {
+            "image": "https://i.imgur.com/1PYj6xx.jpg",
+            "text": "This shirt is awesome"
+        },
+        {
+            "image": "https://thumbs.dreamstime.com/b/funny-singing-nun-12375578.jpg",
+            "text": "Did I leave the stove on?"
+        },
+        {
+            "image": "https://exclaim.ca/images/kanye-2020.jpg",
+            "text": "Kanye 2020"
+        }
+    ]
+}

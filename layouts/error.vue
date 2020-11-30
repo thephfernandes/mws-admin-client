@@ -1,36 +1,23 @@
 <template>
   <v-app>
-    <v-img src="/404.GIF" alt="404 gif" contain="true" max-height="200" />
+    <v-img src="/404.GIF" alt="404 gif" :contain="true" max-height="200" />
     <v-alert type="error">
-      <h1 v-if="error.statusCode === 404">{{ pageNotFound }}</h1>
-      <h1 v-else>{{ otherError }}</h1>
+      <h1>{{ error.statusCode }} {{ error.message }}</h1>
     </v-alert>
-    <v-btn nuxt="true" to="/">Home page</v-btn>
+    <v-btn :nuxt="true" to="/">Home page</v-btn>
   </v-app>
 </template>
 
-<script>
-export default {
-  layout: "mws",
-  props: {
-    error: {
-      type: Object,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      pageNotFound: "404 Not Found",
-      otherError: "An error occurred",
-    };
-  },
-  head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
-    return {
-      title,
-    };
-  },
+<script lang="ts">
+  import {Component, Prop, Vue} from "nuxt-property-decorator";
+
+@Component
+export default class Error extends Vue {
+  @Prop({ type: Object, required: false }) readonly error!: Object;
+
+  layout() {
+    return 'mws';
+  }
 };
 </script>
 
