@@ -27,7 +27,7 @@
         Shipping details
       </v-tab-item>
       <v-tab-item>
-        Products
+        <product-component :orderId="orderId" />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -36,11 +36,13 @@
 import { Vue, Component } from "nuxt-property-decorator";
 import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
 import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
+import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
 
 @Component({
   components: {
     'general-info-component': OrderGeneralInfoComponent,
-    'framing-component': OrderFramingComponent
+    'framing-component': OrderFramingComponent,
+    'product-component': OrdersProductsComponent
   }
 })
 export default class extends Vue {

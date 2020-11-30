@@ -57,7 +57,7 @@
                             Account created:
                         </v-list-item-action>
                         <v-list-item-content>
-                            {{formatDate(customer.creation_date)}}
+                            {{customer.creation_date | dateFormat(true)}}
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item>
@@ -65,7 +65,7 @@
                             Forgot password date:
                         </v-list-item-action>
                         <v-list-item-content>
-                            {{formatDate(customer.forgot_password_date)}}
+                            {{customer.forgot_password_date | dateFormat(true)}}
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item>
@@ -159,16 +159,6 @@ export default class DetailModalCustomer extends Vue {
 
     get note() {
         return this.$store.getters['customers/getNote'](this.customer.id);
-    }
-
-    formatDate(string: string): string {
-        const date = new Date(string);
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const day = date.getDay();
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-        return `${day}-${month}-${year} ${hour}:${minute}`;
     }
 }
 </script>

@@ -14,7 +14,7 @@
                         <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-text-field label="Search" outlined clearable />
+                        <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-card>
@@ -61,6 +61,7 @@
                 :items="orders"
                 :headers="headers"
                 :footer-props="footerPropsOptions"
+                :search="search"
         >
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
@@ -189,7 +190,7 @@
                 <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
             </template>
             <template v-slot:item.OrderCreationDate="{ item }">
-                {{ formatDate(item.OrderCreationDate) }}
+                {{ item.OrderCreationDate | dateFormat(true) }}
             </template>
             <template v-slot:item.UserCountry="{ item }">
                 {{item.UserCountry.toUpperCase()}}
@@ -259,6 +260,7 @@
         searchCertificate: string = '';
         searchMatch: string = '';
         shippingDetail: boolean = false;
+        search: string = '';
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -335,18 +337,6 @@
           if (this.searchMatch.toString() === value.toString()) {
             return value;
           }
-        }
-
-
-            formatDate(string: string) {
-            const date = new Date(string);
-            const options = {
-                year: 'numeric', month: 'numeric', day: 'numeric',
-                hour: 'numeric', minute: 'numeric',
-                hour12: false,
-                timeZone: 'Europe/Amsterdam'
-            };
-            return new Intl.DateTimeFormat('nl-NL', options).format(date);
         }
 
         updateHeaders(): void {

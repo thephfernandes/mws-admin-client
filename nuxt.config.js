@@ -38,7 +38,8 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-      '~/plugins/vue-tel-input'
+      '~/plugins/vue-tel-input',
+      '~/plugins/dateFormat'
   ],
   /*
    ** Auto import components
