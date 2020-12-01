@@ -12,8 +12,8 @@ export default {
    */
   target: "server",
   env: {
-    api_url: process.env.API_URL || '#{API_URL}#',
-    xFunctionsKey: process.env.X_FUNCTIONS_KEY || '#{X_FUNCTIONS_KEY}#'
+    api_url: process.env.API_URL || 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api',
+    xFunctionsKey: process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
   },
   /*
    ** Headers of the page
@@ -68,7 +68,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.api_url,
+    baseURL: process.env.API_URL || 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api',
     https: true,
     proxy: false
   },
