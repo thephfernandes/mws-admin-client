@@ -1,50 +1,51 @@
 <template>
-  <div class="background">
-    <v-container class="login">
-      <v-row justify="center" align="center">
-        <v-col justify="center" cols="7">
-          <v-card raised outlined tile dark class="justify-center">
+  <div>
+    <v-row justify="center" align="center">
+      <v-col cols="12" md="8">
+        <v-card raised outlined tile dark>
+          <v-card-text>
+            <v-img :src="require('~/assets/logo-shirt.png')" contain />
             <v-form class="login-form">
               <v-row justify="center">
                 <v-col cols="8">
+                  <v-alert color="red" v-if="errorMessage">{{errorMessage}}</v-alert>
+                </v-col>
+                <v-col cols="8">
                   <v-text-field
-                    label="username"
-                    v-model="username"
-                    :rules="[rules.required]"
-                  ></v-text-field>
+                          prepend-icon="mdi-account"
+                          label="Username"
+                          v-model="username"
+                          :rules="[rules.required]"
+                  />
                 </v-col>
               </v-row>
               <v-row justify="center">
                 <v-col cols="8">
                   <v-text-field
-                    label="password"
-                    v-model="password"
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="[rules.required, rules.min]"
-                    :type="show ? 'text' : 'password'"
-                    @click:append="show = !show"
-                  ></v-text-field> 
+                          prepend-icon="mdi-lock"
+                          label="Password"
+                          v-model="password"
+                          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                          :rules="[rules.required, rules.min]"
+                          :type="show ? 'text' : 'password'"
+                          @click:append="show = !show"
+                  />
                 </v-col>
               </v-row>
               <v-row justify="center">
-                <v-col cols="12">
+                <v-col cols="8">
                   <v-card-actions>
-                    <v-btn color="white lighten-2" text @click="login">
+                    <v-btn dark @click="login" block>
                       Login
                     </v-btn>
                   </v-card-actions>
                 </v-col>
               </v-row>
-              <!-- <v-row v-if="error.statusCode === 401">
-                <v-col>
-                  Invalid Credentials
-                </v-col>
-              </v-row> -->
             </v-form>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -57,6 +58,7 @@ export default class Index extends Vue {
   username: string = "";
   password: string = "";
   errors: string[] = [];
+  errorMessage: string = '';
 
   layout() {
     return "login";
@@ -68,31 +70,24 @@ export default class Index extends Vue {
   };
 
   private login(): void {
-    console.log("Username:", this.username, "\nPassword:", this.password);
+    this.$auth
+            .loginWith('local', {
+              data: {
+                Username: this.username,
+                Password: this.password
+              },
+              headers: {
+                'x-functions-key': process.env.xFunctionsKey
+              }
+            })
+            .then((response: any) => {
+              if (response.status !== 200) return;
+              this.$auth.setUser({userName: 'admin'});
+            })
+            .catch((error) => {
+              this.errorMessage = 'Error occurred';
+              console.error(error);
+            });
   }
 }
 </script>
-
-<style scoped>
-.background {
-  background-image: url("~assets/logo-shirt.png");
-  background-position: center;
-  height: 100%;
-}
-
-.v-card__actions {
-  justify-content: center;
-}
-
-.login {
-  padding-top: 80px;
-}
-
-.login-form {
-  padding: 2rem 1rem;
-}
-
-.v-btn {
-  width: 70%;
-}
-</style>

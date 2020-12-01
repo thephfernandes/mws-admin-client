@@ -17,3 +17,8 @@ spec:
           image: containerregistrymwsdevelopment.azurecr.io/adminportaldevelopment
           ports:
           - containerPort: 80
+          env:
+            - name: API_URL
+              value: "https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api"
+            - name: X_FUNCTIONS_KEY
+              value: "JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw"
