@@ -20,6 +20,10 @@
                 {
                     "name": "Featured Matches",
                     "to": "/manage/featured"
+                },
+                {
+                  "name": "News",
+                  "to": "/manage/news"
                 }
             ]
         },

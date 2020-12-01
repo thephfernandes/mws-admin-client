@@ -1,0 +1,24 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "Title": "This is a title",
+      "PreviewText": "Preview that you can write which is a paragraph that the user sees just below the title before clicking and opening the whole blogpost.",
+      "Content": "<h1>Money money money,</h1><h2>Must be funny,</h2><h3>In a rich man's world</h3>",
+      "Writer": "mws dev team",
+      "Tags": "you belong,with,me",
+      "Published": true,
+      "Created": "2020/11/30 15:41"
+    },
+    {
+      "id": 2,
+      "Title": "This is another title",
+      "PreviewText": "Preview that you can write which is a paragraph that the user sees just below the title before clicking and opening the whole blogpost.",
+      "Content": "<h1>Money money money,</h1><h2>Must be funny,</h2><h3>In a rich man's world</h3>",
+      "Writer": "mws dev team 222",
+      "Tags": "teardrops,on my,guitar",
+      "Published": false,
+      "Created": "2020/11/30 15:46"
+    }
+  ]
+}
