@@ -78,7 +78,11 @@ export default {
         endpoints: {
           login: { url: '/auth/login', method: 'post', propertyName: 'token' }
         },
-        tokenRequired: false,
+        redirect: {
+          login: '/login',
+          home: '/'
+        },
+        tokenRequired: true,
         autoFetchUser: false,
         logout: false
       }
