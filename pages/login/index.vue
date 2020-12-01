@@ -77,7 +77,7 @@ export default class Index extends Vue {
                 Password: this.password
               },
               headers: {
-                'x-functions-key': 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+                'x-functions-key': process.env.xFunctionsKey
               }
             })
             .then((response: any) => {
@@ -87,7 +87,7 @@ export default class Index extends Vue {
               this.$auth.setUser({userName: 'admin'});
             })
             .catch((error) => {
-              this.errorMessage = error;
+              this.errorMessage = 'Error occurred';
               console.error(error);
             });
   }

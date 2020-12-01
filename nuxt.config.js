@@ -11,6 +11,10 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: "server",
+  env: {
+    api_url: process.env.API_URL || '#{API_URL}#',
+    xFunctionsKey: process.env.X_FUNCTIONS_KEY || '#{X_FUNCTIONS_KEY}#'
+  },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -64,7 +68,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.DEV_API_URL,
+    baseURL: process.env.api_url,
     https: true,
     proxy: false
   },
@@ -72,7 +76,7 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: false }
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' }
         },
         tokenRequired: false,
         autoFetchUser: false,
@@ -110,7 +114,6 @@ export default {
   */
   styleResources: {
     scss: ["~/assets/scss/main.scss"]
-
   },
   /*
    ** Build configuration
