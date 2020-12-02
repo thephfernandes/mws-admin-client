@@ -193,10 +193,10 @@
                 <nuxt-link :to="`/products/${item.PlayerID}`" class="link">{{item.PlayerName}}</nuxt-link>
             </template>
             <template v-slot:item.UserMail="{ item }">
-                <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
-            </template>
-            <template v-slot:item.UserMail="{ item }">
-                <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
+                <nuxt-link :to="`/customers/${item.UserID}`" class="link">
+                  {{item.UserMail}}
+                </nuxt-link>
+              ({{ getCountryName(item.UserCountry) }})
             </template>
             <template v-slot:item.OrderCreationDate="{ item }">
                 {{ item.OrderCreationDate | dateFormat(true) }}
@@ -248,6 +248,7 @@
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
     import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
+    import Country from "~/assets/data/countries.json";
 
     @Component({
         components: {
@@ -284,6 +285,11 @@
 
         setOrder(item: Order): void {
             this.order = Object.assign({}, item)
+        }
+
+        getCountryName(countryCode: string): string {
+          const c = Country.find((c) => c.value === countryCode.toUpperCase());
+          return c ? c.text : 'Unknown country';
         }
 
         saveShippingStatus() {
@@ -412,10 +418,6 @@
                     text: 'Club Name',
                     value: 'ClubName',
                     width: 200
-                },
-                {
-                    text: 'User Country',
-                    value: 'UserCountry'
                 },
                 {
                     text: 'Price',
