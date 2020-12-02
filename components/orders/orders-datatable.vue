@@ -97,36 +97,6 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
-                                v-if="!item.UserAddress"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-google-maps
-                        </v-icon>
-                    </template>
-                    <span>Send address reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="!item.OrderShirtPaid"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-credit-card-clock-outline
-                        </v-icon>
-                    </template>
-                    <span>Send payment reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
                                 v-if="item.OrderShippingStatus !== 3"
                                 small
                                 class="ml-2"
@@ -199,20 +169,7 @@
                     </span>
                 </v-chip>
             </template>
-            <template v-slot:item.OrderAddressReminder="{ item }">
-                <v-chip small>
-                    <v-icon small class="mr-2">mdi-google-maps</v-icon>
-                    {{item.OrderAddressReminder}}
-                </v-chip>
-                <v-chip small class="mt-1">
-                    <v-icon small class="mr-2">mdi-credit-card-clock-outline</v-icon>
-                    {{item.OrderPaymentReminder}}
-                </v-chip>
-            </template>
         </v-data-table>
-        <v-snackbar v-model="reminder" :timeout="500">
-            Reminder sent.
-        </v-snackbar>
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
@@ -233,7 +190,6 @@
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
         };
-        reminder: boolean = false;
         shippingStatus: boolean = false;
         order: Order = new Order();
         headers: Array<Object> = [];
@@ -402,10 +358,6 @@
                 {
                     text: 'Opponent',
                     value: 'Opponent'
-                },
-                {
-                    text: 'Reminder',
-                    value: 'OrderAddressReminder'
                 }
             ]
         }
