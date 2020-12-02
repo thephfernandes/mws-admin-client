@@ -136,7 +136,7 @@ export default class EditPost extends Vue {
   };
 
   created() {
-    this.id = parseInt(this.$route.params.editpost);
+    this.id = parseInt(this.$route.params.id);
     this.create = this.id === 0;
     this.getPost();
     this.getFilesForPost();
