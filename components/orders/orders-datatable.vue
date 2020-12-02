@@ -141,28 +141,7 @@
                 </v-tooltip>
             </template>
             <template v-slot:item.Status="{ item }">
-                <div class="status-group">
-                    <v-chip-group>
-                        <v-chip
-                                small
-                                :color="item.OrderShirtPaid ? 'green' : 'red'"
-                                text-color="white"
-                                @click="toggleShirtPaid(item)"
-                        >
-                            Paid
-                        </v-chip>
-                    </v-chip-group>
-                  <v-badge content="2">
-                    <v-chip
-                            small
-                            text-color="white" :color="item.UserAddress ? 'green' : 'red'"
-                            class="ml-2"
-                    >
-                        Address
-                    </v-chip>
-                  </v-badge>
-                    <v-icon v-if="item.OrderNotes" class="ml-2">mdi-note-text</v-icon>
-                </div>
+                <order-status :order="item" />
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-edit-dialog large @save="saveShippingStatus" @open="setOrder(item)">
@@ -238,25 +217,18 @@
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
         <v-dialog v-model="shippingDetail" max-width="500px">
-            <shipping-detail />
+            <shipping-detail-modal />
         </v-dialog>
     </div>
 </template>
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
     import {IOrder} from "~/interfaces/IOrder";
-    import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
-    import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
 
-    @Component({
-        components: {
-            Datatable,
-            'shipping-detail': ShippingDetailModalComponent
-        }
-    })
+    @Component
     export default class OrdersTableComponent extends Vue {
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
@@ -291,11 +263,6 @@
         saveShippingStatus() {
             this.$store.dispatch('orders/updateShippingStatus', this.order);
             this.shippingStatus = true;
-        }
-
-        toggleShirtPaid(item: Order): void {
-            this.$store.dispatch('orders/toggleShirtPaid', item.OrderID);
-            console.log(this.order.OrderShirtPaid);
         }
 
         markAsShipped(item: Order) {
