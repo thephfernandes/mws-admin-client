@@ -24,7 +24,7 @@
       >
         <v-card-text class="text-subtitle-1 font-weight-bold text--primary">
           <div>
-            Are you sure you want to delete?
+            Are you sure you want to delete or you just accidentally pressed on the button?
           </div>
         </v-card-text>
         <v-card-actions class="pt-0">

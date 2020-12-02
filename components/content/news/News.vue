@@ -1,14 +1,22 @@
 <template>
   <v-container class="news-table">
+    <nuxt-link
+      :to="'/manage/news/editpost/0'"
+      title="Create a new post"
+    >
+      <v-btn color="primary" class="new-post">
+        Create a new post
+      </v-btn>
+    </nuxt-link>
     <v-data-table :headers="tableHeaders" :items="posts">
       <template v-slot:body="props">
-        <tr v-for="(item) in props.items" :key="item.id">
-          <td class="text-center">{{ item.id }}</td>
+        <tr v-for="item in props.items" :key="item.Id">
+          <td class="text-center">{{ item.Id }}</td>
           <td>
             <div class="font-weight-bold text-h6">
               {{ item.Title }}
               <nuxt-link
-                :to="'/manage/news/editpost/' + item.id"
+                :to="'/manage/news/editpost/' + item.Id"
                 class="v-btn v-btn--container ml-auto"
                 title="Edit this post"
               >
@@ -58,11 +66,14 @@ export default class MatchTable extends Vue {
 </script>
 
 <style>
-
 .v-data-table-header th,
 .news-table td div,
 .news-table td {
   padding: 0.5rem;
+}
+
+.news-table .new-post {
+  margin-bottom: 1rem;
 }
 
 </style>

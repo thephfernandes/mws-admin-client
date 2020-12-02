@@ -1,10 +1,11 @@
 <template>
   <v-form>
     <v-container class="edit-news">
-      <div class="font-weight-bold">Editing post ID {{ id }}</div>
+      <div v-if="create" class="font-weight-bold">Create a new post</div>
+      <div v-else class="font-weight-bold">Editing post ID {{ id }}</div>
       <br />
       <v-card outlined>
-        <EditNews @save-post="savePost" @delete-post="deletePost"/>
+        <FinishEdit @save-post="savePost" @delete-post="deletePost" />
         <v-checkbox
           v-model="post.Published"
           label="Published"
@@ -56,79 +57,161 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-text-field
-              label="Image"
-              placeholder="How does this thing work hmm"
+            <v-select
+              label="Preview Image"
+              placeholder="Preview Image"
               outlined
               hide-details="auto"
+              :items="fileNames"
+              v-model="post.PreviewImage"
+              :disabled="!fileNames.length"
             />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-textarea
-              label="Tinymce not working"
-              placeholder="Tinymce"
-              outlined
-              hide-details="auto"
-              v-model="post.Content"
+            <v-img
+              contain
+              v-if="post.PreviewImage"
+              :src="
+                'https://matchwornshirt.imgix.net/news/' +
+                  this.id +
+                  '/' +
+                  post.PreviewImage
+              "
+              max-height="400"
             />
           </v-col>
         </v-row>
-        <EditNews @save-post="savePost" @delete-post="deletePost"/>
+        <v-row>
+          <v-col cols="12">
+            <div class="text-body-1 news-content">Post Content</div>
+            <Editor
+              api-key="no-api-key"
+              v-model="post.Content"
+              :init="editorInit"
+            />
+          </v-col>
+        </v-row>
+        <FinishEdit @save-post="savePost" @delete-post="deletePost" />
       </v-card>
     </v-container>
   </v-form>
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
 import Posts from "@/components/content/news/News.vue";
-import EditNews from "@/components/content/news/EditNews.vue";
-// import Editor from "@tinymce/tinymce-vue";
+import FinishEdit from "@/components/content/news/FinishEdit.vue";
+import Editor from "@tinymce/tinymce-vue";
 
-interface keyable { 
+interface keyable {
   [key: string]: any;
 }
 
 @Component({
   components: {
     Posts,
-    EditNews,
-  }
+    FinishEdit,
+    Editor,
+  },
 })
-
 export default class EditPost extends Vue {
   private id = 0;
+  private create = false;
   private post: keyable = {};
+  private fileUrls: string[] = [];
+  private fileNames: string[] = [];
+  private API_URL = "https://mws-cms-api.herokuapp.com";
+  private editorInit = {
+    images_upload_url: "/upload",
+    image_title: true,
+    plugins: [
+      "advlist autolink autoresize lists link image charmap print preview anchor",
+      "searchreplace visualblocks code fullscreen",
+      "insertdatetime media table paste code help wordcount",
+    ],
+    images_upload_handler: "",
+  };
 
   created() {
     this.id = parseInt(this.$route.params.editpost);
+    this.create = this.id === 0;
     this.getPost();
+    this.getFilesForPost();
+  }
+
+  getFilesForPost() {
+    axios // replace "API_URL" with actual url
+      .get(this.API_URL + `/api/v1/news/${this.id}/files`)
+      .then((response) => {
+        this.fileUrls = response.data;
+        this.setFileNames();
+      });
+  }
+
+  setFileNames() {
+    for (const file of this.fileUrls) {
+      let name = file.replace(
+        "https://matchwornshirt.imgix.net/news/" + this.id + "/",
+        ""
+      );
+      this.fileNames.push(name);
+    }
   }
 
   getPost() {
-    let file = require("../posts.json");
-    let post = file.posts.find((post: keyable) => post.id === this.id);
-    this.post = post;
+    if (!this.create) {
+      // will be replaced with real API
+      let file = require("../posts.json");
+      let post = file.posts.find((post: keyable) => post.Id === this.id);
+      this.post = {
+        ...post,
+        PreviewImage: post.PreviewImage.replace(
+          "https://matchwornshirt.imgix.net/news/" + this.id + "/",
+          ""
+        ),
+      };
+    } else {
+      this.post = {
+        Id: 0,
+        Title: "",
+        PreviewText: "",
+        Content: "",
+        Writer: "",
+        Tags: "",
+        Published: false,
+        Created: "",
+        PreviewImage: "",
+      };
+    }
   }
 
   savePost() {
-    if (this.checkTags()) {
-      alert("Please do not use any apostrophe characters in the tags");
-      return;
+    if (this.checkPost()) {
+      alert("Saving posts");
     }
-    alert("Saving posts");
   }
 
   deletePost() {
     alert("Deleting posts");
   }
 
-  checkTags() {
-    return this.post.Tags.indexOf("'") >= 0 || this.post.Tags.indexOf('"') >= 0
-      ? true
-      : false;
+  checkPost() {
+    if (!this.post.Title || !this.post.Writer) {
+      alert(
+        "To create a new news post, please enter at least a title and the writer name"
+      );
+      return false;
+    } else if (
+      this.post.Tags.indexOf("'") >= 0 ||
+      this.post.Tags.indexOf('"') >= 0
+    ) {
+      alert("Please do not use any apostrophe characters in the tags");
+      return false;
+    }
+    return true;
   }
 
   layout() {
@@ -148,5 +231,9 @@ export default class EditPost extends Vue {
 
 .v-input--selection-controls__input label {
   color: #333;
+}
+
+.news-content {
+  margin-bottom: 0.5rem;
 }
 </style>
