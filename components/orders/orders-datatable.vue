@@ -152,6 +152,7 @@
                             Paid
                         </v-chip>
                     </v-chip-group>
+                  <v-badge content="2">
                     <v-chip
                             small
                             text-color="white" :color="item.UserAddress ? 'green' : 'red'"
@@ -159,6 +160,7 @@
                     >
                         Address
                     </v-chip>
+                  </v-badge>
                     <v-icon v-if="item.OrderNotes" class="ml-2">mdi-note-text</v-icon>
                 </div>
             </template>
