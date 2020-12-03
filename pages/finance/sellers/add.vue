@@ -29,9 +29,6 @@
                         <v-col cols="12" md="6">
                             <v-text-field v-model="seller.website" label="Website" outlined />
                         </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field v-model="seller.nextInvoiceId" label="Next InvoiceId" outlined />
-                        </v-col>
                     </v-row>
                     <v-card-actions>
                         <v-row justify="space-around">
