@@ -97,36 +97,6 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
-                                v-if="!item.UserAddress"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-google-maps
-                        </v-icon>
-                    </template>
-                    <span>Send address reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="!item.OrderShirtPaid"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-credit-card-clock-outline
-                        </v-icon>
-                    </template>
-                    <span>Send payment reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
                                 v-if="item.OrderShippingStatus !== 3"
                                 small
                                 class="ml-2"
@@ -141,26 +111,7 @@
                 </v-tooltip>
             </template>
             <template v-slot:item.Status="{ item }">
-                <div class="status-group">
-                    <v-chip-group>
-                        <v-chip
-                                small
-                                :color="item.OrderShirtPaid ? 'green' : 'red'"
-                                text-color="white"
-                                @click="toggleShirtPaid(item)"
-                        >
-                            Paid
-                        </v-chip>
-                    </v-chip-group>
-                    <v-chip
-                            small
-                            text-color="white" :color="item.UserAddress ? 'green' : 'red'"
-                            class="ml-2"
-                    >
-                        Address
-                    </v-chip>
-                    <v-icon v-if="item.OrderNotes" class="ml-2">mdi-note-text</v-icon>
-                </div>
+                <order-status :order="item" />
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-edit-dialog large @save="saveShippingStatus" @open="setOrder(item)">
@@ -218,49 +169,29 @@
                     </span>
                 </v-chip>
             </template>
-            <template v-slot:item.OrderAddressReminder="{ item }">
-                <v-chip small>
-                    <v-icon small class="mr-2">mdi-google-maps</v-icon>
-                    {{item.OrderAddressReminder}}
-                </v-chip>
-                <v-chip small class="mt-1">
-                    <v-icon small class="mr-2">mdi-credit-card-clock-outline</v-icon>
-                    {{item.OrderPaymentReminder}}
-                </v-chip>
-            </template>
         </v-data-table>
-        <v-snackbar v-model="reminder" :timeout="500">
-            Reminder sent.
-        </v-snackbar>
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
         <v-dialog v-model="shippingDetail" max-width="500px">
-            <shipping-detail />
+            <shipping-detail-modal />
         </v-dialog>
     </div>
 </template>
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
     import {IOrder} from "~/interfaces/IOrder";
-    import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
     import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
     import Country from "~/assets/data/countries.json";
 
-    @Component({
-        components: {
-            Datatable,
-            'shipping-detail': ShippingDetailModalComponent
-        }
-    })
+    @Component
     export default class OrdersTableComponent extends Vue {
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
         };
-        reminder: boolean = false;
         shippingStatus: boolean = false;
         order: Order = new Order();
         headers: Array<Object> = [];
@@ -295,11 +226,6 @@
         saveShippingStatus() {
             this.$store.dispatch('orders/updateShippingStatus', this.order);
             this.shippingStatus = true;
-        }
-
-        toggleShirtPaid(item: Order): void {
-            this.$store.dispatch('orders/toggleShirtPaid', item.OrderID);
-            console.log(this.order.OrderShirtPaid);
         }
 
         markAsShipped(item: Order) {
@@ -435,10 +361,6 @@
                 {
                     text: 'Opponent',
                     value: 'Opponent'
-                },
-                {
-                    text: 'Reminder',
-                    value: 'OrderAddressReminder'
                 }
             ]
         }
