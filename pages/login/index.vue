@@ -78,9 +78,6 @@ export default class Index extends Vue {
               data: {
                 Username: this.username,
                 Password: this.password
-              },
-              headers: {
-                'x-functions-key': process.env.xFunctionsKey
               }
             })
             .then((response: any) => {
