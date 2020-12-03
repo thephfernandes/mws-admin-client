@@ -69,6 +69,14 @@ export default {
    */
   axios: {
     baseURL: process.env.API_URL || 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api',
+    headers: {
+      get: {
+        'x-functions-key': process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+      },
+      post: {
+        'x-functions-key': process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+      }
+    },
     https: true,
     proxy: false
   },
