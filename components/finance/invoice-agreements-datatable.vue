@@ -10,6 +10,30 @@
         <template v-slot:item.sellerId="{item}">
             <nuxt-link :to="`/finance/sellers/${item.sellerId}`" class="link">{{item.seller.name}}</nuxt-link>
         </template>
+        <template v-slot:item.thirdPartyVatPercentage="{item}">
+            {{formatPercentage(item.thirdPartyVatPercentage)}}
+        </template>
+        <template v-slot:item.paymentHandlingPercentage="{item}">
+            {{formatPercentage(item.paymentHandlingPercentage)}}
+        </template>
+        <template v-slot:item.shippingInsurancePercentage="{item}">
+            {{formatPercentage(item.shippingInsurancePercentage)}}
+        </template>
+        <template v-slot:item.shippingFlatFee="{item}">
+            &euro; {{formatCurrency(item.shippingFlatFee)}}
+        </template>
+        <template v-slot:item.mwsHandlingPercentage="{item}">
+            {{formatPercentage(item.mwsHandlingPercentage)}}
+        </template>
+        <template v-slot:item.mwsAuctionPercentage="{item}">
+            {{formatPercentage(item.shippingFlatFee)}}
+        </template>
+        <template v-slot:item.mwsVatPercentage="{item}">
+            {{formatPercentage(item.mwsVatPercentage)}}
+        </template>
+        <template v-slot:item.mwsSetupFee="{item}">
+            &euro; {{formatCurrency(item.mwsSetupFee)}}
+        </template>
     </v-data-table>
 </template>
 <script lang="ts">
@@ -22,6 +46,14 @@ export default class InvoiceAgreementsDatatableComponent extends Vue {
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
+
+    formatPercentage(value: number): string {
+        return `${value.toFixed(2)} %`;
+    }
+
+    formatCurrency(amount: number): string {
+        return amount.toFixed(2).replace('.', ',');
+    }
 
     get headers() {
         return [
