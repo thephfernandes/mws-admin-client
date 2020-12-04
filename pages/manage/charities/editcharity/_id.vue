@@ -14,7 +14,7 @@
               outlined
               hide-details="auto"
               v-model="charity.title"
-              class="news-title"
+              class="charity-title"
             >
             </v-text-field>
           </v-col>
@@ -93,7 +93,7 @@ export default class EditCharity extends Vue {
   padding: 0.5rem;
 }
 
-.news-title input {
+.charity-title input {
   font-weight: bold;
 }
 
@@ -101,7 +101,4 @@ export default class EditCharity extends Vue {
   color: #333;
 }
 
-.news-content {
-  margin-bottom: 0.5rem;
-}
 </style>
