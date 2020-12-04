@@ -24,10 +24,10 @@
       @click:row="editCharity"
     >
       <template v-slot:item.description="{ item }">
-      <div class="text-justify">
-        {{ item.description }}
-      </div>
-    </template>
+        <div class="text-justify">
+          {{ item.description }}
+        </div>
+      </template>
     </v-data-table>
     <br />
     <v-row>
@@ -80,10 +80,16 @@ export default class Charities extends Vue {
   @Prop() total!: "";
   @Prop() total_last_month!: "";
   private search = "";
-  
+
   private tableHeaders = [
     { text: "ID", sortable: true, align: "center", value: "id", width: "4rem" },
-    { text: "Title", sortable: true, align: "center", value: "title", width: "10rem" },
+    {
+      text: "Title",
+      sortable: true,
+      align: "center",
+      value: "title",
+      width: "10rem",
+    },
     {
       text: "Raised",
       sortable: true,

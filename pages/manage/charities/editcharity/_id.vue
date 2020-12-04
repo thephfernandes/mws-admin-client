@@ -50,7 +50,6 @@ import FinishEdit from "@/components/shared/FinishEdit.vue";
 export default class EditCharity extends Vue {
   private id = 0;
   private create = false;
-  private API_URL = "https://mws-cms-api.herokuapp.com";
   
   created() {
     this.id = parseInt(this.$route.params.id);
