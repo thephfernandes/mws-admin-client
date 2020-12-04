@@ -24,6 +24,10 @@
                 {
                   "name": "News",
                   "to": "/manage/news"
+                },
+                {
+                  "name": "Charities",
+                  "to": "/manage/charities"
                 }
             ]
         },

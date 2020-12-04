@@ -45,14 +45,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator";
-import draggable from "vuedraggable";
 
 @Component({
   components: {
-    draggable,
   },
 })
-export default class MatchTable extends Vue {
+export default class News extends Vue {
   @Prop() posts!: [];
 
   private tableHeaders = [

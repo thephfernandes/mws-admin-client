@@ -102,8 +102,7 @@
 <script lang="ts">
 import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
-import Posts from "@/components/content/news/News.vue";
-import FinishEdit from "@/components/content/news/FinishEdit.vue";
+import FinishEdit from "@/components/content/news/UploadNews.vue";
 import Editor from "@tinymce/tinymce-vue";
 
 interface keyable {
@@ -112,7 +111,6 @@ interface keyable {
 
 @Component({
   components: {
-    Posts,
     FinishEdit,
     Editor,
   },
