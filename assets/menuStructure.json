@@ -41,6 +41,10 @@
                 {
                     "name": "Sellers",
                     "to": "/finance/sellers"
+                },
+                {
+                    "name": "Invoices",
+                    "to": "/finance/invoices"
                 }
             ]
         }
