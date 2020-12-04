@@ -35,5 +35,3 @@ export default class MatchTable extends Vue {
   ];
 }
 </script>
-
-<style></style>
