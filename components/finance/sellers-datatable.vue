@@ -48,7 +48,6 @@ export default class SellersDatatableComponent extends Vue {
 
     @Watch('sellers')
     onSellersLoaded(val: ISeller[]) {
-        console.log(val);
         if (val.length > 0) {
             this.loading = false;
         }
