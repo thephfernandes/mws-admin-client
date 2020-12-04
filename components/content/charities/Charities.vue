@@ -10,19 +10,25 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <div v-if="orgs.length === 0">Loading data...</div>
+    <div v-if="charities.length === 0">Loading data...</div>
     <div class="font-weight-bold">
       Click on any charity to edit information
     </div>
     <br />
     <v-data-table
       :headers="tableHeaders"
-      :items="orgs"
+      :items="charities"
       :items-per-page="10"
       class="elevation-1 charity-table"
       :search="search"
       @click:row="editCharity"
-    />
+    >
+      <template v-slot:item.description="{ item }">
+      <div class="text-justify">
+        {{ item.description }}
+      </div>
+    </template>
+    </v-data-table>
     <br />
     <v-row>
       <v-col cols="12" sm="6" md="6" xl="3">
@@ -70,20 +76,20 @@ interface keyable {
   components: {},
 })
 export default class Charities extends Vue {
-  @Prop() orgs!: [];
+  @Prop() charities!: [];
   @Prop() total!: "";
   @Prop() total_last_month!: "";
   private search = "";
   
   private tableHeaders = [
     { text: "ID", sortable: true, align: "center", value: "id", width: "4rem" },
-    { text: "Title", sortable: true, align: "center", value: "title" },
+    { text: "Title", sortable: true, align: "center", value: "title", width: "10rem" },
     {
       text: "Raised",
       sortable: true,
       align: "center",
       value: "total_raised",
-      width: "5.5rem",
+      width: "6rem",
     },
     {
       text: "Description",

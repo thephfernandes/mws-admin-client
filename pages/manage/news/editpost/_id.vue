@@ -136,7 +136,6 @@ export default class EditPost extends Vue {
     this.create = this.id === 0;
     this.getPost();
     this.$store.dispatch("news/fillFileUrls", { id: this.id });
-    // this.getFilesForPost();
   }
 
   fileNames() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Charities :orgs="orgs" :total="total" :total_last_month="total_last_month">
+    <Charities :charities="charities" :total="total" :total_last_month="total_last_month">
       <v-card flat tile class="control-board justify-space-between">
         <v-row>
           <v-col cols="12" sm="6" md="6">
@@ -57,11 +57,6 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 import Charities from "@/components/content/charities/Charities.vue";
-import axios from "axios";
-
-interface keyable {
-  [key: string]: any;
-}
 
 @Component({
   components: {
@@ -69,69 +64,39 @@ interface keyable {
   },
 })
 export default class Index extends Vue {
-  private orgs: keyable[] = [];
-  private API_URL = "https://mws-cms-api.herokuapp.com";
-  private total = "";
-  private total_last_month = "";
   private month = "";
   private menu = false;
   private all_time = true;
 
   created() {
-    this.fetchCharities("");
-    this.fetchTotalRaised();
+    this.fetchCharities(); 
+    this.$store.dispatch("charity/fillTotalStat");
   }
 
-  fetchCharities(month: string) {
-    // get all organizations
-    const ym = month === "" ? "" : month.split("-");
-    axios
-      .post(
-        this.API_URL + "/api/v1/charities",
-        ym === "" ? {} : { Year: ym[0], Month: ym[1] }
-      )
-      .then((response) => response.data)
-      .then((response) => {
-        this.orgs = [];
-        for (let org of response) {
-          this.orgs.push({
-            ...org,
-            description: this.cutShort(org.description) + "...",
-          });
-        }
-      });
+  fetchCharities() {
+    this.$store.dispatch("charity/fillCharities", { month: this.month });
   }
 
-  fetchTotalRaised() {
-    axios
-      .get(this.API_URL + "/api/v1/charities/dashboard")
-      .then((response) => response.data)
-      .then((response) => {
-        this.total = "€ " + response.total_amount_raised.toLocaleString();
-        this.total_last_month =
-          "€ " + response.total_amount_raised_last_month.toLocaleString();
-      });
+  get charities() {
+    return this.$store.getters["charity/getCharities"]
   }
 
-  cutShort(str: any) {
-    let L = str.length,
-      i = -1,
-      n = 25;
-    while (n-- && i++ < L) {
-      i = str.indexOf(" ", i);
-      if (i < 0) break;
-    }
-    return str.slice(0, i);
+  get total() {
+    return this.$store.getters["charity/getTotal"]
+  }
+
+  get total_last_month() {
+    return this.$store.getters["charity/getTotalLastMonth"]
   }
 
   changeMonth() {
     this.all_time = false;
-    this.fetchCharities(this.month);
+    this.fetchCharities();
   }
 
   resetMonth() {
     this.month = "";
-    this.fetchCharities(this.month);
+    this.fetchCharities();
   }
 
   layout() {
