@@ -4,8 +4,13 @@
             <v-toolbar flat>
                 <v-toolbar-title>Invoice agreements</v-toolbar-title>
                 <v-spacer />
-                <v-btn color="success"><v-icon class="mr-2">mdi-plus</v-icon>Invoice agreement</v-btn>
+                <nuxt-link :to="`/clubs/${clubId}/invoiceAgreements/add`" class="link">
+                    <v-btn color="success"><v-icon class="mr-2">mdi-plus</v-icon>Invoice agreement</v-btn>
+                </nuxt-link>
             </v-toolbar>
+        </template>
+        <template v-slot:item.id="{item}">
+            <nuxt-link :to="`/clubs/${item.clubId}/invoiceAgreements/${item.id}`" class="link">{{item.id}}</nuxt-link>
         </template>
         <template v-slot:item.sellerId="{item}">
             <nuxt-link :to="`/finance/sellers/${item.sellerId}`" class="link">{{item.seller.name}}</nuxt-link>
@@ -43,15 +48,18 @@ import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
 @Component
 export default class InvoiceAgreementsDatatableComponent extends Vue {
     @Prop({ type: Array, required: true }) readonly agreements!: IInvoiceAgreement[];
+    @Prop({ type: Number, required: true }) readonly clubId!: number;
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
 
     formatPercentage(value: number): string {
+        if (!value) return '0';
         return `${value.toFixed(2)} %`;
     }
 
     formatCurrency(amount: number): string {
+        if (!amount) return '0';
         return amount.toFixed(2).replace('.', ',');
     }
 
