@@ -24,10 +24,5 @@ export const actions = {
       .then((response) => {
         commit("setFileUrls", response.data);
       });
-    // await this.$axios.get("/sellers").then((response) => {
-    //   if (response.status === 200) {
-    //     commit("setSellers", response.data);
-    //   }
-    // });
   }, 
 };
