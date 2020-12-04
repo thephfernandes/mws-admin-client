@@ -47,6 +47,10 @@
                     "to": "/finance/sellers"
                 },
                 {
+                    "name": "Invoice Agreements",
+                    "to": "/clubs"
+                },
+                {
                     "name": "Invoices",
                     "to": "/finance/invoices"
                 }
