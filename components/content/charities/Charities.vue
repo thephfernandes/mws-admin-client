@@ -12,7 +12,7 @@
     </v-card-title>
     <div v-if="orgs.length === 0">Loading data...</div>
     <div class="font-weight-bold">
-      Click on any organization to edit information
+      Click on any charity to edit information
     </div>
     <br />
     <v-data-table
