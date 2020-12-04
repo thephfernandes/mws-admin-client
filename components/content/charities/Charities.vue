@@ -94,7 +94,6 @@ export default class Charities extends Vue {
   ];
 
   editCharity(e: keyable) {
-    console.log(e.id);
     this.$router.push({ path: "/manage/charities/editcharity/" + e.id });
   }
 }

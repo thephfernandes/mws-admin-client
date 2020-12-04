@@ -5,7 +5,7 @@
       <div v-else class="font-weight-bold">Editing charity ID {{ id }}</div>
       <br />
       <v-card outlined>
-        <FinishEdit @save-post="saveOrg" @delete-post="deleteOrg" />
+        <FinishEdit @save-post="saveCharity" @delete-post="deleteCharity" />
         <v-row>
           <v-col cols="12">
             <v-text-field
@@ -13,7 +13,7 @@
               placeholder="Title"
               outlined
               hide-details="auto"
-              v-model="org.title"
+              v-model="charity.title"
               class="news-title"
             >
             </v-text-field>
@@ -26,12 +26,12 @@
               placeholder="Description"
               outlined
               hide-details="auto"
-              v-model="org.description"
+              v-model="charity.description"
             />
           </v-col>
         </v-row>
         <v-file-input accept="image/*" label="Image"/>
-        <FinishEdit @save-post="saveOrg" @delete-post="deleteOrg" />
+        <FinishEdit @save-post="saveCharity" @delete-post="deleteCharity" />
       </v-card>
     </v-container>
   </v-form>
@@ -40,61 +40,40 @@
 <script lang="ts">
 import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
-import FinishEdit from "@/components/content/charities/UploadCharity.vue";
-
-interface keyable {
-  [key: string]: any;
-}
+import FinishEdit from "@/components/shared/FinishEdit.vue";
 
 @Component({
   components: {
     FinishEdit,
   },
 })
-export default class EditOrg extends Vue {
+export default class EditCharity extends Vue {
   private id = 0;
   private create = false;
-  private org: keyable = {};
   private API_URL = "https://mws-cms-api.herokuapp.com";
   
   created() {
     this.id = parseInt(this.$route.params.id);
     this.create = this.id === 0;
-    this.getOrg();
+    this.$store.dispatch("charity/fillCharity", { id: this.id });
   }
 
-  getOrg() {
-    if (!this.create) {
-      axios
-      .post(
-        this.API_URL + "/api/v1/charities"
-      )
-      .then((response) => response.data)
-      .then((response) => {
-        this.org = response.find((org: keyable) => org.id === this.id)
-      });
-    } else {
-      this.org = {
-        id: 0,
-        title: '',
-        total_raised: 0,
-        description: '',
-      };
-    }
+  get charity() {
+    return this.$store.getters["charity/getCharity"];
   }
 
-  saveOrg() {
-    if (this.checkOrg()) {
+  saveCharity() {
+    if (this.checkCharity()) {
       alert("Saving charity");
     }
   }
 
-  deleteOrg() {
+  deleteCharity() {
     alert("Deleting charity");
   }
 
-  checkOrg() {
-    if (!this.org.title || !this.org.description) {
+  checkCharity() {
+    if (!this.charity.title || !this.charity.description) {
       alert(
         "To add a new charity, please enter at least a title and the description"
       );
