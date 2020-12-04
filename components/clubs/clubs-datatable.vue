@@ -6,10 +6,11 @@
             :search="search"
             :footer-props="footerPropsOptions"
             @click:row="toClub"
+            class="clubs-table"
         >
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-text-field label="Search club" v-model="search"></v-text-field>
+                    <v-text-field label="Search club" v-model="search" />
                 </v-toolbar>
             </template>
         </v-data-table>
@@ -49,10 +50,12 @@ export default class clubsDatatableComponent extends Vue {
     }
 }
 </script>
-<style lang="scss" scoped>
-.text-start {
-    &:hover {
-        cursor: pointer;
+<style lang="scss">
+    .clubs-table {
+        .text-start {
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
-}
 </style>
