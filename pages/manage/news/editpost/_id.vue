@@ -62,9 +62,9 @@
               placeholder="Preview Image"
               outlined
               hide-details="auto"
-              :items="fileNames"
+              :items="fileNames()"
               v-model="post.PreviewImage"
-              :disabled="!fileNames.length"
+              :disabled="!fileNames().length"
             />
           </v-col>
         </v-row>
@@ -103,7 +103,7 @@
 import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
 import Posts from "@/components/content/news/News.vue";
-import FinishEdit from "@/components/content/news/FinishEdit.vue";
+import FinishEdit from "@/components/content/news/UploadNews.vue";
 import Editor from "@tinymce/tinymce-vue";
 
 interface keyable {
@@ -121,8 +121,6 @@ export default class EditPost extends Vue {
   private id = 0;
   private create = false;
   private post: keyable = {};
-  private fileUrls: string[] = [];
-  private fileNames: string[] = [];
   private API_URL = "https://mws-cms-api.herokuapp.com";
   private editorInit = {
     images_upload_url: "/upload",
@@ -139,26 +137,24 @@ export default class EditPost extends Vue {
     this.id = parseInt(this.$route.params.id);
     this.create = this.id === 0;
     this.getPost();
-    this.getFilesForPost();
+    this.$store.dispatch("news/fillFileUrls", { id: this.id });
+    // this.getFilesForPost();
   }
 
-  getFilesForPost() {
-    axios // replace "API_URL" with actual url
-      .get(this.API_URL + `/api/v1/news/${this.id}/files`)
-      .then((response) => {
-        this.fileUrls = response.data;
-        this.setFileNames();
-      });
-  }
-
-  setFileNames() {
+  fileNames() {
+    const fileNames = [];
     for (const file of this.fileUrls) {
       let name = file.replace(
         "https://matchwornshirt.imgix.net/news/" + this.id + "/",
         ""
       );
-      this.fileNames.push(name);
+      fileNames.push(name);
     }
+    return fileNames;
+  }
+
+  get fileUrls() {
+    return this.$store.getters["news/getFileUrls"];
   }
 
   getPost() {

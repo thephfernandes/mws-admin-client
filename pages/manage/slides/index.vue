@@ -64,6 +64,5 @@ export default class Index extends Vue {
 <style>
 .layout {
   flex-flow: row wrap;
-  /* justify-content: space-between; */
 }
 </style>
