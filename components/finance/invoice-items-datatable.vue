@@ -14,7 +14,7 @@
                     <v-spacer />
                     <v-text-field dense label="Search" v-model="search" outlined prepend-inner-icon="mdi-magnify" />
                     <v-spacer />
-                    <nuxt-link class="link" :to="`/finance/invoices/${invoiceId}/addInvoiceItem`">
+                    <nuxt-link class="link" :to="`/finance/invoices/${invoiceId}/invoiceItem/add`">
                         <v-btn><v-icon class="mr-2">mdi-plus</v-icon>Invoice item</v-btn>
                     </nuxt-link>
                 </v-toolbar>
@@ -51,8 +51,13 @@
             this.$store.dispatch('invoices/getInvoiceItems', this.invoiceId);
         }
 
-        toInvoiceItem(): void {
-
+        toInvoiceItem(invoiceItem: IInvoiceItem): void {
+            this.$router.push({
+                name: 'finance-invoices-id-invoiceItem-invoiceItemId',
+                params: {
+                    invoiceItemId: invoiceItem.id.toString()
+                }
+            })
         }
 
         get invoiceItems(): IInvoiceItem[] {
