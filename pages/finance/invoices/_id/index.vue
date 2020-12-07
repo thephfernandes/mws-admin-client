@@ -69,12 +69,13 @@
         }
 
         updateInvoice(): void {
-            this.$store.dispatch('invoices/updateInvoice', this.invoice).then((response) => {
-                console.log(response);
+            this.$store.dispatch('invoices/updateInvoice', this.invoice)
+                .then((response) => {
                 if (response.status === 200) {
                     this.$router.push({name: 'finance-invoices', params: {id: this.invoiceId.toString()}});
                 }
-            });
+            })
+                .catch((error) => {console.error(error)});
         }
 
         created(): void {
