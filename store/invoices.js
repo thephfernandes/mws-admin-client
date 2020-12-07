@@ -12,6 +12,9 @@ export const getters = {
     },
     getInvoiceItems: (state) => {
         return state.invoiceItems;
+    },
+    getInvoiceItem: (state) => (id) => {
+        return state.invoiceItems.find((i) => i.id === id);
     }
 };
 
@@ -47,5 +50,11 @@ export const actions = {
     },
     addInvoiceItem({}, invoiceItem) {
         return this.$axios.post(`/invoices/${invoiceItem.InvoiceId}/items`, invoiceItem);
+    },
+    async getInvoiceItem({}, invoice) {
+        return await this.$axios.get(`/invoices/${invoice.id}/items/${invoice.itemId}`);
+    },
+    async updateInvoiceItem({}, invoice) {
+        return await this.$axios.post(`/invoices/${invoice.item.invoiceId}/items/${invoice.id}`, invoice.item);
     }
 };
