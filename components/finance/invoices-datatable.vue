@@ -7,6 +7,7 @@
                 :search="search"
                 loading-text="Loading invoices..."
                 :footer-props="footerPropsOptions"
+                :custom-filter="customSearchFilter"
         >
             <template v-slot:top>
                 <v-toolbar flat>
@@ -96,6 +97,13 @@
 
         get invoices(): IInvoice[] {
             return this.$store.getters['invoices/getInvoices'];
+        }
+
+        customSearchFilter(value: any, search: string, item: IInvoice) {
+            const inId = RegExp(search, 'i').test(item.id.toString());
+            const inAgreementId = RegExp(search, 'i').test(item.agreementId.toString());
+            const inMatchId = RegExp(search, 'i').test(item.matchId.toString());
+            return inId || inAgreementId || inMatchId;
         }
 
         get headers() {
