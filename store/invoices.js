@@ -27,5 +27,8 @@ export const actions = {
     },
     updateInvoice({}, invoice) {
         return this.$axios.post(`/invoices/${invoice.id}`, invoice);
+    },
+    addInvoice({}, invoice) {
+        return this.$axios.post('/invoices', invoice);
     }
 };
