@@ -22,10 +22,12 @@
                             clearable prepend-inner-icon="mdi-magnify"
                     />
                     <v-spacer />
-                    <v-btn color="success">
-                        <v-icon class="mr-2">mdi-file-plus-outline</v-icon>
-                        Invoice
-                    </v-btn>
+                    <nuxt-link class="link" to="/finance/invoices/add">
+                        <v-btn color="success">
+                            <v-icon class="mr-2">mdi-file-plus-outline</v-icon>
+                            Invoice
+                        </v-btn>
+                    </nuxt-link>
                 </v-toolbar>
             </template>
             <template v-slot:item.id="{item}">
