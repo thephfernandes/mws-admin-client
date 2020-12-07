@@ -61,6 +61,14 @@ export const mutations = {
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
     },
+    incrementAddressReminder(state, order) {
+        const o = state.orders.find((o) => o.OrderID === order.OrderID);
+        o.OrderAddressReminder++;
+    },
+    incrementPaymentReminder(state, order) {
+        const o = state.orders.find((o) => o.OrderID === order.OrderID);
+        o.OrderPaymentReminder++;
+    },
     fillEvents(state, payload) {
         state.events.push(payload);
     }
@@ -90,5 +98,11 @@ export const actions = {
     },
     toggleShirtPaid({ commit }, orderId) {
         commit('toggleShirtPaid', orderId);
+    },
+    incrementAddressReminder({ commit }, order) {
+        commit('incrementAddressReminder', order);
+    },
+    incrementPaymentReminder({ commit }, order) {
+        commit('incrementPaymentReminder', order);
     }
 };

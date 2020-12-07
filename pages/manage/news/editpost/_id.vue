@@ -100,7 +100,6 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
 import FinishEdit from "@/components/shared/FinishEdit.vue";
 import Editor from "@tinymce/tinymce-vue";

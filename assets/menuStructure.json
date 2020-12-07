@@ -40,6 +40,17 @@
             "name": "Orders",
             "icon": "mdi-clipboard-list",
             "to": "/orders"
+        },
+        {
+            "name": "Finance",
+            "icon": "mdi-finance",
+            "to": "/finance",
+            "children": [
+                {
+                    "name": "Sellers",
+                    "to": "/finance/sellers"
+                }
+            ]
         }
     ],
     "sliders": [
