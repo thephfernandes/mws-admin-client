@@ -46,8 +46,9 @@
                     </v-row>
                 </v-form>
             </v-card-text>
-            <v-card-title>Invoice items</v-card-title>
-            <v-card-text>items.....</v-card-text>
+            <v-card-text>
+                <invoice-items-datatable class="mt-4" />
+            </v-card-text>
         </v-card>
     </div>
 </template>
