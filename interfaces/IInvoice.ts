@@ -1,6 +1,6 @@
 export interface IInvoice {
     id:                        number;
-    matchID:                   number;
+    matchId:                   number;
     price:                     number;
     vat:                       number;
     paymentHandling:           number;
@@ -16,7 +16,7 @@ export interface IInvoice {
     vatCharge:                 number;
     totalCharge:               number;
     clubPayout:                number;
-    agreementID:               number;
+    agreementId:               number;
     agreement:                 { [key: string]: number | null };
     items:                     any[];
 }
