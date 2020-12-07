@@ -24,5 +24,8 @@ export const actions = {
                 commit('setInvoices', response.data);
             }
         });
+    },
+    updateInvoice({}, invoice) {
+        return this.$axios.post(`/invoices/${invoice.id}`, invoice);
     }
 };
