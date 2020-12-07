@@ -22,6 +22,12 @@
       class="elevation-1 charity-table"
       :search="search"
       @click:row="editCharity"
+      :footer-props="{
+        showFirstLastPage: true,
+        firstIcon: 'mdi-arrow-collapse-left',
+        lastIcon: 'mdi-arrow-collapse-right',
+        itemsPerPageOptions: [5, 10, 15, 20, -1],
+      }"
     >
       <template v-slot:item.description="{ item }">
         <div class="text-justify">
