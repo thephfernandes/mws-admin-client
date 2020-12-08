@@ -4,13 +4,16 @@
             :items="clubs"
             :headers="headers"
             :search="search"
+            :loading="clubs.length === 0"
             :footer-props="footerPropsOptions"
             @click:row="toClub"
             class="clubs-table"
         >
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-text-field label="Search club" v-model="search" />
+                    <v-toolbar-title>View invoice agreements of a club</v-toolbar-title>
+                    <v-spacer />
+                    <v-text-field label="Search club" v-model="search" dense outlined hide-details />
                 </v-toolbar>
             </template>
         </v-data-table>
@@ -22,14 +25,22 @@ import {IClub} from "~/interfaces/IClub";
 
 @Component
 export default class clubsDatatableComponent extends Vue {
-    @Prop({ type: Array, required: true }) readonly clubs!: IClub[];
     search: string = '';
+    loaded: boolean = false;
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
 
     toClub(club: IClub) {
         this.$router.push({name: 'clubs-id', params: { id: club.id.toString() }});
+    }
+
+    get clubs(): IClub[] {
+        return this.$store.getters['clubs/getClubs'];
+    }
+
+    created() {
+        this.$store.dispatch('clubs/fillClubs');
     }
 
     layout(): string {
