@@ -25,6 +25,9 @@
             <template v-slot:item.id="{item}">
                 <nuxt-link :to="`/finance/sellers/${item.id}`" class="link">{{item.id}}</nuxt-link>
             </template>
+            <template v-slot:item.nextInvoiceId="{ item }">
+                {{item.invoiceIdPrefix}}{{item.nextInvoiceId}}
+            </template>
             <template v-slot:item.name="{item}">
                 <nuxt-link :to="`/finance/sellers/${item.id}`" class="link">{{item.name}}</nuxt-link>
             </template>
@@ -64,13 +67,9 @@ export default class SellersDatatableComponent extends Vue {
                 value: 'id'
             },
             {
-                text: 'Next invoiceId',
+                text: 'Next invoice prefix',
                 value: 'nextInvoiceId',
                 divider: true
-            },
-            {
-                text: 'Invoice Prefix',
-                value: 'invoiceIdPrefix'
             },
             {
                 text: 'Name',
