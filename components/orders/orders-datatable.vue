@@ -17,31 +17,17 @@
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-card>
-                            <v-expansion-panels>
-                                <v-expansion-panel>
-                                    <v-expansion-panel-header>Choose optional columns</v-expansion-panel-header>
-                                    <v-expansion-panel-content>
-                                        <v-card-text>
-                                            <v-switch
-                                                    :label="AllHeaders ? 'Deselect all' : 'Select all'"
-                                                    hide-details
-                                                    v-model="AllHeaders"
-                                            />
-                                            <v-checkbox
-                                                    v-for="header in customHeaders"
-                                                    :key="header.value"
-                                                    v-model="selectedHeaders"
-                                                    :label="header.text"
-                                                    :value="selectedHeaders.length ===  0 ? header : header"
-                                                    @click="updateHeaders"
-                                                    hide-details
-                                            />
-                                        </v-card-text>
-                                    </v-expansion-panel-content>
-                                </v-expansion-panel>
-                            </v-expansion-panels>
-                        </v-card>
+                        <v-select
+                                :items="customHeaders"
+                                outlined
+                                label="Optional columns"
+                                multiple
+                                hide-details
+                                clearable
+                                deletable-chips
+                                v-model="selectedHeadersList"
+                                @change="updateHeaders"
+                        />
                     </v-col>
                 </v-row>
             </v-col>
@@ -184,7 +170,6 @@
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
-    import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
     import Country from "~/assets/data/countries.json";
 
     @Component
@@ -197,6 +182,7 @@
         headers: Array<Object> = [];
         customHeaders: Array<Object> = [];
         selectedHeaders: Array<Object> = [];
+        selectedHeadersList: [] = [];
         AllHeaders: boolean = false;
         searchCertificate: string = '';
         searchMatch: string = '';
@@ -288,7 +274,14 @@
 
         updateHeaders(): void {
             this.createHeaders();
-            this.headers = this.headers.concat(this.selectedHeaders);
+            for (const header of this.customHeaders as any) {
+                for (const item of this.selectedHeadersList) {
+                    if (header.value === item) {
+                        console.log(header);
+                        this.headers.push(header);
+                    }
+                }
+            }
         }
 
         createHeaders() {
