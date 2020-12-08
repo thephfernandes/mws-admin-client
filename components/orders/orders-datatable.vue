@@ -5,7 +5,7 @@
             <v-col cols="8" md="10">
                 <v-row>
                     <v-col cols="12" md="4">
-                        <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable outlined />
+                        <v-select label="Matches" :items="matchesName" v-model="searchMatch" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="4">
                         <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
@@ -209,10 +209,6 @@
             this.createCustomHeaders();
         }
 
-        mounted(): void {
-            this.$store.dispatch('matches/fillMatches');
-        }
-
         setOrder(item: Order): void {
             this.order = Object.assign({}, item)
         }
@@ -269,8 +265,13 @@
             return ShippingStatusEnum[status];
         }
 
-        get matchesId() {
-            return this.$store.getters['orders/getMatchesId'];
+        get matchesName(): string {
+            const matches = this.$store.getters['matches/getMatches'];
+            const listMatches = matches.map((m: IMatch) => ({
+                text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
+                value: m.ID
+            }));
+            return listMatches.reverse();
         }
 
         get matches() {
@@ -284,11 +285,13 @@
 
         getOpponent(matchId: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](matchId);
+            if (!match) return 'Unknown';
             return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
         }
 
         getMatch(id: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](id);
+            if (!match) return 'Unknown';
             const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
             return `${match.FeaturedClubName} - ${opponent}`;
         }
