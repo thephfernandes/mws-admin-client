@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Invoices</h1>
+        <h1>Club invoices</h1>
         <invoices-datatable />
     </div>
 </template>

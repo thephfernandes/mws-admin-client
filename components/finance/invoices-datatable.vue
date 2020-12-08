@@ -11,7 +11,7 @@
         >
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-toolbar-title>All invoices</v-toolbar-title>
+                    <v-toolbar-title>All club invoices</v-toolbar-title>
                     <v-spacer/>
                     <v-text-field
                             label="Search"
