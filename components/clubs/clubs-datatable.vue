@@ -51,7 +51,9 @@ export default class clubsDatatableComponent extends Vue {
         return [
             {
                 text: 'Id',
-                value: 'id'
+                value: 'id',
+                width: 100,
+                divider: true
             },
             {
                 text: 'Club name',
