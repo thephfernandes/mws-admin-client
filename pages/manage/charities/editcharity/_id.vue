@@ -30,7 +30,7 @@
             />
           </v-col>
         </v-row>
-        <v-file-input accept="image/*" label="Image"/>
+        <v-file-input accept="image/*" label="Image" />
         <FinishEdit @save-post="saveCharity" @delete-post="deleteCharity" />
       </v-card>
     </v-container>
@@ -38,9 +38,10 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import { Component, Vue } from "nuxt-property-decorator";
 import FinishEdit from "@/components/shared/FinishEdit.vue";
+import { ICharity } from "~/interfaces/ICharity";
+import { Charity } from "~/models/charity";
 
 @Component({
   components: {
@@ -48,22 +49,24 @@ import FinishEdit from "@/components/shared/FinishEdit.vue";
   },
 })
 export default class EditCharity extends Vue {
-  private id = 0;
+  private id = 0; 
   private create = false;
-  
+  private charity: Charity = new Charity();
+
   created() {
     this.id = parseInt(this.$route.params.id);
     this.create = this.id === 0;
-    this.$store.dispatch("charity/fillCharity", { id: this.id });
-  }
-
-  get charity() {
-    return this.$store.getters["charity/getCharity"];
+    this.$store.dispatch("charity/fillCharity", { id: this.id }).then(() => {
+      const charity = this.$store.getters["charity/getCharity"];
+      this.charity = Object.assign({}, charity);
+    });
   }
 
   saveCharity() {
     if (this.checkCharity()) {
+      this.$store.dispatch("charity/updateCharity", this.charity)
       alert("Saving charity");
+      this.$router.push({ path: "/manage/charities" });
     }
   }
 
@@ -77,7 +80,7 @@ export default class EditCharity extends Vue {
         "To add a new charity, please enter at least a title and the description"
       );
       return false;
-    } 
+    }
     return true;
   }
 
@@ -99,5 +102,4 @@ export default class EditCharity extends Vue {
 .v-input--selection-controls__input label {
   color: #333;
 }
-
 </style>

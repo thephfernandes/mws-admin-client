@@ -15,9 +15,12 @@ import News from "@/components/content/news/News.vue";
 })
 export default class Index extends Vue {
 
+  created() {
+    this.$store.dispatch("news/fillPosts");
+  }
+
   get posts() {
-    let file = require("./posts.json")
-    return file.posts;
+    return this.$store.getters["news/getPosts"]
   }
 
   layout() {

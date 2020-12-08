@@ -10,7 +10,6 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <div v-if="charities.length === 0">Loading data...</div>
     <div class="font-weight-bold">
       Click on any charity to edit information
     </div>
@@ -22,12 +21,8 @@
       class="elevation-1 charity-table"
       :search="search"
       @click:row="editCharity"
-      :footer-props="{
-        showFirstLastPage: true,
-        firstIcon: 'mdi-arrow-collapse-left',
-        lastIcon: 'mdi-arrow-collapse-right',
-        itemsPerPageOptions: [5, 10, 15, 20, -1],
-      }"
+      :footer-props="footerPropsOptions"
+      :loading="charities.length === 0"
     >
       <template v-slot:item.description="{ item }">
         <div class="text-justify">
@@ -73,22 +68,33 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator";
+import { ICharity } from "~/interfaces/ICharity"
 
 interface keyable {
   [key: string]: any;
 }
 
-@Component({
-  components: {},
-})
+@Component
 export default class Charities extends Vue {
-  @Prop() charities!: [];
-  @Prop() total!: "";
-  @Prop() total_last_month!: "";
+  @Prop({ type: Array, required: true }) charities!: ICharity[];
+  @Prop({ type: String, required: true }) total!: "";
+  @Prop({ type: String, required: true }) total_last_month!: "";
   private search = "";
+  private footerPropsOptions = {
+    showFirstLastPage: true,
+    firstIcon: "mdi-arrow-collapse-left",
+    lastIcon: "mdi-arrow-collapse-right",
+    itemsPerPageOptions: [5, 10, 15, 20, -1],
+  };
 
   private tableHeaders = [
-    { text: "ID", sortable: true, align: "center", value: "id", width: "4rem" },
+    {
+      text: "ID",
+      sortable: true,
+      align: "center",
+      value: "id",
+      width: "4rem",
+    },
     {
       text: "Title",
       sortable: true,

@@ -1,3 +1,7 @@
+import axios from 'axios';
+const API_URL = "https://cms-api.matchwornshirt.com"; // will be replaced
+import { Charity } from "~/models/charity"
+
 export const state = () => ({
   charity: {},
   charities: [],
@@ -36,15 +40,9 @@ export const mutations = {
 export const actions = {
   async fillCharity({ commit }, payload) {
     if (payload.id === 0) {
-      commit("setCharity", {
-        id: 0,
-        title: "",
-        total_raised: 0,
-        description: "",
-      });
+      commit("setCharity", new Charity());
     } else {
-      const API_URL = "https://mws-cms-api.herokuapp.com"; // will be replaced
-      await this.$axios
+      await axios
         .post(API_URL + "/api/v1/charities")
         .then((response) => response.data)
         .then((response) => {
@@ -55,7 +53,6 @@ export const actions = {
   },
   async fillCharities({ commit }, payload) {
     const ym = payload.month === "" ? "" : payload.month.split("-");
-    const API_URL = "https://mws-cms-api.herokuapp.com"; // will be replaced
     const cutShort = (str) => {
       let L = str.length,
         i = -1,
@@ -66,7 +63,7 @@ export const actions = {
       }
       return str.slice(0, i);
     };
-    this.$axios
+    axios
       .post(
         API_URL + "/api/v1/charities",
         ym === "" ? {} : { Year: ym[0], Month: ym[1] }
@@ -84,8 +81,7 @@ export const actions = {
       });
   },
   async fillTotalStat({ commit }) {
-    const API_URL = "https://mws-cms-api.herokuapp.com"; // will be replaced
-    this.$axios
+    axios
       .get(API_URL + "/api/v1/charities/dashboard")
       .then((response) => response.data)
       .then((response) => {
@@ -94,5 +90,8 @@ export const actions = {
           "€ " + response.total_amount_raised_last_month.toLocaleString();
         commit("setTotalStat", {total, total_last_month})
       });
+  },
+  updateCharity ({ commit }, payload) {
+    commit("setCharity", payload);
   }
 };

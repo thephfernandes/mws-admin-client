@@ -1,36 +1,34 @@
 <template>
   <v-container class="news-table">
-    <nuxt-link
-      :to="'/manage/news/editpost/0'"
-      title="Create a new post"
-    >
+    <nuxt-link :to="'/manage/news/editpost/0'" title="Create a new post">
       <v-btn color="primary" class="new-post">
         Create a new post
       </v-btn>
     </nuxt-link>
-    <v-data-table :headers="tableHeaders" :items="posts">
+    <div class="font-weight-bold">
+      Click on any post to edit
+    </div>
+    <v-data-table
+      :headers="tableHeaders"
+      :items="posts"
+      :loading="posts.length === 0"
+      :footer-props="footerPropsOptions"
+    >
       <template v-slot:body="props">
-        <tr v-for="item in props.items" :key="item.Id">
+        <tr v-for="item in props.items" :key="item.Id" @click="editPost(item.Id)" class="news-post">
           <td class="text-center">{{ item.Id }}</td>
           <td>
             <div class="font-weight-bold text-h6">
               {{ item.Title }}
-              <nuxt-link
-                :to="'/manage/news/editpost/' + item.Id"
-                class="v-btn v-btn--container ml-auto"
-                title="Edit this post"
-              >
-                <v-icon>mdi-pencil-box</v-icon>
-              </nuxt-link>
             </div>
-            <div class="text-body-2">
+            <div class="text-body-2 news-tags">
               <v-icon class="text-body-2">mdi-tag</v-icon>
               {{ item.Tags }}
             </div>
             <div>{{ item.PreviewText }}</div>
           </td>
-          <td class="text-center">{{ item.Writer }}</td>
-          <td class="text-center">{{ item.Created }}</td>
+          <td class="text-center text-body-2">{{ item.Writer }}</td>
+          <td class="text-center text-body-2">{{ item.Created }}</td>
           <td class="text-center">
             <v-icon v-if="item.Published" class="green--text text-h4">
               mdi-check-bold
@@ -45,13 +43,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator";
+import { INews } from "~/interfaces/INews";
 
-@Component({
-  components: {
-  },
-})
+@Component
 export default class News extends Vue {
-  @Prop() posts!: [];
+  @Prop({ type: Array, required: true }) posts!: INews[];
+
+  private footerPropsOptions = {
+    showFirstLastPage: true,
+    firstIcon: "mdi-arrow-collapse-left",
+    lastIcon: "mdi-arrow-collapse-right",
+  };
 
   private tableHeaders = [
     { text: "ID", sortable: false, align: "center" },
@@ -60,6 +62,10 @@ export default class News extends Vue {
     { text: "Created", sortable: false, align: "center" },
     { text: "Published", sortable: false, align: "center" },
   ];
+
+  editPost(Id: number) {
+    this.$router.push({ path: "/manage/news/editpost/" + Id })
+  }
 }
 </script>
 
@@ -67,11 +73,19 @@ export default class News extends Vue {
 .v-data-table-header th,
 .news-table td div,
 .news-table td {
-  padding: 0.5rem;
+  padding: 0.4rem;
 }
 
 .news-table .new-post {
   margin-bottom: 1rem;
 }
 
+.news-tags {
+  color: #555;
+}
+
+tr.news-post:hover {
+  background-color: #dde;
+  cursor: pointer;
+}
 </style>
