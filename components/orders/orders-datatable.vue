@@ -52,6 +52,12 @@
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
             </template>
+            <template v-slot:item.club="{ item }">
+                {{ getClubName(item.MatchID) }}
+            </template>
+            <template v-slot:item.Opponent="{ item }">
+                {{ getOpponent(item.MatchID) }}
+            </template>
             <template v-slot:item.Actions="{ item }">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
@@ -124,7 +130,9 @@
                 </v-edit-dialog>
             </template>
             <template v-slot:item.MatchID="{ item }">
-                <nuxt-link :to="`/events/${item.MatchID}`" class="link">{{item.MatchID}}</nuxt-link>
+                <nuxt-link :to="`/events/${item.MatchID}`" class="link">
+                    {{ getMatch(item.MatchID) }}
+                </nuxt-link>
             </template>
             <template v-slot:item.PlayerName="{ item }">
                 <nuxt-link :to="`/products/${item.PlayerID}`" class="link">{{item.PlayerName}}</nuxt-link>
@@ -135,8 +143,8 @@
                 </nuxt-link>
               ({{ getCountryName(item.UserCountry) }})
             </template>
-            <template v-slot:item.OrderCreationDate="{ item }">
-                {{ item.OrderCreationDate | dateFormat(true) }}
+            <template v-slot:item.MatchDate="{ item }">
+                {{ item.MatchDate | dateFormat(true) }}
             </template>
             <template v-slot:item.UserCountry="{ item }">
                 {{item.UserCountry.toUpperCase()}}
@@ -171,6 +179,7 @@
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
     import Country from "~/assets/data/countries.json";
+    import {IMatch} from "~/interfaces/IMatch";
 
     @Component
     export default class OrdersTableComponent extends Vue {
@@ -195,9 +204,13 @@
             return 'orders-table-component'
         }
 
-        created() {
+        created(): void {
             this.createHeaders();
             this.createCustomHeaders();
+        }
+
+        mounted(): void {
+            this.$store.dispatch('matches/fillMatches');
         }
 
         setOrder(item: Order): void {
@@ -260,6 +273,26 @@
             return this.$store.getters['orders/getMatchesId'];
         }
 
+        get matches() {
+            return this.$store.getters['matches/getMatches'];
+        }
+
+        getClubName(id: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatch'](id);
+            return match.FeaturedClubName;
+        }
+
+        getOpponent(matchId: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatch'](matchId);
+            return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+        }
+
+        getMatch(id: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatch'](id);
+            const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+            return `${match.FeaturedClubName} - ${opponent}`;
+        }
+
         certificateFilter(value: number) {
             if (!this.searchCertificate) return true;
             return value.toString().includes(this.searchCertificate);
@@ -309,9 +342,10 @@
                     filter: this.certificateFilter
                 },
                 {
-                    text: 'MatchId',
+                    text: 'Match',
                     value: 'MatchID',
-                    filter: this.matchFilter
+                    filter: this.matchFilter,
+                    width: 290
                 },
                 {
                     text: 'Player',
@@ -321,11 +355,6 @@
                 {
                     text: 'Customer',
                     value: 'UserMail'
-                },
-                {
-                    text: 'Order date',
-                    value: 'OrderCreationDate',
-                    width: 150
                 }
             ]
         }
@@ -333,26 +362,19 @@
         createCustomHeaders(): void {
             this.customHeaders = [
                 {
-                    text: 'Club Name',
-                    value: 'ClubName',
+                    text: 'Club',
+                    value: 'club',
                     width: 200
                 },
                 {
-                    text: 'Price',
-                    value: 'ProductPrice',
-                    width: 100
-                },
-                {
-                    text: 'Customer Phone',
-                    value: 'UserPhoneNumber'
-                },
-                {
-                    text: 'Framing',
-                    value: 'OrderFraming'
-                },
-                {
                     text: 'Opponent',
-                    value: 'Opponent'
+                    value: 'Opponent',
+                    width: 200
+                },
+                {
+                    text: 'Match date',
+                    value: 'MatchDate',
+                    width: 150
                 }
             ]
         }
