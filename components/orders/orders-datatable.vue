@@ -277,7 +277,6 @@
             for (const header of this.customHeaders as any) {
                 for (const item of this.selectedHeadersList) {
                     if (header.value === item) {
-                        console.log(header);
                         this.headers.push(header);
                     }
                 }
