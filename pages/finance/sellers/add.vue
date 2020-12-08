@@ -55,7 +55,6 @@ export default class AddSellerPage extends Vue {
 
     addSeller(): void {
         this.$store.dispatch('sellers/addSeller', this.seller).then((response) => {
-            console.log(response);
             this.$router.push({name: 'finance-sellers'});
         });
     }
