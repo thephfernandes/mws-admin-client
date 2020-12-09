@@ -345,15 +345,20 @@
                     filter: this.certificateFilter
                 },
                 {
+                    text: 'Player',
+                    value: 'PlayerName',
+                    width: 150
+                },
+                {
+                    text: 'Price',
+                    value: 'ProductPrice',
+                    width: 120
+                },
+                {
                     text: 'Match',
                     value: 'MatchID',
                     filter: this.matchFilter,
                     width: 290
-                },
-                {
-                    text: 'Player',
-                    value: 'PlayerName',
-                    width: 150
                 },
                 {
                     text: 'Customer',
