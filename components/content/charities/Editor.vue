@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator";
+import { Prop, Component, Vue } from "nuxt-property-decorator";
 import FinishEdit from "@/components/shared/FinishEdit.vue";
 import { ICharity } from "~/interfaces/ICharity";
 import { Charity } from "~/models/charity";
@@ -60,14 +60,13 @@ import { Charity } from "~/models/charity";
     FinishEdit,
   },
 })
-export default class EditCharity extends Vue {
+export default class EditCharity extends Vue {  
+  @Prop({ type: Boolean, required: true }) create!: boolean;
   private id = 0;
-  private create = false;
   private charity: Charity = new Charity();
 
   created() {
-    this.id = parseInt(this.$route.params.id);
-    this.create = this.id === 0;
+    this.id = this.create ? 0 : parseInt(this.$route.params.id);
     this.$store.dispatch("charity/fillCharity", { id: this.id }).then(() => {
       const charity = this.$store.getters["charity/getCharity"];
       this.charity = Object.assign({}, charity);

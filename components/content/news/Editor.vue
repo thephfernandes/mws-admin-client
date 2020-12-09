@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator";
+import { Prop, Component, Vue } from "nuxt-property-decorator";
 import FinishEdit from "@/components/shared/FinishEdit.vue";
 import Editor from "@tinymce/tinymce-vue";
 import { INews } from "~/interfaces/INews";
@@ -113,8 +113,8 @@ import { News } from "~/models/news"
   },
 })
 export default class EditPost extends Vue {
+  @Prop({ type: Boolean, required: true }) create!: boolean;
   private id = 0;
-  private create = false;
   private post: INews = new News;
   private editorInit = {
     images_upload_url: "/upload",
@@ -128,8 +128,7 @@ export default class EditPost extends Vue {
   };
 
   created() {
-    this.id = parseInt(this.$route.params.id);
-    this.create = this.id === 0;
+    this.id = this.create ? 0 : parseInt(this.$route.params.id);
     this.$store.dispatch("news/fillPost", { id: this.id }).then(() => {
       const post = this.$store.getters["news/getPost"];
       this.post = Object.assign({}, post);
@@ -179,10 +178,6 @@ export default class EditPost extends Vue {
       return false;
     }
     return true;
-  }
-
-  layout() {
-    return "mws";
   }
 }
 </script>

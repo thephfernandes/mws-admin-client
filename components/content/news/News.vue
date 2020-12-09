@@ -1,6 +1,6 @@
 <template>
   <v-container class="news-table">
-    <nuxt-link :to="'/manage/news/editpost/0'" title="Create a new post">
+    <nuxt-link :to="'/manage/news/add'" title="Create a new post">
       <v-btn color="primary" class="new-post">
         Create a new post
       </v-btn>
@@ -64,7 +64,7 @@ export default class News extends Vue {
   ];
 
   editPost(Id: number) {
-    this.$router.push({ path: "/manage/news/editpost/" + Id })
+    this.$router.push({ path: "/manage/news/" + Id })
   }
 }
 </script>

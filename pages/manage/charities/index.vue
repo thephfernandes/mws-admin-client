@@ -42,7 +42,7 @@
           </v-col>
         </v-row>
         <nuxt-link
-          :to="'/manage/charities/editcharity/0'"
+          to="/manage/charities/add"
           title="Add a new charity"
         >
           <v-btn color="primary" class="new-charity">
