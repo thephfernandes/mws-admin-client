@@ -33,7 +33,7 @@
                     <v-card-actions>
                         <v-row justify="space-around">
                             <v-btn color="error" @click="goBack">Cancel</v-btn>
-                            <v-btn color="success" @click="addSeller">Update</v-btn>
+                            <v-btn color="success" @click="addSeller">Add</v-btn>
                         </v-row>
                     </v-card-actions>
                 </v-form>
