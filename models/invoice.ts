@@ -1,6 +1,7 @@
 export default class Invoice {
     AgreementId: number = 0;
     MatchId: number =  0;
+    SequenceNumber: string = 'Pro-forma';
     Price: number =  0;
     Vat: number =  0;
     PaymentHandling: number =  0;
