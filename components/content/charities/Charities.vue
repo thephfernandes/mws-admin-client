@@ -1,36 +1,5 @@
 <template>
   <v-container class="charity-table">
-    <slot></slot>
-    <v-card-title>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <div class="font-weight-bold">
-      Click on any charity to edit information
-    </div>
-    <br />
-    <v-data-table
-      :headers="tableHeaders"
-      :items="charities"
-      :items-per-page="10"
-      class="elevation-1 charity-table"
-      :search="search"
-      @click:row="editCharity"
-      :footer-props="footerPropsOptions"
-      :loading="charities.length === 0"
-    >
-      <template v-slot:item.description="{ item }">
-        <div class="text-justify">
-          {{ item.description }}
-        </div>
-      </template>
-    </v-data-table>
-    <br />
     <v-row>
       <v-col cols="12" sm="6" md="6" xl="3">
         <v-card>
@@ -63,6 +32,42 @@
         </v-card>
       </v-col>
     </v-row>
+    <slot></slot>
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <div class="font-weight-bold">
+      Click on any charity to edit information
+    </div>
+    <br />
+    <v-data-table
+      :headers="tableHeaders"
+      :items="charities"
+      :items-per-page="10"
+      class="elevation-1 charity-table"
+      :search="search"
+      @click:row="editCharity"
+      :footer-props="footerPropsOptions"
+      :loading="charities.length === 0"
+    >
+      <template v-slot:item.total_raised="{ item }">
+        <div>
+          € {{ item.total_raised }}.00
+        </div>
+      </template>
+      <template v-slot:item.description="{ item }">
+        <div class="text-justify">
+          {{ item.description }}
+        </div>
+      </template>
+    </v-data-table>
+    <br />
   </v-container>
 </template>
 
@@ -107,7 +112,7 @@ export default class Charities extends Vue {
       sortable: true,
       align: "center",
       value: "total_raised",
-      width: "6rem",
+      width: "8rem",
     },
     {
       text: "Description",

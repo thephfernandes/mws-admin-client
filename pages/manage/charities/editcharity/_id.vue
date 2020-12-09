@@ -30,7 +30,19 @@
             />
           </v-col>
         </v-row>
-        <v-file-input accept="image/*" label="Image" />
+        <v-row>
+          <v-col cols="6">
+            <v-file-input
+              accept="image/*"
+              placeholder="Upload image"
+              prepend-icon=""
+              append-icon="mdi-camera"
+              outlined
+              filled
+            >
+            </v-file-input>
+          </v-col>
+        </v-row>
         <FinishEdit @save-post="saveCharity" @delete-post="deleteCharity" />
       </v-card>
     </v-container>
@@ -49,7 +61,7 @@ import { Charity } from "~/models/charity";
   },
 })
 export default class EditCharity extends Vue {
-  private id = 0; 
+  private id = 0;
   private create = false;
   private charity: Charity = new Charity();
 
@@ -64,7 +76,7 @@ export default class EditCharity extends Vue {
 
   saveCharity() {
     if (this.checkCharity()) {
-      this.$store.dispatch("charity/updateCharity", this.charity)
+      this.$store.dispatch("charity/updateCharity", this.charity);
       alert("Saving charity");
       this.$router.push({ path: "/manage/charities" });
     }
