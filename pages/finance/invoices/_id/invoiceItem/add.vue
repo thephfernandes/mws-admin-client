@@ -77,12 +77,10 @@
 
         addInvoiceItem(): void {
             if (this.invoiceItem.Title === '') return;
-            console.log(this.invoiceItem);
             this.$store.dispatch('invoices/addInvoiceItem', this.invoiceItem)
                 .then((response) => {
-                    console.log(response);
                     if (response.status === 200) {
-                        this.$router.push({name: 'finance-invoices', params: {id: this.invoiceId.toString()}});
+                        this.$router.push({name: 'finance-invoices-id', params: {id: this.invoiceId.toString()}});
                     }
                 })
                 .catch((error) => { console.error(error)});
