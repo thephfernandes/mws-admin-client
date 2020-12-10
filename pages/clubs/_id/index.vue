@@ -37,7 +37,7 @@ export default class clubDetailPage extends Vue {
     setClubs(): void {
         const clubs: IClub[] = this.$store.getters['clubs/getClubs'];
         if (clubs.length > 0) return;
-        this.$store.dispatch('clubs/fillClubs');
+        this.$store.dispatch('clubs/getClubsSetToStore');
     }
 }
 </script>

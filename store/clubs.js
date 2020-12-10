@@ -30,17 +30,20 @@ export const mutations = {
 };
 
 export const actions = {
-    async fillClubs({ commit }) {
-        await axios.get('https://cms-api.matchwornshirt.com/api/v1/clubs/stats').then((response) => {
-            if (response.status === 200) {
-                commit('setClubs', response.data)
-            }
-        }).catch((error) => { console.error(error) });
+    async getClubsSetToStore({ commit }) {
+        const response = await axios.get('https://cms-api.matchwornshirt.com/api/v1/clubs/stats');
+
+        if (response.status === 200) {
+            commit('setClubs', response.data)
+        }
     },
     async getInvoiceAgreement({commit}, clubId) {
-        await this.$axios.get(`/clubs/${clubId}/agreements`).then((response) => {
+        const response = await this.$axios.get(`/clubs/${clubId}/agreements`);
+
+        if (response.status === 200) {
             commit('setInvoiceAgreements', response.data);
-        });
+        }
+
     },
     addInvoiceAgreement({}, invoiceAgreement) {
         return this.$axios.post(`/clubs/${invoiceAgreement.clubId}/agreements`, invoiceAgreement);

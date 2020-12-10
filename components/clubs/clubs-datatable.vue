@@ -40,7 +40,7 @@ export default class clubsDatatableComponent extends Vue {
     }
 
     created() {
-        this.$store.dispatch('clubs/fillClubs');
+        this.$store.dispatch('clubs/getClubsSetToStore');
     }
 
     layout(): string {
