@@ -25,77 +25,88 @@ export default class ProceedsPerMonthComponent extends Vue {
             "setupFee": 21860.75,
             "21Fee": 28050.06,
             "handlingCosts": 23180.30,
-            "totalProceeds": 205401.00
+            "totalProceeds": 205401.00,
+            "none": 0
             },
             {
                 "date": "August 2020",
                 "setupFee": 7499.19,
                 "21Fee": 7305.92,
                 "handlingCosts": 3528.90,
-                "totalProceeds": 39257.00
+                "totalProceeds": 39257.00,
+                "none": 0
             },
             {
                 "date": "September 2020",
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9523.40,
-                "totalProceeds": 107069.00
+                "totalProceeds": 107069.00,
+                "none": 0
             },
             {
                 "date": "November 2020",
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9523.40,
-                "totalProceeds": 107069.00
+                "totalProceeds": 107069.00,
+                "none": 0
             },
             {
                 "date": "December 2020",
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9323.40,
-                "totalProceeds": 107069.00
+                "totalProceeds": 107069.00,
+                "none": 0
             },
             {
                 "date": "January 2021",
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9523.40,
-                "totalProceeds": 107069.00
+                "totalProceeds": 107069.00,
+                "none": 0
             },
             {
                 "date": "February 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
-                "totalProceeds": 107269.00
+                "totalProceeds": 107269.00,
+                "none": 0
             },
             {
                 "date": "March 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
-                "totalProceeds": 107269.00
+                "totalProceeds": 107269.00,
+                "none": 0
             },
             {
                 "date": "April 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
-                "totalProceeds": 107269.00
+                "totalProceeds": 107269.00,
+                "none": 0
             },
             {
                 "date": "May 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
-                "totalProceeds": 107269.00
+                "totalProceeds": 107269.00,
+                "none": 0
             },
             {
                 "date": "June 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
-                "totalProceeds": 107269.00
+                "totalProceeds": 107269.00,
+                "none": 0
             }
             ];
     }
@@ -138,7 +149,6 @@ export default class ProceedsPerMonthComponent extends Vue {
 
     // Create series
     createSeries(field: string, name: string) {
-
         // Set up series
         let series = this.chart.series.push(new am4charts.ColumnSeries());
         series.name = name;
@@ -151,7 +161,7 @@ export default class ProceedsPerMonthComponent extends Vue {
 
         // Configure columns
         series.columns.template.width = am4core.percent(60);
-        series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY.formatNumber('#.00')}";
+        series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: € {valueY.formatNumber('#,###.##')}";
 
         // Add label
         let labelBullet = series.bullets.push(new am4charts.LabelBullet());
@@ -160,9 +170,9 @@ export default class ProceedsPerMonthComponent extends Vue {
         labelBullet.fontSize = 12;
         labelBullet.label.hideOversized = true;
 
-        let totalSeries = chart.series.push(new am4charts.ColumnSeries());
+        let totalSeries = this.chart.series.push(new am4charts.ColumnSeries());
         totalSeries.dataFields.valueY = "none";
-        totalSeries.dataFields.categoryX = "year";
+        totalSeries.dataFields.categoryX = "date";
         totalSeries.stacked = true;
         totalSeries.hiddenInLegend = true;
         totalSeries.columns.template.strokeOpacity = 0;
@@ -170,9 +180,9 @@ export default class ProceedsPerMonthComponent extends Vue {
         // total label
         let totalBullet = totalSeries.bullets.push(new am4charts.LabelBullet());
         totalBullet.dy = -20;
-        totalBullet.label.text = "{valueY.total}";
+        totalBullet.label.text = "€ {valueY.total.formatNumber('#,###.##')}";
         totalBullet.label.hideOversized = false;
-        totalBullet.label.fontSize = 18;
+        totalBullet.label.fontSize = 12;
         totalBullet.label.background.fill = totalSeries.stroke;
         totalBullet.label.background.fillOpacity = 0.2;
         totalBullet.label.padding(5, 10, 5, 10);
