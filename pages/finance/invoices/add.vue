@@ -2,6 +2,7 @@
     <div>
         <v-card>
             <v-card-title>Add invoice</v-card-title>
+            <v-card-subtitle>Sequence number: {{invoice.SequenceNumber}}</v-card-subtitle>
             <v-card-text>
                 <v-form>
                     <v-row>
@@ -44,7 +45,7 @@
                     </v-row>
                     <v-row justify="space-around">
                         <v-btn color="error" @click="goBack">Cancel</v-btn>
-                        <v-btn color="success" @click="AddInvoice">Update</v-btn>
+                        <v-btn color="success" @click="AddInvoice">Add</v-btn>
                     </v-row>
                 </v-form>
             </v-card-text>

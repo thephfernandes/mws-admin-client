@@ -2,7 +2,10 @@
     <div>
         <v-card>
             <v-card-title>Edit invoice</v-card-title>
-            <v-card-subtitle>Invoice {{invoiceId}}</v-card-subtitle>
+            <v-card-subtitle>
+                <label class="block">Invoice {{invoiceId}}</label>
+                <label v-if="invoice.sequenceNumber" class="block">Sequence number: {{invoice.sequenceNumber}}</label>
+            </v-card-subtitle>
             <v-card-text>
                 <v-form>
                     <v-row>
@@ -90,3 +93,8 @@
         }
     }
 </script>
+<style lang="scss" scoped>
+.block {
+    display: block;
+}
+</style>

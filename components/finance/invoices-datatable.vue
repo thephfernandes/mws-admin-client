@@ -33,38 +33,24 @@
             <template v-slot:item.id="{item}">
                 <nuxt-link :to="`/finance/invoices/${item.id}`" class="link">{{item.id}}</nuxt-link>
             </template>
-            <template v-slot:item.auctionCharge="{item}">
-                &euro; {{ formatCurrency(item.auctionCharge) }}
+            <template v-slot:item.match.featuredClub.name="{item}">
+                <nuxt-link :to="`/clubs/${item.match.featuredClub.id}`" class="link">
+                    {{item.match.featuredClub.name}}
+                </nuxt-link>
             </template>
-            <template v-slot:item.clubPayout="{item}">
-                &euro; {{ formatCurrency(item.clubPayout) }}
+            <template v-slot:item.matchId="{item}">
+                {{item.match.homeClub.name}} - {{item.match.visitingClub.name}}
             </template>
-            <template v-slot:item.paymentHandling="{item}">
-                &euro; {{ formatCurrency(item.paymentHandling) }}
+            <template v-slot:item.agreementId="{item}">
+                <nuxt-link :to="`/finance/sellers/${item.agreementId}`" class="link">
+                    {{item.agreement.seller.name}}
+                </nuxt-link>
             </template>
             <template v-slot:item.price="{item}">
                 &euro; {{ formatCurrency(item.price) }}
             </template>
-            <template v-slot:item.setupCharge="{item}">
-                &euro; {{ formatCurrency(item.setupCharge) }}
-            </template>
-            <template v-slot:item.shipping="{item}">
-                &euro; {{ formatCurrency(item.shipping) }}
-            </template>
-            <template v-slot:item.paymentHandling="{item}">
-                &euro; {{ formatCurrency(item.paymentHandling) }}
-            </template>
-            <template v-slot:item.shippingCharge="{item}">
-                &euro; {{ formatCurrency(item.shippingCharge) }}
-            </template>
             <template v-slot:item.totalCharge="{item}">
                 &euro; {{ formatCurrency(item.totalCharge) }}
-            </template>
-            <template v-slot:item.vat="{item}">
-                &euro; {{ formatCurrency(item.vat) }}
-            </template>
-            <template v-slot:item.vatCharge="{item}">
-                &euro; {{ formatCurrency(item.vatCharge) }}
             </template>
         </v-data-table>
     </div>
@@ -115,53 +101,28 @@
                     value: 'id'
                 },
                 {
-                    text: 'Agreement',
-                    value: 'agreementId'
+                    text: 'Club',
+                    value: 'match.featuredClub.name'
                 },
                 {
                     text: 'Match',
                     value: 'matchId',
-                    divider: true
                 },
                 {
-                    text: 'Auction charge',
-                    value: 'auctionCharge'
+                    text: 'Invoice #',
+                    value: 'sequenceNumber'
                 },
                 {
-                    text: 'Club payout',
-                    value: 'clubPayout'
+                    text: 'Seller',
+                    value: 'agreementId'
                 },
                 {
-                    text: 'Payment handling',
-                    value: 'paymentHandling'
-                },
-                {
-                    text: 'Price',
+                    text: 'Proceeds',
                     value: 'price'
                 },
                 {
-                    text: 'Setup charge',
-                    value: 'setupCharge'
-                },
-                {
-                    text: 'Shipping',
-                    value: 'shipping'
-                },
-                {
-                    text: 'Shipping charge',
-                    value: 'shippingCharge'
-                },
-                {
-                    text: 'Total charge',
+                    text: 'MWS revenue',
                     value: 'totalCharge'
-                },
-                {
-                    text: 'VAT',
-                    value: 'vat'
-                },
-                {
-                    text: 'VAT charge',
-                    value: 'vatCharge'
                 }
             ];
         }
