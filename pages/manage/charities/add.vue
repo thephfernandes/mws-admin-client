@@ -7,7 +7,7 @@
 <script lang="ts">
 
 import { Component, Vue } from "nuxt-property-decorator";
-import EditCharity from "@/components/content/charities/Editor.vue";
+import EditCharity from "@/components/content/charities/CharityEditor.vue";
 
 @Component({
   components: {
