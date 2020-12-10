@@ -28,12 +28,12 @@ export const mutations = {
 };
 
 export const actions = {
-    async fillInvoices({ commit }) {
-        await this.$axios.get('/invoices').then((response) => {
-            if (response.status === 200) {
-                commit('setInvoices', response.data);
-            }
-        });
+    async getInvoicesSetToStore({ commit }) {
+        const response = await this.$axios.get('/invoices');
+
+        if (response.status === 200) {
+            commit('setInvoices', response.data);
+        }
     },
     updateInvoice({}, invoice) {
         return this.$axios.post(`/invoices/${invoice.id}`, invoice);
@@ -42,11 +42,11 @@ export const actions = {
         return this.$axios.post('/invoices', invoice);
     },
     async getInvoiceItems({ commit }, invoiceId) {
-        await this.$axios.get(`/invoices/${invoiceId}/items`).then((response) => {
-            if (response.status === 200) {
-                commit('setInvoiceItems', response.data)
-            }
-        }).catch((error) => { console.error(error) });
+        const response = await this.$axios.get(`/invoices/${invoiceId}/items`);
+
+        if (response.status === 200) {
+            commit('setInvoiceItems', response.data)
+        }
     },
     addInvoiceItem({}, invoiceItem) {
         return this.$axios.post(`/invoices/${invoiceItem.InvoiceId}/items`, invoiceItem);

@@ -68,7 +68,7 @@
         };
 
         created(): void {
-            this.$store.dispatch('invoices/fillInvoices');
+            this.$store.dispatch('invoices/getInvoicesSetToStore');
         }
 
         @Watch('invoices')
