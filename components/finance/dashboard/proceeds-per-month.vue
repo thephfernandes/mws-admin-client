@@ -132,6 +132,12 @@ export default class ProceedsPerMonthComponent extends Vue {
         }
     }
 
+    defaultZoom(categoryAxis: am4charts.CategoryAxis): void {
+        this.chart.events.on('ready', function () {
+            categoryAxis.zoomToCategories('July 2020', 'November 2020');
+        });
+    }
+
     createChart(): void {
         this.chart = am4core.create(this.$refs.proceedsPerMonthChart as HTMLElement, am4charts.XYChart);
         this.chart.data = this.chartData;
@@ -141,8 +147,10 @@ export default class ProceedsPerMonthComponent extends Vue {
         categoryAxis.dataFields.category = "date";
         categoryAxis.renderer.grid.template.location = 0;
 
+        this.defaultZoom(categoryAxis);
+
         let valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.title.text = "Amount in euro's"
+        valueAxis.title.text = "Amount in euro's";
         valueAxis.extraMax = 0.1;
         valueAxis.calculateTotals = true;
         valueAxis.min = 0;
