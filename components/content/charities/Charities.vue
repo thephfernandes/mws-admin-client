@@ -32,7 +32,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <slot></slot>
+    <slot name="choose-month"></slot>
     <v-card-title>
       <v-text-field
         v-model="search"
