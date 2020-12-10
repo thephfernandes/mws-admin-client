@@ -121,7 +121,7 @@
         get sellers() {
             const sellers: ISeller[] = this.$store.getters['sellers/getSellers'];
             if (sellers.length === 0) {
-                this.$store.dispatch('sellers/fillSellers');
+                this.$store.dispatch('sellers/getSellersSetToStore');
             }
             const items: any = [];
             sellers.forEach((s) => {
