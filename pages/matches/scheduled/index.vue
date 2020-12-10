@@ -14,6 +14,10 @@ import Charities from "@/components/content/charities/Charities.vue";
   },
 })
 export default class Index extends Vue {
+
+  fetchMatches() {
+    this.$store.dispatch("matches/fillMatches")
+  }
   
   created() {
     console.log("on");
