@@ -5,7 +5,7 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-menu
-                        ref="menu"
+                        ref="menuStart"
                         v-model="menuStart"
                         :close-on-content-click="false"
                         :return-value.sync="dateStart"
@@ -22,7 +22,7 @@
                                 readonly
                                 v-bind="attrs"
                                 v-on="on"
-                            ></v-text-field>
+                            />
                         </template>
                         <v-date-picker
                             v-model="dateStart"
@@ -30,18 +30,18 @@
                             no-title
                             scrollable
                         >
-                            <v-spacer></v-spacer>
+                            <v-spacer/>
                             <v-btn
                                 text
                                 color="primary"
-                                @click="menu = false"
+                                @click="menuStart = false"
                             >
                                 Cancel
                             </v-btn>
                             <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.menu.save(dateStart)"
+                                @click="$refs.menuStart.save(dateStart)"
                             >
                                 OK
                             </v-btn>
@@ -49,7 +49,7 @@
                     </v-menu>
                     <v-spacer />
                     <v-menu
-                        ref="menu"
+                        ref="menuEnd"
                         v-model="menuEnd"
                         :close-on-content-click="false"
                         :return-value.sync="dateEnd"
@@ -66,7 +66,7 @@
                                 readonly
                                 v-bind="attrs"
                                 v-on="on"
-                            ></v-text-field>
+                            />
                         </template>
                         <v-date-picker
                             v-model="dateEnd"
@@ -74,18 +74,18 @@
                             no-title
                             scrollable
                         >
-                            <v-spacer></v-spacer>
+                            <v-spacer />
                             <v-btn
                                 text
                                 color="primary"
-                                @click="menu = false"
+                                @click="menuEnd = false"
                             >
                                 Cancel
                             </v-btn>
                             <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.menu.save(dateEnd)"
+                                @click="$refs.menuEnd.save(dateEnd)"
                             >
                                 OK
                             </v-btn>
