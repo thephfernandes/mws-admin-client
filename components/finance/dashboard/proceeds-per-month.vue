@@ -21,18 +21,20 @@ export default class ProceedsPerMonthComponent extends Vue {
     get chartData() {
         return [
             {
-            "date": "July 2020",
-            "setupFee": 21860.75,
-            "21Fee": 28050.06,
-            "handlingCosts": 23180.30,
-            "totalProceeds": 205401.00,
-            "none": 0
+                "date": "July 2020",
+                "setupFee": 21860.75,
+                "21Fee": 28050.06,
+                "handlingCosts": 23180.30,
+                "clubPayout": 132309.89,
+                "totalProceeds": 205401.00,
+                "none": 0
             },
             {
                 "date": "August 2020",
                 "setupFee": 7499.19,
                 "21Fee": 7305.92,
                 "handlingCosts": 3528.90,
+                "clubPayout": 20922.99,
                 "totalProceeds": 39257.00,
                 "none": 0
             },
@@ -41,15 +43,17 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9523.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107069.00,
                 "none": 0
             },
             {
                 "date": "November 2020",
-                "setupFee": 18500.00,
-                "21Fee": 19772.85,
-                "handlingCosts": 9523.40,
-                "totalProceeds": 107069.00,
+                "setupFee": 20500.00,
+                "21Fee": 21772.85,
+                "handlingCosts": 12523.40,
+                "clubPayout": 67272.75,
+                "totalProceeds": 122069.00,
                 "none": 0
             },
             {
@@ -57,6 +61,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9323.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107069.00,
                 "none": 0
             },
@@ -65,6 +70,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 19772.85,
                 "handlingCosts": 9523.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107069.00,
                 "none": 0
             },
@@ -73,6 +79,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107269.00,
                 "none": 0
             },
@@ -81,6 +88,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107269.00,
                 "none": 0
             },
@@ -89,6 +97,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107269.00,
                 "none": 0
             },
@@ -97,6 +106,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107269.00,
                 "none": 0
             },
@@ -105,6 +115,7 @@ export default class ProceedsPerMonthComponent extends Vue {
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
+                "clubPayout": 59272.75,
                 "totalProceeds": 107269.00,
                 "none": 0
             }
@@ -122,7 +133,7 @@ export default class ProceedsPerMonthComponent extends Vue {
     }
 
     createChart(): void {
-        this.chart = am4core.create(this.$refs.proceedsPerMonthChart, am4charts.XYChart);
+        this.chart = am4core.create(this.$refs.proceedsPerMonthChart as HTMLElement, am4charts.XYChart);
         this.chart.data = this.chartData;
 
         // Create axes
@@ -139,6 +150,9 @@ export default class ProceedsPerMonthComponent extends Vue {
         this.createSeries("setupFee", "Setup Fee");
         this.createSeries("21Fee", "21% Fee");
         this.createSeries("handlingCosts", "Handling Costs");
+        this.createSeries("clubPayout", "Club Payout");
+
+        this.createTotalSeries();
 
         this.chart.legend = new am4charts.Legend();
 
@@ -161,15 +175,19 @@ export default class ProceedsPerMonthComponent extends Vue {
 
         // Configure columns
         series.columns.template.width = am4core.percent(60);
-        series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: € {valueY.formatNumber('#,###.##')}";
+        series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: € {valueY.formatNumber('#,###.00')}";
 
         // Add label
         let labelBullet = series.bullets.push(new am4charts.LabelBullet());
-        labelBullet.label.text = "€ {valueY.formatNumber('#,###.##')}";
+        labelBullet.label.text = "€ {valueY.formatNumber('#,###.00')}";
         labelBullet.locationY = 0.5;
         labelBullet.fontSize = 12;
         labelBullet.label.hideOversized = true;
 
+        return series;
+    }
+
+    createTotalSeries(): void {
         let totalSeries = this.chart.series.push(new am4charts.ColumnSeries());
         totalSeries.dataFields.valueY = "none";
         totalSeries.dataFields.categoryX = "date";
@@ -180,14 +198,12 @@ export default class ProceedsPerMonthComponent extends Vue {
         // total label
         let totalBullet = totalSeries.bullets.push(new am4charts.LabelBullet());
         totalBullet.dy = -20;
-        totalBullet.label.text = "€ {valueY.total.formatNumber('#,###.##')}";
+        totalBullet.label.text = "€ {valueY.total.formatNumber('#,###.00')}";
         totalBullet.label.hideOversized = false;
         totalBullet.label.fontSize = 12;
         totalBullet.label.background.fill = totalSeries.stroke;
         totalBullet.label.background.fillOpacity = 0.2;
         totalBullet.label.padding(5, 10, 5, 10);
-
-        return series;
     }
 
 }
