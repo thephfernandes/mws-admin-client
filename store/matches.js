@@ -117,5 +117,8 @@ export const actions = {
     if (response.status === 200) {
       commit("setInvoices", response.data);
     }
+  },
+  updateMatch ({ commit }, payload) {
+    commit("setMatch", payload);
   }
 };
