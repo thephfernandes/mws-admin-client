@@ -67,7 +67,7 @@ export default class EditCharity extends Vue {
 
   created() {
     this.id = this.create ? 0 : parseInt(this.$route.params.id);
-    this.$store.dispatch("charity/fillCharity", { id: this.id }).then(() => {
+    this.$store.dispatch("charity/getCharitySetToStore", { id: this.id }).then(() => {
       const charity = this.$store.getters["charity/getCharity"];
       this.charity = Object.assign({}, charity);
     });
