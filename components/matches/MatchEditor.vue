@@ -1,9 +1,31 @@
 <template>
   <v-form>
     <v-container class="edit-charity">
-      <div v-if="create" class="font-weight-bold">Add a new charity</div>
-      <div v-else class="font-weight-bold">Editing charity ID {{ id }}</div>
+      <div v-if="create" class="font-weight-bold">Add a new match</div>
+      <div v-else class="font-weight-bold">Editing match ID {{ id }}</div>
       <br />
+      <div class="text-h4">Teams: {{ match.teams }}</div>
+      <br />
+      <div class="text-h5">Featured club: {{ match.featured_club }}</div>
+      <v-row>
+        <v-col class="d-flex" cols="12" sm="6" md="4">
+          <v-text-field
+            label="Name"
+            placeholder="Put your name here"
+            v-model="name"
+            outlined
+          />
+        </v-col>
+        <v-col class="d-flex" cols="12" sm="6" md="4">
+          <v-select
+            :items="agreements"
+            label="Choose invoice agreement"
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
+      <br />
+      <FinishEdit @save-post="saveMatch" @delete-post="deleteMatch" />
     </v-container>
   </v-form>
 </template>
@@ -11,6 +33,10 @@
 <script lang="ts">
 import { Prop, Component, Vue } from "nuxt-property-decorator";
 import FinishEdit from "@/components/shared/FinishEdit.vue";
+
+interface keyable {
+  [key: string]: any;
+}
 
 @Component({
   components: {
@@ -21,7 +47,8 @@ export default class MatchEditor extends Vue {
   @Prop({ type: Boolean, required: true }) create!: boolean;
   private id = 0;
   // private charity: Charity = new Charity();
-  private match = {};
+  private match: keyable = {};
+  private name: string = "";
 
   created() {
     this.id = this.create ? 0 : parseInt(this.$route.params.id);
@@ -33,8 +60,8 @@ export default class MatchEditor extends Vue {
       });
   }
 
-  get invoices() {
-    return this.$store.getters["matches/getInvoices"];
+  get agreements() {
+    return this.$store.getters["matches/getAgreements"];
   }
 
   saveMatch() {

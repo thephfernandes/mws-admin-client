@@ -12,6 +12,7 @@ export const getters = {
   getMatches: (state) => state.matches,
   getStats: (state) => state.stats,
   getInvoices: (state) => state.invoices,
+  getAgreements: (state) => state.invoices.map(i => i.id), // replace id with name later
   getMatch: (state) => state.match,
 };
 
@@ -104,16 +105,15 @@ export const actions = {
       const data = response.data;
       const match = {
         ...data,
-        match: data.home_club + " - " + data.visiting_club,
+        teams: data.home_club + " - " + data.visiting_club,
       }
       commit("setMatch", match);
       dispatch("getInvoicesSetToStore", {id: match.featured_club_id});
     }
   },
   async getInvoicesSetToStore({ commit }, payload) {
-    const NEW_URL = "https://sls-weur-dev-mws-admin-portal.azurewebsites.net";
-    const response = await axios
-      .get(NEW_URL + `/api/clubs/${payload.id}/agreements`);
+    const response = await this.$axios
+      .get(`/clubs/${payload.id}/agreements`);
     if (response.status === 200) {
       commit("setInvoices", response.data);
     }
