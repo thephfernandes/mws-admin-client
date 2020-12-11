@@ -68,7 +68,7 @@ export default class MatchEditor extends Vue {
     if (this.checkMatch()) {
       this.$store.dispatch("match/updateMatch", this.match);
       alert("Saving match");
-      this.$router.push({ path: "/manage/charities" });
+      this.$router.push({ path: "/match/scheduled" });
     }
   }
 
