@@ -4,7 +4,7 @@
       <v-col v-for="(stat, index) in stats" :key="index" cols="12" sm="6" md="6" lg="3">
         <v-card>
           <v-card-title class="justify-space-between">
-            <v-icon class="text-h4 mdi-flip-h green--text">{{ stat.icon }}</v-icon>
+            <v-icon class="text-h3 mdi-flip-h green--text">{{ stat.icon }}</v-icon>
             <span>
               <div class="text-body-2 grey--text text--darken-1 text-right">{{ stat.name }}</div>
               <div class="text-h5 text-right">{{ stat.amount }}</div>
@@ -19,6 +19,11 @@
         </v-card>
       </v-col>
     </v-row>
+    <nuxt-link :to="'/matches/scheduled/add'" title="Create a new match">
+      <v-btn color="primary" class="new-match">
+        Create a new match
+      </v-btn>
+    </nuxt-link>
     <v-card-title>
       <v-text-field
         v-model="search"
@@ -74,21 +79,19 @@ export default class Matches extends Vue {
       sortable: false,
       align: "center",
       value: "HomeClubName",
-      // width: "4rem",
     },
     {
       text: "Visitor Team",
       sortable: false,
       align: "center",
       value: "VisitingClubName",
-      // width: "10rem",
     },
     {
       text: "Date",
       sortable: false,
       align: "center",
       value: "localDate",
-      width: "8rem",
+      width: "12rem",
     },
     {
       text: "Status",
@@ -105,7 +108,7 @@ export default class Matches extends Vue {
   ];
 
   editMatch(e: keyable) {
-    this.$router.push({ path: "/matches/" + e.ID });
+    this.$router.push({ path: "/matches/scheduled/" + e.ID });
   }
 }
 </script>

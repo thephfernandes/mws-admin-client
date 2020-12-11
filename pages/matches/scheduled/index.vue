@@ -15,8 +15,8 @@ import Matches from "@/components/matches/Matches.vue";
 })
 export default class Index extends Vue {
   created() {
-    this.$store.dispatch("matches/fillMatches");
-    this.$store.dispatch("matches/fillStats");
+    this.$store.dispatch("matches/getMatchesSetToStore");
+    this.$store.dispatch("matches/getStatsSetToStore");
   }
 
   get matches() {
