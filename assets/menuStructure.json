@@ -53,6 +53,10 @@
                 {
                     "name": "Invoice Agreements",
                     "to": "/clubs"
+                },
+                {
+                    "name": "Club-invoices",
+                    "to": "/finance/invoices"
                 }
             ]
         }

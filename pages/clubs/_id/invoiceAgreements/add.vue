@@ -16,6 +16,13 @@
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
                         <v-text-field
+                            label="Name"
+                            v-model="InvoiceAgreement.name"
+                            outlined
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6" lg="4">
+                        <v-text-field
                                 label="Payment handling percentage"
                                 type="number"
                                 outlined
@@ -106,7 +113,7 @@
         get sellers() {
             const sellers: ISeller[] = this.$store.getters['sellers/getSellers'];
             if (sellers.length === 0) {
-                this.$store.dispatch('sellers/fillSellers');
+                this.$store.dispatch('sellers/getSellersSetToStore');
             }
             const items: any = [];
             sellers.forEach((s) => {

@@ -19,7 +19,7 @@ export default class Index extends Vue {
     }
 
     mounted(): void {
-        this.$store.dispatch('sellers/fillSellers');
+        this.$store.dispatch('sellers/getSellersSetToStore');
     }
 }
 </script>
