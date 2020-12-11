@@ -18,7 +18,7 @@ export default class clubDetailPage extends Vue {
 
     created() {
         this.clubId = parseInt(this.$route.params.id);
-        this.$store.dispatch('clubs/getInvoiceAgreement', this.clubId);
+        this.$store.dispatch('clubs/getInvoiceAgreementSetToStore', this.clubId);
         this.setClubs();
     }
 
