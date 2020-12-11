@@ -41,7 +41,7 @@ export const actions = {
     addInvoice({}, invoice) {
         return this.$axios.post('/invoices', invoice);
     },
-    async getInvoiceItems({ commit }, invoiceId) {
+    async getInvoiceItemsSetToStore({ commit }, invoiceId) {
         const response = await this.$axios.get(`/invoices/${invoiceId}/items`);
 
         if (response.status === 200) {

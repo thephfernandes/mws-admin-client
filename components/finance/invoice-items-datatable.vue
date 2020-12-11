@@ -48,7 +48,7 @@
 
         created(): void {
             this.invoiceId = parseInt(this.$route.params.id);
-            this.$store.dispatch('invoices/getInvoiceItems', this.invoiceId);
+            this.$store.dispatch('invoices/getInvoiceItemsSetToStore', this.invoiceId);
         }
 
         toInvoiceItem(invoiceItem: IInvoiceItem): void {
