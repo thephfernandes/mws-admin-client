@@ -38,20 +38,18 @@ export const mutations = {
 };
 
 export const actions = {
-  async fillCharity({ commit }, payload) {
+  async getCharitySetToStore({ commit }, payload) {
     if (payload.id === 0) {
       commit("setCharity", new Charity());
     } else {
-      await axios
-        .post(API_URL + "/api/v1/charities")
-        .then((response) => response.data)
-        .then((response) => {
-          const charity = response.find((charity) => charity.id === payload.id);
-          commit("setCharity", charity);
-        });
+      const response = await axios.get(API_URL + "/api/v1/charities");
+      if (response.status === 200) {
+        const charity = response.data.find((charity) => charity.id === payload.id);
+        commit("setCharity", charity);
+      }
     }
   },
-  async fillCharities({ commit }, payload) {
+  async getCharitiesSetToStore({ commit }, payload) {
     const ym = payload.month === "" ? "" : payload.month.split("-");
     const cutShort = (str) => {
       let L = str.length,
@@ -63,33 +61,29 @@ export const actions = {
       }
       return str.slice(0, i);
     };
-    axios
-      .post(
-        API_URL + "/api/v1/charities",
-        ym === "" ? {} : { Year: ym[0], Month: ym[1] }
-      )
-      .then((response) => response.data)
-      .then((response) => {
-        const charities = [];
-        for (let charity of response) {
-          charities.push({
-            ...charity,
-            description: cutShort(charity.description) + "...",
-          });
-        }
-        commit("setCharities", charities)
-      });
+    const response = await axios.post(
+      API_URL + "/api/v1/charities",
+      ym === "" ? {} : { Year: ym[0], Month: ym[1] }
+    )
+    if (response.status === 200) {
+      const charities = [];
+      for (let charity of response.data) {
+        charities.push({
+          ...charity,
+          description: cutShort(charity.description) + "...",
+        });
+      }
+      commit("setCharities", charities)
+    }
   },
-  async fillTotalStat({ commit }) {
-    axios
-      .get(API_URL + "/api/v1/charities/dashboard")
-      .then((response) => response.data)
-      .then((response) => {
-        const total = "€ " + response.total_amount_raised.toLocaleString();
-        const total_last_month =
-          "€ " + response.total_amount_raised_last_month.toLocaleString();
+  async getTotalStatSetToStore({ commit }) {
+    const response = await axios.get(API_URL + "/api/v1/charities/dashboard")
+    if (response.status === 200) {
+      const total = "€ " + response.data.total_amount_raised.toLocaleString();
+      const total_last_month =
+        "€ " + response.data.total_amount_raised_last_month.toLocaleString();
         commit("setTotalStat", {total, total_last_month})
-      });
+    }
   },
   updateCharity ({ commit }, payload) {
     commit("setCharity", payload);

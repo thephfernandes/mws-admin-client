@@ -129,11 +129,11 @@ export default class EditPost extends Vue {
 
   created() {
     this.id = this.create ? 0 : parseInt(this.$route.params.id);
-    this.$store.dispatch("news/fillPost", { id: this.id }).then(() => {
+    this.$store.dispatch("news/getPostSetToStore", { id: this.id }).then(() => {
       const post = this.$store.getters["news/getPost"];
       this.post = Object.assign({}, post);
     });
-    this.$store.dispatch("news/fillFileUrls", { id: this.id });
+    this.$store.dispatch("news/getFileUrlsSetToStore", { id: this.id });
   }
 
   fileNames() {

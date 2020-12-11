@@ -72,11 +72,11 @@ export default class Index extends Vue {
 
   created() {
     this.fetchCharities(); 
-    this.$store.dispatch("charity/fillTotalStat");
+    this.$store.dispatch("charity/getTotalStatSetToStore");
   }
 
   fetchCharities() {
-    this.$store.dispatch("charity/fillCharities", { month: this.month });
+    this.$store.dispatch("charity/getCharitiesSetToStore", { month: this.month });
   }
 
   get charities() {
