@@ -84,11 +84,13 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'token' }
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+          user: false
         },
         redirect: {
           login: '/login',
-          home: '/'
+          home: '/',
+          logout: false
         },
         tokenRequired: true,
         autoFetchUser: false,

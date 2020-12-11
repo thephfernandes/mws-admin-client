@@ -37,7 +37,7 @@
             <v-row justify="center">
               <v-col cols="12">
                 <v-card-actions>
-                  <v-btn @click="login" block color="primary" :loading="loading">
+                  <v-btn @click="login" block color="primary" type="submit" :loading="loading">
                     Login
                   </v-btn>
                 </v-card-actions>
