@@ -18,4 +18,14 @@ export interface IMatch {
   VisitingClubID: number
   VisitingClubName: string
   Worn: boolean
+  status: string
+  localDate: string
+  worn: string
+}
+
+export interface IStat {
+  title: string
+  icon: string
+  name: string
+  amount: string
 }

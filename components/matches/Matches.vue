@@ -1,38 +1,24 @@
 <template>
-  <v-container class="charity-table">
+  <v-container class="matches-table">
     <v-row>
-      <v-col cols="12" sm="6" md="6" xl="3">
+      <v-col v-for="(stat, index) in stats" :key="index" cols="12" sm="6" md="6" lg="3">
         <v-card>
           <v-card-title class="justify-space-between">
-            <v-icon class="text-h3 green--text">mdi-cash-check</v-icon>
-            <span class="text-h6 grey--text text--darken-1">{{ total }}</span>
+            <v-icon class="text-h4 mdi-flip-h green--text">{{ stat.icon }}</v-icon>
+            <span>
+              <div class="text-body-2 grey--text text--darken-1 text-right">{{ stat.name }}</div>
+              <div class="text-h5 text-right">{{ stat.amount }}</div>
+            </span> 
           </v-card-title>
           <v-divider class="mx-4"></v-divider>
           <v-card-text>
-            <div class="text-body-1 grey--text text--darken-2 text-right">
-              Total money raised all time
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="6" md="6" xl="3">
-        <v-card>
-          <v-card-title class="justify-space-between">
-            <v-icon class="text-h3 green--text">mdi-chart-box</v-icon>
-            <span class="text-h6 grey--text text--darken-1">
-              {{ total_last_month }}
-            </span>
-          </v-card-title>
-          <v-divider class="mx-4"></v-divider>
-          <v-card-text>
-            <div class="text-body-1 grey--text text--darken-2 text-right">
-              Money raised last month
+            <div class="text-body-2 grey--text text--darken-2 text-right">
+              {{ stat.title }}
             </div>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
-    <slot name="choose-month"></slot>
     <v-card-title>
       <v-text-field
         v-model="search"
@@ -43,29 +29,19 @@
       ></v-text-field>
     </v-card-title>
     <div class="font-weight-bold">
-      Click on any charity to edit information
+      Click on any match to edit information
     </div>
     <br />
     <v-data-table
       :headers="tableHeaders"
-      :items="charities"
+      :items="matches"
       :items-per-page="10"
       class="elevation-1 charity-table"
       :search="search"
-      @click:row="editCharity"
+      @click:row="editMatch"
       :footer-props="footerPropsOptions"
-      :loading="charities.length === 0"
+      :loading="matches.length === 0"
     >
-      <template v-slot:item.total_raised="{ item }">
-        <div>
-          € {{ item.total_raised }}.00
-        </div>
-      </template>
-      <template v-slot:item.description="{ item }">
-        <div class="text-justify">
-          {{ item.description }}
-        </div>
-      </template>
     </v-data-table>
     <br />
   </v-container>
@@ -73,17 +49,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator";
-import { IMatch } from "~/interfaces/IMatch"
+import { IMatch, IStat } from "~/interfaces/IMatch"
 
 interface keyable {
   [key: string]: any;
 }
 
 @Component
-export default class Charities extends Vue {
+export default class Matches extends Vue {
   @Prop({ type: Array, required: true }) matches!: IMatch[];
-  @Prop({ type: String, required: true }) total!: "";
-  @Prop({ type: String, required: true }) total_last_month!: "";
+  @Prop({ type: Array, required: true }) stats!: IStat[];
+
   private search = "";
   private footerPropsOptions = {
     showFirstLastPage: true,
@@ -94,46 +70,52 @@ export default class Charities extends Vue {
 
   private tableHeaders = [
     {
-      text: "ID",
-      sortable: true,
+      text: "Local Team",
+      sortable: false,
       align: "center",
-      value: "id",
+      value: "HomeClubName",
       // width: "4rem",
     },
     {
-      text: "Title",
-      sortable: true,
+      text: "Visitor Team",
+      sortable: false,
       align: "center",
-      value: "title",
+      value: "VisitingClubName",
       // width: "10rem",
     },
     {
-      text: "Raised",
-      sortable: true,
-      align: "center",
-      value: "total_raised",
-      // width: "8rem",
-    },
-    {
-      text: "Description",
+      text: "Date",
       sortable: false,
       align: "center",
-      value: "description",
+      value: "localDate",
+      width: "8rem",
+    },
+    {
+      text: "Status",
+      sortable: false,
+      align: "center",
+      value: "status",
+    },
+    {
+      text: "Worn",
+      sortable: false,
+      align: "center",
+      value: "worn",
     },
   ];
 
-  editCharity(e: keyable) {
-    this.$router.push({ path: "/manage/charities/" + e.id });
+  editMatch(e: keyable) {
+    this.$router.push({ path: "/matches/" + e.ID });
   }
 }
 </script>
 
 <style>
 .v-data-table td {
-  padding: 1.5rem !important;
+  padding: 0.5rem !important;
 }
 
-.charity-table tbody tr {
+.matches-table tbody tr {
   cursor: pointer;
 }
 </style>

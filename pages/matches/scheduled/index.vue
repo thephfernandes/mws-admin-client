@@ -1,28 +1,32 @@
 <template>
   <div>
-    <div>This is working rite</div>
+    <Matches :matches="matches" :stats="stats" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-import Charities from "@/components/content/charities/Charities.vue";
+import Matches from "@/components/matches/Matches.vue";
 
 @Component({
   components: {
-    Charities,
+    Matches,
   },
 })
 export default class Index extends Vue {
-
-  fetchMatches() {
-    this.$store.dispatch("matches/fillMatches")
-  }
-  
   created() {
-    console.log("on");
+    this.$store.dispatch("matches/fillMatches");
+    this.$store.dispatch("matches/fillStats");
   }
-  
+
+  get matches() {
+    return this.$store.getters["matches/getMatches"];
+  }
+
+  get stats() {
+    return this.$store.getters["matches/getStats"];
+  }
+
   layout() {
     return "mws";
   }
