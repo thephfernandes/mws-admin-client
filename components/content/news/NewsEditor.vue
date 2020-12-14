@@ -85,7 +85,7 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <div class="text-body-1 news-content">Post Content</div>
+            <div class="text-body-2 font-weight-bold news-content">Content</div>
             <Editor
               api-key="no-api-key"
               v-model="post.Content"
@@ -100,27 +100,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator";
-import Posts from "@/components/content/news/News.vue";
-import FinishEdit from "@/components/content/news/UploadNews.vue";
+import { Prop, Component, Vue } from "nuxt-property-decorator";
+import FinishEdit from "@/components/shared/FinishEdit.vue";
 import Editor from "@tinymce/tinymce-vue";
-
-interface keyable {
-  [key: string]: any;
-}
+import { INews } from "~/interfaces/INews";
+import { News } from "~/models/news"
 
 @Component({
   components: {
-    Posts,
     FinishEdit,
     Editor,
   },
 })
 export default class EditPost extends Vue {
+  @Prop({ type: Boolean, required: true }) create!: boolean;
   private id = 0;
-  private create = false;
-  private post: keyable = {};
-  private API_URL = "https://mws-cms-api.herokuapp.com";
+  private post: INews = new News;
   private editorInit = {
     images_upload_url: "/upload",
     image_title: true,
@@ -133,10 +128,12 @@ export default class EditPost extends Vue {
   };
 
   created() {
-    this.id = parseInt(this.$route.params.id);
-    this.create = this.id === 0;
-    this.getPost();
-    this.$store.dispatch("news/fillFileUrls", { id: this.id });
+    this.id = this.create ? 0 : parseInt(this.$route.params.id);
+    this.$store.dispatch("news/getPostSetToStore", { id: this.id }).then(() => {
+      const post = this.$store.getters["news/getPost"];
+      this.post = Object.assign({}, post);
+    });
+    this.$store.dispatch("news/getFileUrlsSetToStore", { id: this.id });
   }
 
   fileNames() {
@@ -148,43 +145,18 @@ export default class EditPost extends Vue {
       );
       fileNames.push(name);
     }
-    return fileNames;
+    return fileNames; 
   }
 
   get fileUrls() {
     return this.$store.getters["news/getFileUrls"];
   }
 
-  getPost() {
-    if (!this.create) {
-      // will be replaced with real API
-      let file = require("../posts.json");
-      let post = file.posts.find((post: keyable) => post.Id === this.id);
-      this.post = {
-        ...post,
-        PreviewImage: post.PreviewImage.replace(
-          "https://matchwornshirt.imgix.net/news/" + this.id + "/",
-          ""
-        ),
-      };
-    } else {
-      this.post = {
-        Id: 0,
-        Title: "",
-        PreviewText: "",
-        Content: "",
-        Writer: "",
-        Tags: "",
-        Published: false,
-        Created: "",
-        PreviewImage: "",
-      };
-    }
-  }
-
   savePost() {
     if (this.checkPost()) {
+      this.$store.dispatch("news/updatePost", this.post)
       alert("Saving posts");
+      this.$router.push({ path: "/manage/news" });
     }
   }
 
@@ -206,10 +178,6 @@ export default class EditPost extends Vue {
       return false;
     }
     return true;
-  }
-
-  layout() {
-    return "mws";
   }
 }
 </script>

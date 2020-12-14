@@ -18,7 +18,7 @@ export default class clubDetailPage extends Vue {
 
     created() {
         this.clubId = parseInt(this.$route.params.id);
-        this.$store.dispatch('clubs/getInvoiceAgreement', this.clubId);
+        this.$store.dispatch('clubs/getInvoiceAgreementSetToStore', this.clubId);
         this.setClubs();
     }
 
@@ -37,7 +37,7 @@ export default class clubDetailPage extends Vue {
     setClubs(): void {
         const clubs: IClub[] = this.$store.getters['clubs/getClubs'];
         if (clubs.length > 0) return;
-        this.$store.dispatch('clubs/fillClubs');
+        this.$store.dispatch('clubs/getClubsSetToStore');
     }
 }
 </script>

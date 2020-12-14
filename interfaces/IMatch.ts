@@ -1,21 +1,29 @@
+import {IVisitingClub} from "~/interfaces/IVisitingClub";
+import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
+import {IFeaturedClub} from "~/interfaces/IFeaturedClub";
+import {IHomeClub} from "~/interfaces/IHomeClub";
+
 export interface IMatch {
-    ID: number;
-    HomeClubID: number;
-    VisitingClubID: number;
-    FeaturedClubID: number;
-    Date: string;
-    Score: string;
-    Stadium: string;
-    Finished: boolean;
-    Worn: boolean;
-    SportMonksID: number;
-    KitID: number;
-    CheckedFinishing: boolean;
-    Published: boolean;
-    SpecialEventHomeClub: number;
-    SpecialEventAwayClub: number;
-    EndDate: string;
-    HomeClubName: string;
-    VisitingClubName: string;
-    FeaturedClubName: string;
+    id: number
+    date: string
+    endDate: string
+    originalEndDate: string
+    score: any
+    stadium: string
+    specialEventHomeClub: any
+    specialEventAwayClub: string
+    kitId: number
+    published: boolean
+    finished: boolean
+    featured: boolean
+    worn: boolean
+    checkedFinishing: boolean
+    homeClubId: number
+    homeClub: IHomeClub
+    visitingClubId: number
+    visitingClub: IVisitingClub
+    featuredClubId: number
+    featuredClub: IFeaturedClub
+    invoiceAgreementId: number
+    invoiceAgreement: IInvoiceAgreement
 }

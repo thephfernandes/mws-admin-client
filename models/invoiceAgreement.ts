@@ -1,6 +1,7 @@
 export default class InvoiceAgreement {
     public clubId: number = 0;
     public sellerId: number = 0;
+    public name: string = '';
     public thirdPartyVatPercentage: number = 0;
     public paymentHandlingPercentage: number = 0;
     public shippingInsurancePercentage: number = 0;

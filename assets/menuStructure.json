@@ -24,6 +24,10 @@
                 {
                   "name": "News",
                   "to": "/manage/news"
+                },
+                {
+                  "name": "Charities",
+                  "to": "/manage/charities"
                 }
             ]
         },
@@ -49,6 +53,10 @@
                 {
                     "name": "Invoice Agreements",
                     "to": "/clubs"
+                },
+                {
+                    "name": "Club-invoices",
+                    "to": "/finance/invoices"
                 }
             ]
         }

@@ -3,6 +3,7 @@
         <v-data-table
             :items="sellers"
             :headers="headers"
+            :search="search"
             :loading="loading"
             loading-text="Loading sellers..."
             :footer-props="footerPropsOptions"
@@ -10,7 +11,9 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>All sellers</v-toolbar-title>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
+                    <v-text-field label="Search" v-model="search" hide-details outlined dense />
+                    <v-spacer />
                     <nuxt-link to="/finance/sellers/add" class="link">
                         <v-btn color="success">
                             <v-icon class="mr-2">mdi-plus</v-icon>
@@ -21,6 +24,9 @@
             </template>
             <template v-slot:item.id="{item}">
                 <nuxt-link :to="`/finance/sellers/${item.id}`" class="link">{{item.id}}</nuxt-link>
+            </template>
+            <template v-slot:item.nextInvoiceId="{ item }">
+                {{item.invoiceIdPrefix}}{{item.nextInvoiceId}}
             </template>
             <template v-slot:item.name="{item}">
                 <nuxt-link :to="`/finance/sellers/${item.id}`" class="link">{{item.name}}</nuxt-link>
@@ -42,6 +48,7 @@ import {ISeller} from "~/interfaces/ISeller";
 export default class SellersDatatableComponent extends Vue {
     @Prop({ type: Array, required: true }) readonly sellers!: ISeller[];
     loading: boolean = true;
+    search: string = '';
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
@@ -60,13 +67,9 @@ export default class SellersDatatableComponent extends Vue {
                 value: 'id'
             },
             {
-                text: 'Next invoiceId',
+                text: 'Next invoice prefix',
                 value: 'nextInvoiceId',
                 divider: true
-            },
-            {
-                text: 'Invoice Prefix',
-                value: 'invoiceIdPrefix'
             },
             {
                 text: 'Name',
