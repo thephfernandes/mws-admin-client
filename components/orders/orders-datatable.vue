@@ -179,7 +179,7 @@
     import {Order} from "~/models/order";
     import {FramingStatus} from "~/enums/framingStatus";
     import Country from "~/assets/data/countries.json";
-    import {IMatch} from "~/interfaces/IMatch";
+    import {IMatch} from "~/interfaces/v1.0/IMatch";
 
     @Component
     export default class OrdersTableComponent extends Vue {
@@ -268,8 +268,8 @@
         get matchesName(): string {
             const matches = this.$store.getters['matches/getMatches'];
             const listMatches = matches.map((m: IMatch) => ({
-                text: `${m.featuredClub.name} (${m.homeClub.name} - ${m.visitingClub.name})`,
-                value: m.id
+                text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
+                value: m.ID
             }));
             return listMatches.reverse();
         }
@@ -280,20 +280,20 @@
 
         getClubName(id: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](id);
-            return match.featuredClub.name;
+            return match.FeaturedClubName;
         }
 
         getOpponent(matchId: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](matchId);
             if (!match) return 'Unknown';
-            return match.featuredClubId === match.homeClubId ? match.visitingClub.name : match.homeClub.name;
+            return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
         }
 
         getMatch(id: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](id);
             if (!match) return 'Unknown';
-            const opponent = match.featuredClubId === match.homeClubId ? match.visitingClub.name : match.homeClub.name;
-            return `${match.featuredClub.name} - ${opponent}`;
+            const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+            return `${match.FeaturedClubName} - ${opponent}`;
         }
 
         certificateFilter(value: number) {
