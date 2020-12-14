@@ -68,7 +68,9 @@
             const response = this.$store.dispatch('invoices/getInvoiceItems', this.invoiceId)
                 .then((response) => {
                     this.loading = false;
-                    this.invoiceItems = response.data;
+                    if (response.status === 200) {
+                        this.invoiceItems = response.data;
+                    }
                 })
                 .catch((error) => console.error(error));
         }
