@@ -268,8 +268,8 @@
         get matchesName(): string {
             const matches = this.$store.getters['matches/getMatches'];
             const listMatches = matches.map((m: IMatch) => ({
-                text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
-                value: m.ID
+                text: `${m.featuredClub.name} (${m.homeClub.name} - ${m.visitingClub.name})`,
+                value: m.id
             }));
             return listMatches.reverse();
         }
@@ -280,20 +280,20 @@
 
         getClubName(id: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](id);
-            return match.FeaturedClubName;
+            return match.featuredClub.name;
         }
 
         getOpponent(matchId: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](matchId);
             if (!match) return 'Unknown';
-            return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+            return match.featuredClubId === match.homeClubId ? match.visitingClub.name : match.homeClub.name;
         }
 
         getMatch(id: number): string {
             const match: IMatch = this.$store.getters['matches/getMatch'](id);
             if (!match) return 'Unknown';
-            const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
-            return `${match.FeaturedClubName} - ${opponent}`;
+            const opponent = match.featuredClubId === match.homeClubId ? match.visitingClub.name : match.homeClub.name;
+            return `${match.featuredClub.name} - ${opponent}`;
         }
 
         certificateFilter(value: number) {
