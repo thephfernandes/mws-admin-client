@@ -18,6 +18,7 @@
                     label="Username"
                     v-model="username"
                     :rules="[rules.required]"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>
@@ -31,13 +32,14 @@
                     :rules="[rules.required, rules.min]"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>
             <v-row justify="center">
               <v-col cols="12">
                 <v-card-actions>
-                  <v-btn @click="login" block color="primary" type="submit" :loading="loading">
+                  <v-btn @click="login" block color="primary" :loading="loading">
                     Login
                   </v-btn>
                 </v-card-actions>
