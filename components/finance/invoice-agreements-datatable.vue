@@ -1,5 +1,10 @@
 <template>
-    <v-data-table :items="agreements" :headers="headers" :footer-props="footerPropsOptions">
+    <v-data-table
+            :items="agreements"
+            :headers="headers"
+            :footer-props="footerPropsOptions"
+            :loading="loading"
+    >
         <template v-slot:top>
             <v-toolbar flat>
                 <v-toolbar-title>Invoice agreements</v-toolbar-title>
@@ -47,11 +52,25 @@ import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
 
 @Component
 export default class InvoiceAgreementsDatatableComponent extends Vue {
-    @Prop({ type: Array, required: true }) readonly agreements!: IInvoiceAgreement[];
     @Prop({ type: Number, required: true }) readonly clubId!: number;
+    agreements: IInvoiceAgreement[] = [] as IInvoiceAgreement[];
+    loading: boolean = true;
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
+
+    created(): void {
+        this.setAgreements();
+    }
+
+    setAgreements(): void {
+        this.$store.dispatch('clubs/getInvoiceAgreements', this.clubId).then((response) => {
+            this.loading = false;
+            if (response.status === 200) {
+                this.agreements = response.data;
+            }
+        }).catch((error) => console.error(error));
+    }
 
     formatPercentage(value: number): string {
         if (!value) return '0';
