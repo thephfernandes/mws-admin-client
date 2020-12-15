@@ -67,10 +67,10 @@
         setInvoiceItems(): void {
             const response = this.$store.dispatch('invoices/getInvoiceItems', this.invoiceId)
                 .then((response) => {
-                    this.loading = false;
                     if (response.status === 200) {
                         this.invoiceItems = response.data;
                     }
+                    this.loading = false;
                 })
                 .catch((error) => console.error(error));
         }
