@@ -36,14 +36,14 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue} from "nuxt-property-decorator";
+    import {Component, mixins} from "nuxt-property-decorator";
+    import DatatableLoading from "~/mixins/datatable-loading";
     import {IInvoiceItem} from "~/interfaces/IInvoiceItem";
 
     @Component
-    export default class InvoiceItemsTable extends Vue {
+    export default class InvoiceItemsTable extends mixins(DatatableLoading) {
         invoiceId: number = 0;
         search: string = '';
-        loading: boolean = true;
         invoiceItems: IInvoiceItem[] = [] as IInvoiceItem[];
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
