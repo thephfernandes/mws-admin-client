@@ -37,8 +37,8 @@ export const actions = {
             commit('setClubs', response.data)
         }
     },
-    getInvoiceAgreementsSetToStore({commit, dispatch}, clubId) {
-        const response =  dispatch('getInvoiceAgreements', clubId);
+    async getInvoiceAgreementsSetToStore({commit, dispatch}, clubId) {
+        const response =  await dispatch('getInvoiceAgreements', clubId);
 
         if (response.status === 200) {
             commit('setInvoiceAgreements', response.data);
