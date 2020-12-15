@@ -48,6 +48,9 @@ export const actions = {
             commit('setInvoiceItems', response.data)
         }
     },
+    async getInvoiceItems({ commit }, invoiceId) {
+       return await this.$axios.get(`/invoices/${invoiceId}/items`);
+    },
     addInvoiceItem({}, invoiceItem) {
         return this.$axios.post(`/invoices/${invoiceItem.InvoiceId}/items`, invoiceItem);
     },

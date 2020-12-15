@@ -7,6 +7,7 @@
                 :search="search"
                 class="invoiceItems-datatable"
                 @click:row="toInvoiceItem"
+                :loading="loading"
         >
             <template v-slot:top>
                 <v-toolbar flat>
@@ -35,19 +36,22 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue} from "nuxt-property-decorator";
+    import {Component, mixins} from "nuxt-property-decorator";
+    import DatatableLoading from "~/mixins/datatable-loading";
     import {IInvoiceItem} from "~/interfaces/IInvoiceItem";
 
     @Component
-    export default class InvoiceItemsTable extends Vue {
+    export default class InvoiceItemsTable extends mixins(DatatableLoading) {
         invoiceId: number = 0;
         search: string = '';
+        invoiceItems: IInvoiceItem[] = [] as IInvoiceItem[];
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
         };
 
         created(): void {
             this.invoiceId = parseInt(this.$route.params.id);
+            this.setInvoiceItems();
             this.$store.dispatch('invoices/getInvoiceItemsSetToStore', this.invoiceId);
         }
 
@@ -60,8 +64,15 @@
             })
         }
 
-        get invoiceItems(): IInvoiceItem[] {
-            return this.$store.getters['invoices/getInvoiceItems'];
+        setInvoiceItems(): void {
+            const response = this.$store.dispatch('invoices/getInvoiceItems', this.invoiceId)
+                .then((response) => {
+                    if (response.status === 200) {
+                        this.invoiceItems = response.data;
+                    }
+                    this.loading = false;
+                })
+                .catch((error) => console.error(error));
         }
 
         formatCurrency(amount: number): string {

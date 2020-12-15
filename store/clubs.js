@@ -37,13 +37,15 @@ export const actions = {
             commit('setClubs', response.data)
         }
     },
-    async getInvoiceAgreementSetToStore({commit}, clubId) {
-        const response = await this.$axios.get(`/clubs/${clubId}/agreements`);
+    async getInvoiceAgreementsSetToStore({commit, dispatch}, clubId) {
+        const response =  await dispatch('getInvoiceAgreements', clubId);
 
         if (response.status === 200) {
             commit('setInvoiceAgreements', response.data);
         }
-
+    },
+    async getInvoiceAgreements({}, clubId) {
+        return await this.$axios.get(`/clubs/${clubId}/agreements`);
     },
     addInvoiceAgreement({}, invoiceAgreement) {
         return this.$axios.post(`/clubs/${invoiceAgreement.clubId}/agreements`, invoiceAgreement);
