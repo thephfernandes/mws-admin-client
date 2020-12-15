@@ -56,12 +56,12 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue, Watch} from "nuxt-property-decorator";
+    import {Component, mixins, Vue, Watch} from "nuxt-property-decorator";
     import {IInvoice} from "~/interfaces/IInvoice";
+    import DatatableLoading from "~/mixins/datatable-loading.ts";
 
     @Component
-    export default class InvoicesDatatableComponent extends Vue {
-        loading: boolean = true;
+    export default class InvoicesDatatableComponent extends mixins(DatatableLoading) {
         search: string = '';
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
