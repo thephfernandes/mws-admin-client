@@ -47,14 +47,14 @@
     </v-data-table>
 </template>
 <script lang="ts">
-import {Component, Vue, Prop} from "nuxt-property-decorator";
+    import {Component, Prop, mixins} from "nuxt-property-decorator";
 import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
+import DatatableLoading from "~/mixins/datatable-loading.ts";
 
 @Component
-export default class InvoiceAgreementsDatatableComponent extends Vue {
+export default class InvoiceAgreementsDatatableComponent extends mixins(DatatableLoading) {
     @Prop({ type: Number, required: true }) readonly clubId!: number;
     agreements: IInvoiceAgreement[] = [] as IInvoiceAgreement[];
-    loading: boolean = true;
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
