@@ -41,13 +41,13 @@
     </div>
 </template>
 <script lang="ts">
-import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
+    import {Component, Vue, Prop, Watch, mixins} from "nuxt-property-decorator";
 import {ISeller} from "~/interfaces/ISeller";
+import DatatableLoading from "~/mixins/datatable-loading.ts";
 
 @Component
-export default class SellersDatatableComponent extends Vue {
+export default class SellersDatatableComponent extends mixins(DatatableLoading) {
     @Prop({ type: Array, required: true }) readonly sellers!: ISeller[];
-    loading: boolean = true;
     search: string = '';
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
