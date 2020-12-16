@@ -64,15 +64,14 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
     }
 
     setAgreements(): void {
-        this.$store.dispatch('clubs/getInvoiceAgreements', this.clubId).then((response) => {
+        this.$store.dispatch('clubs/getInvoiceAgreements', this.clubId)
+            .then((response) => {
             if (response.status === 200) {
                 this.agreements = response.data;
-            }
-            this.loading = false;
-        }).catch((error) => {
-            console.error(error);
-            this.loading = false;
-        });
+                }
+            })
+            .catch((error) => console.error(error))
+            .finally(() => this.loading = false);
     }
 
     formatPercentage(value: number): string {
