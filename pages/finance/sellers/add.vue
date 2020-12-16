@@ -33,7 +33,7 @@
                     <v-card-actions>
                         <v-row justify="space-around">
                             <v-btn color="error" @click="goBack">Cancel</v-btn>
-                            <v-btn color="success" @click="addSeller">Update</v-btn>
+                            <v-btn color="success" @click="addSeller">Add</v-btn>
                         </v-row>
                     </v-card-actions>
                 </v-form>
@@ -55,7 +55,6 @@ export default class AddSellerPage extends Vue {
 
     addSeller(): void {
         this.$store.dispatch('sellers/addSeller', this.seller).then((response) => {
-            console.log(response);
             this.$router.push({name: 'finance-sellers'});
         });
     }
