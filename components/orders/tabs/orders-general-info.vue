@@ -16,8 +16,6 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select label="Payment method"  :items="getAllPaymentMethods()" outlined />
-            <v-btn @click="invoiceSent = true">Send invoice to request billing</v-btn>
-            <v-checkbox label="Invoice sent" v-model="invoiceSent" hide-details />
             <v-checkbox label="Framing (manual field)" hide-details />
             <v-text-field
                 label="Payment Reminder last template sent"

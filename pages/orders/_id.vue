@@ -21,7 +21,7 @@
         <framing-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
-        Invoices
+        <orders-invoice :orderId="orderId"></orders-invoice>
       </v-tab-item>
       <v-tab-item>
         <orders-shipping-details :orderId="orderId"></orders-shipping-details>
@@ -38,9 +38,11 @@ import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-i
 import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
 import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
+import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
 
 @Component({
   components: {
+    OrdersInvoice,
     OrdersShippingDetails,
     'general-info-component': OrderGeneralInfoComponent,
     'framing-component': OrderFramingComponent,
