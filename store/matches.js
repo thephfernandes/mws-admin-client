@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://cms-api.matchwornshirt.com"; // will be replaced
+const API_URL = "https://cms-api.matchwornshirt.com";
 
 export const state = () => ({
   matches: [],
@@ -12,7 +12,7 @@ export const getters = {
   getMatches: (state) => state.matches,
   getStats: (state) => state.stats,
   getInvoices: (state) => state.invoices,
-  getAgreements: (state) => state.invoices.map(i => i.id), // replace id with name later
+  getAgreements: (state) => state.invoices.map(i => i.name),
   getMatch: (state) => state.match,
 };
 
@@ -57,7 +57,7 @@ export const actions = {
       commit("setMatches", matches);
     }
   },
-  async getStatsSetToStore({ commit }, payload) {
+  async getStatsSetToStore({ commit }) {
     const response = await axios.get(API_URL + "/api/v1/auction/dashboard");
     if (response.status === 200) {
       const data = response.data;
@@ -98,9 +98,9 @@ export const actions = {
       commit("setStats", stats);
     }
   },
-  async getMatchSetToStore({ commit, dispatch }, payload) {
+  async getMatchSetToStore({ commit, dispatch }, matchId) {
     const response = await axios
-      .get(API_URL + `/api/v1/match/${payload.id}`);
+      .get(API_URL + `/api/v1/match/${matchId}`);
     if (response.status === 200) {
       const data = response.data;
       const match = {
@@ -108,17 +108,17 @@ export const actions = {
         teams: data.home_club + " - " + data.visiting_club,
       }
       commit("setMatch", match);
-      dispatch("getInvoicesSetToStore", {id: match.featured_club_id});
+      dispatch("getInvoicesSetToStore", match.featured_club_id);
     }
   },
-  async getInvoicesSetToStore({ commit }, payload) {
+  async getInvoicesSetToStore({ commit }, clubId) {
     const response = await this.$axios
-      .get(`/clubs/${payload.id}/agreements`);
+      .get(`/clubs/${clubId}/agreements`);
     if (response.status === 200) {
       commit("setInvoices", response.data);
     }
   },
-  updateMatch ({ commit }, payload) {
-    commit("setMatch", payload);
+  updateMatch ({ commit }, match) {
+    commit("setMatch", match);
   }
 };

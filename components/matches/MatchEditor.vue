@@ -46,14 +46,13 @@ interface keyable {
 export default class MatchEditor extends Vue {
   @Prop({ type: Boolean, required: true }) create!: boolean;
   private id = 0;
-  // private charity: Charity = new Charity();
   private match: keyable = {};
   private name: string = "";
 
   created() {
     this.id = this.create ? 0 : parseInt(this.$route.params.id);
     this.$store
-      .dispatch("matches/getMatchSetToStore", { id: this.id })
+      .dispatch("matches/getMatchSetToStore", this.id)
       .then(() => {
         const match = this.$store.getters["matches/getMatch"];
         this.match = Object.assign({}, match);

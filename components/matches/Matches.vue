@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "nuxt-property-decorator";
-import { IMatch, IStat } from "~/interfaces/IMatch"
+import { IScheduledMatch, IStat } from "~/interfaces/IScheduledMatch"
 
 interface keyable {
   [key: string]: any;
@@ -62,7 +62,7 @@ interface keyable {
 
 @Component
 export default class Matches extends Vue {
-  @Prop({ type: Array, required: true }) matches!: IMatch[];
+  @Prop({ type: Array, required: true }) matches!: IScheduledMatch[];
   @Prop({ type: Array, required: true }) stats!: IStat[];
 
   private search = "";
@@ -70,7 +70,7 @@ export default class Matches extends Vue {
     showFirstLastPage: true,
     firstIcon: "mdi-arrow-collapse-left",
     lastIcon: "mdi-arrow-collapse-right",
-    itemsPerPageOptions: [20, 25, -1],
+    itemsPerPageOptions: [5, 10, 25, 50],
   };
 
   private tableHeaders = [

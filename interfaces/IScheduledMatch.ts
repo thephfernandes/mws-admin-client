@@ -1,4 +1,4 @@
-export interface IMatch {
+export interface IScheduledMatch {
   CheckedFinishing: boolean
   Date: string
   EndDate: string
