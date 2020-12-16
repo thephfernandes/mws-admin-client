@@ -90,19 +90,17 @@ export default {
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post', propertyName: 'token' },
-          user: false
+          user: {url: '/sellers/1', method: 'get', propertyName: 'name'}
         },
         redirect: {
           login: '/login',
           home: '/',
-          logout: false
         },
         tokenRequired: true,
-        autoFetchUser: false,
+        autoFetchUser: true,
         logout: false,
-      }
+      },
     },
-    resetOnError: true
   },
   router: {
     middleware: ['auth']

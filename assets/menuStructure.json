@@ -59,6 +59,17 @@
                     "to": "/finance/invoices"
                 }
             ]
+        },
+        {
+          "name": "Matches",
+          "icon": "mdi-soccer",
+          "to": "/matches",
+          "children": [
+              {
+                  "name": "Scheduled",
+                  "to": "/matches/scheduled"
+              }
+          ]
         }
     ],
     "sliders": [
