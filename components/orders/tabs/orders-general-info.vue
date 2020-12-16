@@ -47,13 +47,11 @@
             <v-radio-group v-model="order.OrderShippingStatus">
               <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" />
             </v-radio-group>
-            <v-text-field label="For whom" outlined />
             <v-text-field label="Shipment tracking number" outlined />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-textarea label="Feedback" outlined />
             <v-textarea
                 label="Notes"
                 outlined
