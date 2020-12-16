@@ -13,20 +13,6 @@
                 type="number"
             />
             <v-text-field label="Payment costs (Excl. VAT)" v-model="order.OrderPaymentCosts" outlined />
-            Status
-            <v-checkbox label="Buy it now" hide-details color="orange" />
-            <v-checkbox label="Called" hide-details color="orange" />
-            <v-checkbox label="Reached" hide-details color="orange" />
-            <v-checkbox label="Shirt paid" v-model="order.OrderShirtPaid" hide-details color="orange" />
-            <v-checkbox label="Frame paid" v-model="order.OrderFramePaid" hide-details color="orange" />
-            <v-select
-                label="Framing status"
-                outlined
-                class="mt-4 mb-4"
-                v-model="order.OrderFramingStatus"
-                :value="getFramingStatus(order.OrderFramingStatus)"
-                :items="getAllFramingStatus()"
-            />
             <v-text-field label="Shipping costs (Excl. VAT)" outlined/>
             <v-text-field label="Shipment ID" outlined/>
           </v-col>
@@ -82,7 +68,7 @@
     </div>
     <v-card-text>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" v-if="order">
           <event-card :eventId="order.MatchID" />
         </v-col>
         <v-col cols="12" md="6">
@@ -117,18 +103,8 @@ export default class OrdersGeneralInfoComponent extends Vue {
   }
 
   created() {
-    const order = this.$store.getters['orders/getOrder'](this.orderId);
+    let order = this.$store.getters['orders/getOrder'](this.orderId);
     this.order = Object.assign({}, order);
-  }
-
-  getAllFramingStatus() {
-    let framingStatus = Object.values(FramingStatus);
-    framingStatus = framingStatus.slice(0, framingStatus.length / 2);
-    return framingStatus.map((value, key) => ({text: value, value: key}));
-  }
-
-  getFramingStatus(status: number) {
-    return FramingStatus[status];
   }
 
   getAllPaymentMethods() {
