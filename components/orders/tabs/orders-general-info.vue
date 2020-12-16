@@ -13,14 +13,12 @@
                 type="number"
             />
             <v-text-field label="Payment costs (Excl. VAT)" v-model="order.OrderPaymentCosts" outlined />
-            <v-text-field label="Shipping costs (Excl. VAT)" outlined/>
-            <v-text-field label="Shipment ID" outlined/>
           </v-col>
           <v-col cols="12" md="6">
             <v-select label="Payment method"  :items="getAllPaymentMethods()" outlined />
             <v-btn @click="invoiceSent = true">Send invoice to request billing</v-btn>
             <v-checkbox label="Invoice sent" v-model="invoiceSent" hide-details />
-            <v-checkbox label="Framing (manual field" hide-details />
+            <v-checkbox label="Framing (manual field)" hide-details />
             <v-text-field
                 label="Payment Reminder last template sent"
                 v-model="order.OrderPaymentReminder"
@@ -29,11 +27,6 @@
                 class="mt-4"
             />
             <v-text-field label="Address Reminders Sent" v-model="order.OrderAddressReminder" type="number" outlined />
-            Shipping status
-            <v-radio-group v-model="order.OrderShippingStatus">
-              <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" />
-            </v-radio-group>
-            <v-text-field label="Shipment tracking number" outlined />
           </v-col>
         </v-row>
         <v-row>
@@ -50,18 +43,6 @@
               <v-btn color="error" @click="goBack">Cancel</v-btn>
               <v-btn color="success" @click="updateOrder()">Update order</v-btn>
             </v-row>
-          </v-col>
-          <v-col cols="12">
-            <v-alert type="warning">Use this button to pay for a DHL shipping of 1 to 3 shirts in a single package. Using this button will update the shipping status, cost, and other information on the order part only. If you wish to send a framed shirt, please use the appropriate section below.</v-alert>
-            <v-alert type="warning">Watch out! Do not send a package AND a frame! You can see if you ordered any of them by looking at the framing status for example.</v-alert>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="6">
-            <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
-          </v-col>
-          <v-col cols="6">
-            <v-btn block><v-icon class="mr-2">mdi-truck</v-icon>DHL Shipping</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
