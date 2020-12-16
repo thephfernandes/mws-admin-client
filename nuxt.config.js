@@ -83,18 +83,26 @@ export default {
   auth: {
     strategies: {
       local: {
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'token' }
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+          user: false
         },
         redirect: {
           login: '/login',
-          home: '/'
+          home: '/',
+          logout: false
         },
         tokenRequired: true,
         autoFetchUser: false,
-        logout: false
+        logout: false,
       }
-    }
+    },
+    resetOnError: true
   },
   router: {
     middleware: ['auth']

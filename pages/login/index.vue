@@ -18,6 +18,7 @@
                     label="Username"
                     v-model="username"
                     :rules="[rules.required]"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>
@@ -31,6 +32,7 @@
                     :rules="[rules.required, rules.min]"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>

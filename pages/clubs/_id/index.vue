@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{club.name}}</h2>
-        <invoice-agreements-datatable :agreements="agreements" :clubId="clubId" />
+        <invoice-agreements-datatable :clubId="clubId" />
     </div>
 </template>
 <script lang="ts">
@@ -18,12 +18,8 @@ export default class clubDetailPage extends Vue {
 
     created() {
         this.clubId = parseInt(this.$route.params.id);
-        this.$store.dispatch('clubs/getInvoiceAgreement', this.clubId);
+        this.$store.dispatch('clubs/getInvoiceAgreementsSetToStore', this.clubId);
         this.setClubs();
-    }
-
-    get agreements(): IInvoiceAgreement[] {
-        return this.$store.getters['clubs/getInvoiceAgreements'];
     }
 
     get club(): IClub {
@@ -37,7 +33,7 @@ export default class clubDetailPage extends Vue {
     setClubs(): void {
         const clubs: IClub[] = this.$store.getters['clubs/getClubs'];
         if (clubs.length > 0) return;
-        this.$store.dispatch('clubs/fillClubs');
+        this.$store.dispatch('clubs/getClubsSetToStore');
     }
 }
 </script>

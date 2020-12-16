@@ -69,6 +69,7 @@
           this.$store.dispatch('orders/fillFraming');
           this.$store.dispatch('orders/fillProducts');
           this.$store.dispatch('customers/fillAll');
+          this.$store.dispatch('matches/fillMatches');
         }
     }
 </script>

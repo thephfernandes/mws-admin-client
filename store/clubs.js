@@ -1,4 +1,4 @@
-import Clubs from "~/assets/data/clubs.json";
+import axios from "axios";
 
 export const state = () => ({
     clubs: [],
@@ -30,13 +30,22 @@ export const mutations = {
 };
 
 export const actions = {
-    fillClubs({ commit }) {
-        commit('setClubs', Clubs)
+    async getClubsSetToStore({ commit }) {
+        const response = await axios.get('https://cms-api.matchwornshirt.com/api/v1/clubs/stats');
+
+        if (response.status === 200) {
+            commit('setClubs', response.data)
+        }
     },
-    async getInvoiceAgreement({commit}, clubId) {
-        await this.$axios.get(`/clubs/${clubId}/agreements`).then((response) => {
+    async getInvoiceAgreementsSetToStore({commit, dispatch}, clubId) {
+        const response =  await dispatch('getInvoiceAgreements', clubId);
+
+        if (response.status === 200) {
             commit('setInvoiceAgreements', response.data);
-        });
+        }
+    },
+    async getInvoiceAgreements({}, clubId) {
+        return await this.$axios.get(`/clubs/${clubId}/agreements`);
     },
     addInvoiceAgreement({}, invoiceAgreement) {
         return this.$axios.post(`/clubs/${invoiceAgreement.clubId}/agreements`, invoiceAgreement);
