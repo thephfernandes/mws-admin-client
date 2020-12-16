@@ -84,7 +84,6 @@ export default class Index extends Vue {
             })
             .then((response: any) => {
               if (response.status !== 200) return;
-              this.$auth.setUser({userName: 'admin'});
               this.loading = false;
             })
             .catch((error) => {
