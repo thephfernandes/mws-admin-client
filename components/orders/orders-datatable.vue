@@ -91,6 +91,7 @@
             </template>
             <template v-slot:item.Status="{ item }">
                 <order-status :order="item" />
+                <v-icon v-if="item.OrderFraming" dense color="warning">mdi-image-frame</v-icon>
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-edit-dialog large @save="saveShippingStatus" @open="setOrder(item)">
@@ -138,17 +139,6 @@
             </template>
             <template v-slot:item.ProductPrice="{ item }">
                 &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
-            </template>
-            <template v-slot:item.OrderFraming="{ item }">
-                <v-chip :color="item.OrderFraming ? 'green' : 'red'">
-                    <v-icon>mdi-image-frame</v-icon>
-                    <span
-                            v-if="item.OrderFraming"
-                            class="ml-2"
-                    >
-                        {{ getFramingStatus(item.OrderFramingStatus) }}
-                    </span>
-                </v-chip>
             </template>
         </v-data-table>
         <v-snackbar v-model="shippingStatus">
@@ -238,10 +228,6 @@
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
-        }
-
-        getFramingStatus(status: number): string {
-            return FramingStatus[status];
         }
 
         getShippingStatus(status: number): string {
