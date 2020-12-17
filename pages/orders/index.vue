@@ -70,7 +70,7 @@
           this.$store.dispatch('orders/fillProducts');
           this.$store.dispatch('orders/fillEvents');
           this.$store.dispatch('customers/fillAll');
-          this.$store.dispatch('matches/fillMatches');
+          this.$store.dispatch('matches/getAllMatchesSetToStore');
         }
     }
 </script>
