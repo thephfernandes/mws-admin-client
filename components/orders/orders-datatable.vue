@@ -62,19 +62,6 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
-                                @click="toOrder(item.OrderID)"
-                                small
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-pencil
-                        </v-icon>
-                    </template>
-                    <span>Edit order</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
                                 @click="shippingDetail = true"
                                 small
                                 class="ml-2"
@@ -257,16 +244,12 @@
             return FramingStatus[status];
         }
 
-        toOrder(orderId: number): void {
-            this.$router.push({name: 'orders-id', params: { id: orderId.toString() }});
-        }
-
         getShippingStatus(status: number): string {
             return ShippingStatusEnum[status];
         }
 
         get matchesName(): string {
-            const matches = this.$store.getters['matches/getMatches'];
+            const matches = this.$store.getters['matches/getAllMatches'];
             const listMatches = matches.map((m: IMatch) => ({
                 text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
                 value: m.ID

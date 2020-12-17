@@ -11,6 +11,7 @@ export const state = () => ({
 
 export const getters = {
   getMatches: (state) => state.matches,
+  getAllMatches: (state) => state.allMatches,
   getStats: (state) => state.stats,
   getInvoices: (state) => state.invoices,
   getAgreements: (state) => state.invoices.map(i => i.name),
