@@ -285,7 +285,6 @@
 
         getOpponent(matchId: number): string {
             const match: IMatch = this.$store.getters['matches/getMatchById'](matchId);
-            console.log(match);
             if (!match) return 'Unknown';
             return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
         }
