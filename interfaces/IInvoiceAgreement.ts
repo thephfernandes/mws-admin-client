@@ -8,6 +8,7 @@ export interface IInvoiceAgreement {
     paymentHandlingPercentage: number;
     shippingInsurancePercentage: number;
     shippingFlatFee: number;
+    minimumGuarantee: number;
     mwsHandlingPercentage: number;
     mwsAuctionPercentage: number;
     mwsVatPercentage: number;
