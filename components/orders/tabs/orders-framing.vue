@@ -55,6 +55,14 @@
           <v-radio-group v-model="framing.OrderFramingStatus">
             <v-radio v-for="status in getAllShippingStatus()" :label="status.text" :key="status.value" hide-details />
           </v-radio-group>
+          <v-select
+                  label="Framing status"
+                  outlined
+                  class="mt-4 mb-4"
+                  v-model="order.OrderFramingStatus"
+                  :value="getFramingStatus(order.OrderFramingStatus)"
+                  :items="getAllFramingStatus()"
+          />
         </v-col>
       </v-row>
       <v-row justify="space-around">
@@ -72,6 +80,7 @@ import {FrameBorderColor} from "~/enums/frameBorderColor";
 import {FramePlateOption} from "~/enums/framePlateOption";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
 import {FramePassePartout} from "~/enums/framePassePartout";
+import {FramingStatus} from "~/enums/framingStatus";
 
 @Component
 export default class OrdersFramingComponent extends Vue {
@@ -154,6 +163,16 @@ export default class OrdersFramingComponent extends Vue {
 
   getPassePartoutOption(option: number) {
     return FramePassePartout[option];
+  }
+
+  getAllFramingStatus() {
+    let framingStatus = Object.values(FramingStatus);
+    framingStatus = framingStatus.slice(0, framingStatus.length / 2);
+    return framingStatus.map((value, key) => ({text: value, value: key}));
+  }
+
+  getFramingStatus(status: number) {
+    return FramingStatus[status];
   }
 }
 </script>

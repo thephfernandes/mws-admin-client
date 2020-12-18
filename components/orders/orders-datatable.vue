@@ -279,18 +279,18 @@
         }
 
         getClubName(id: number): string {
-            const match: IMatch = this.$store.getters['matches/getMatch'](id);
+            const match: IMatch = this.$store.getters['matches/getMatchById'](id);
             return match.FeaturedClubName;
         }
 
         getOpponent(matchId: number): string {
-            const match: IMatch = this.$store.getters['matches/getMatch'](matchId);
+            const match: IMatch = this.$store.getters['matches/getMatchById'](matchId);
             if (!match) return 'Unknown';
             return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
         }
 
         getMatch(id: number): string {
-            const match: IMatch = this.$store.getters['matches/getMatch'](id);
+            const match: IMatch = this.$store.getters['matches/getMatchById'](id);
             if (!match) return 'Unknown';
             const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
             return `${match.FeaturedClubName} - ${opponent}`;

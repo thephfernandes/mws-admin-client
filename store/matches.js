@@ -3,6 +3,7 @@ const API_URL = "https://cms-api.matchwornshirt.com";
 
 export const state = () => ({
   matches: [],
+  allMatches: [],
   stats: [],
   invoices: [],
   match: {}
@@ -14,9 +15,15 @@ export const getters = {
   getInvoices: (state) => state.invoices,
   getAgreements: (state) => state.invoices.map(i => i.name),
   getMatch: (state) => state.match,
+  getMatchById: (state) => (id) => {
+    return state.allMatches.find((m) => m.ID === id);
+  },
 };
 
 export const mutations = {
+  setAllMatches(state, payload) {
+    state.allMatches = payload;
+  },
   setMatches(state, payload) {
     state.matches = payload;
   },
@@ -32,6 +39,12 @@ export const mutations = {
 };
 
 export const actions = {
+  async getAllMatchesSetToStore({commit}) {
+    const response = await axios.post(API_URL + "/api/v1/auction");
+    if (response.status === 200) {
+      commit("setAllMatches", response.data);
+    }
+  },
   async getMatchesSetToStore({ commit }) {
     const oDate = new Date();
     oDate.setMonth(oDate.getMonth() - 1);
@@ -106,7 +119,7 @@ export const actions = {
       const match = {
         ...data,
         teams: data.home_club + " - " + data.visiting_club,
-      }
+      };
       commit("setMatch", match);
       dispatch("getInvoicesSetToStore", match.featured_club_id);
     }

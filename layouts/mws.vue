@@ -123,7 +123,7 @@ export default class Mws extends Vue {
   }
 
   get greeting(): string {
-    return "Welcome, " + this.jsonData.profile.name;
+    return "Welcome, " + this.$auth.user;
   }
   get shirts(): string[] {
     return ["European Shirts", "International Shirts"];
