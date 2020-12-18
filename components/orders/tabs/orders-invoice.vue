@@ -14,10 +14,8 @@
     </div>
 </template>
 <script lang="ts">
-    import {Vue, Component, Prop} from "nuxt-property-decorator";
+    import {Vue, Component} from "nuxt-property-decorator";
 
     @Component
-    export default class OrdersInvoiceTab extends Vue {
-        @Prop({ required: true }) readonly orderId!: number;
-    }
+    export default class OrdersInvoiceTab extends Vue {}
 </script>
