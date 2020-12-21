@@ -2,13 +2,12 @@
 import ordersData from '~/assets/data/orders.json';
 import framingItem from '~/assets/data/framing/framing-3734.json';
 import productItem from '~/assets/data/products/product-3911.json';
-import eventItem from '~/assets/data/matches/match-282.json';
+import axios from "axios";
 
 export const state = () => ({
     orders: [],
     framing: [],
-    products: [],
-    events: []
+    products: []
 });
 
 export const getters = {
@@ -28,10 +27,6 @@ export const getters = {
     getProduct: (state) => (id) => {
         return state.products.find((p) => p.ID === id);
     },
-    getEvent: (state) => (id) => {
-        return state.events.find((e) => e.id === id);
-
-    }
 };
 
 export const mutations = {
@@ -93,9 +88,6 @@ export const actions = {
     updateOrder({ commit }, order) {
         commit('updateOrder', order);
     },
-    fillEvents({commit}) {
-        commit('fillEvents', eventItem);
-    },
     toggleShirtPaid({ commit }, orderId) {
         commit('toggleShirtPaid', orderId);
     },
@@ -104,5 +96,8 @@ export const actions = {
     },
     incrementPaymentReminder({ commit }, order) {
         commit('incrementPaymentReminder', order);
+    },
+    async getEvent({}, eventId) {
+       return await axios.get(`https://cms-api.matchwornshirt.com/api/v1/match/${eventId}`);
     }
 };

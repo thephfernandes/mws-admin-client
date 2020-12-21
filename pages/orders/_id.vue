@@ -21,10 +21,10 @@
         <framing-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
-        Invoices
+        <orders-invoice :orderId="orderId"></orders-invoice>
       </v-tab-item>
       <v-tab-item>
-        Shipping details
+        <orders-shipping-details :orderId="orderId"></orders-shipping-details>
       </v-tab-item>
       <v-tab-item>
         <product-component :orderId="orderId" />
@@ -37,9 +37,13 @@ import { Vue, Component } from "nuxt-property-decorator";
 import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
 import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
+import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
+import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
 
 @Component({
   components: {
+    OrdersInvoice,
+    OrdersShippingDetails,
     'general-info-component': OrderGeneralInfoComponent,
     'framing-component': OrderFramingComponent,
     'product-component': OrdersProductsComponent
@@ -50,27 +54,24 @@ export default class extends Vue {
   private activeTab: number = 0;
   private tabs = [
     {
-      id: 0, slug: 'general-info', name: 'General info', icon: 'mdi-clipboard-edit'
+      id: 0, name: 'General info', icon: 'mdi-clipboard-edit'
     },
     {
-      id: 1, slug: 'framing', name: 'Framing', icon: 'mdi-image-filter-frames'
+      id: 1, name: 'Framing', icon: 'mdi-image-filter-frames'
     },
     {
-      id: 2, slug: 'invoices', name: 'Invoices', icon: 'mdi-file-document'
+      id: 2, name: 'Invoices', icon: 'mdi-file-document'
     },
     {
-      id: 3, slug: 'shipping-details', name: 'Shipping details', icon: 'mdi-truck'
+      id: 3, name: 'Shipping details', icon: 'mdi-truck'
     },
     {
-      id: 4, slug: 'products', name: 'Products', icon: 'mdi-tshirt-crew'
+      id: 4, name: 'Products', icon: 'mdi-tshirt-crew'
     }
   ];
 
   created() {
     this.orderId = parseInt(this.$route.params.id);
-    const tab = this.tabs.find((t) => t.slug == this.$route.query?.tab);
-    if (tab === undefined) return;
-    this.activeTab = tab.id;
   }
 
   get tab() {
@@ -81,7 +82,6 @@ export default class extends Vue {
     const tab = this.tabs.find((t) => t.id == value);
     if (tab === undefined) return;
     this.activeTab = value;
-    this.$router.push({ query: {tab: tab.slug } });
   }
 
   head() {

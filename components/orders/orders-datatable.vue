@@ -58,64 +58,24 @@
             <template v-slot:item.Opponent="{ item }">
                 {{ getOpponent(item.MatchID) }}
             </template>
-            <template v-slot:item.Actions="{ item }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                @click="shippingDetail = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-truck
-                        </v-icon>
-                    </template>
-                    <span>Shipping detail</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="item.OrderShippingStatus !== 3"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="markAsShipped(item)"
-                        >
-                            mdi-check-bold
-                        </v-icon>
-                    </template>
-                    <span>Mark as shipped</span>
-                </v-tooltip>
-            </template>
             <template v-slot:item.Status="{ item }">
                 <order-status :order="item" />
                 <v-icon v-if="item.OrderFraming" dense color="warning">mdi-image-frame</v-icon>
             </template>
             <template v-slot:item.Shipping="{ item }">
-                <v-edit-dialog large @save="saveShippingStatus" @open="setOrder(item)">
-                    <v-chip-group>
-                        <v-chip
-                                :color="
+                <v-chip-group>
+                    <v-chip
+                            @click="showShippingModal(item)"
+                            :color="
                                 (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
                                 : item.OrderShippingStatus === 4 ? 'red' : 'gray'
                                 "
-                                :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
-                        >
-                            <v-icon class="mr-2">mdi-truck</v-icon>
-                            {{getShippingStatus(item.OrderShippingStatus)}}
-                        </v-chip>
-                    </v-chip-group>
-                    <template v-slot:input>
-                        <v-select
-                                :items="getAllShippingStatus()"
-                                single-line
-                                prepend-icon="mdi-truck"
-                                v-model="order.OrderShippingStatus"
-                        />
-                    </template>
-                </v-edit-dialog>
+                            :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
+                    >
+                        <v-icon class="mr-2">mdi-truck</v-icon>
+                        {{getShippingStatus(item.OrderShippingStatus)}}
+                    </v-chip>
+                </v-chip-group>
             </template>
             <template v-slot:item.MatchID="{ item }">
                 <nuxt-link :to="`/events/${item.MatchID}`" class="link">
@@ -144,8 +104,8 @@
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
-        <v-dialog v-model="shippingDetail" max-width="500px">
-            <shipping-detail-modal />
+        <v-dialog v-model="shippingDetail" max-width="500" v-if="shippingDetail">
+            <shipping-detail-modal @closeShippingModal="shippingDetail = false" :order="order" />
         </v-dialog>
     </div>
 </template>
@@ -218,16 +178,19 @@
             this.updateHeaders();
         }
 
-        getAllShippingStatus() {
-            let shippingStatus = Object.values(ShippingStatusEnum);
-            shippingStatus = shippingStatus.slice(0, shippingStatus.length / 2);
-            return shippingStatus.map((value, key) => ({text: value, value: key}));
+        showShippingModal(item: Order): void {
+            this.order = item;
+            this.shippingDetail = true;
         }
 
         resetFilters(): void {
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
+        }
+
+        getFramingStatus(status: number): string {
+            return FramingStatus[status];
         }
 
         getShippingStatus(status: number): string {
@@ -254,7 +217,6 @@
 
         getOpponent(matchId: number): string {
             const match: IMatch = this.$store.getters['matches/getMatchById'](matchId);
-            console.log(match);
             if (!match) return 'Unknown';
             return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
         }
@@ -293,20 +255,18 @@
             this.headers = [
                 {
                     text: 'Id',
+                    width: 80,
                     value: 'OrderID'
                 },
                 {
                     text: 'Status',
+                    width: 200,
                     value: 'Status'
                 },
                 {
                     text: 'Shipping',
-                    value: 'Shipping'
-                },
-                {
-                    text: 'Actions',
-                    value: 'Actions',
-                    width: 150,
+                    value: 'Shipping',
+                    width: 100,
                     divider: true
                 },
                 {
