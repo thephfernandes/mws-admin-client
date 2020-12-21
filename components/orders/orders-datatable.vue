@@ -114,7 +114,6 @@
     import {IOrder} from "~/interfaces/IOrder";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
-    import {FramingStatus} from "~/enums/framingStatus";
     import Country from "~/assets/data/countries.json";
     import {IMatch} from "~/interfaces/v1.0/IMatch";
 
@@ -146,25 +145,9 @@
             this.createCustomHeaders();
         }
 
-        setOrder(item: Order): void {
-            this.order = Object.assign({}, item)
-        }
-
         getCountryName(countryCode: string): string {
           const c = Country.find((c) => c.value === countryCode.toUpperCase());
           return c ? c.text : 'Unknown country';
-        }
-
-        saveShippingStatus() {
-            this.$store.dispatch('orders/updateShippingStatus', this.order);
-            this.shippingStatus = true;
-        }
-
-        markAsShipped(item: Order) {
-            this.setOrder(item);
-            this.order.OrderShippingStatus = ShippingStatusEnum.Shipped;
-            this.$store.dispatch('orders/updateShippingStatus', this.order);
-            this.shippingStatus = true;
         }
 
         @Watch('AllHeaders')
@@ -187,10 +170,6 @@
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
-        }
-
-        getFramingStatus(status: number): string {
-            return FramingStatus[status];
         }
 
         getShippingStatus(status: number): string {
