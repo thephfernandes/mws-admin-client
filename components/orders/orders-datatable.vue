@@ -60,6 +60,7 @@
             </template>
             <template v-slot:item.Status="{ item }">
                 <order-status :order="item" />
+                <v-icon v-if="item.OrderFraming" dense color="warning">mdi-image-frame</v-icon>
             </template>
             <template v-slot:item.Shipping="{ item }">
                 <v-chip-group>
@@ -99,17 +100,6 @@
             <template v-slot:item.ProductPrice="{ item }">
                 &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
             </template>
-            <template v-slot:item.OrderFraming="{ item }">
-                <v-chip :color="item.OrderFraming ? 'green' : 'red'">
-                    <v-icon>mdi-image-frame</v-icon>
-                    <span
-                            v-if="item.OrderFraming"
-                            class="ml-2"
-                    >
-                        {{ getFramingStatus(item.OrderFramingStatus) }}
-                    </span>
-                </v-chip>
-            </template>
         </v-data-table>
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
@@ -124,7 +114,6 @@
     import {IOrder} from "~/interfaces/IOrder";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
-    import {FramingStatus} from "~/enums/framingStatus";
     import Country from "~/assets/data/countries.json";
     import {IMatch} from "~/interfaces/v1.0/IMatch";
 
@@ -156,10 +145,6 @@
             this.createCustomHeaders();
         }
 
-        setOrder(item: Order): void {
-            this.order = Object.assign({}, item)
-        }
-
         getCountryName(countryCode: string): string {
           const c = Country.find((c) => c.value === countryCode.toUpperCase());
           return c ? c.text : 'Unknown country';
@@ -187,16 +172,12 @@
           this.search = '';
         }
 
-        getFramingStatus(status: number): string {
-            return FramingStatus[status];
-        }
-
         getShippingStatus(status: number): string {
             return ShippingStatusEnum[status];
         }
 
         get matchesName(): string {
-            const matches = this.$store.getters['matches/getMatches'];
+            const matches = this.$store.getters['matches/getAllMatches'];
             const listMatches = matches.map((m: IMatch) => ({
                 text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
                 value: m.ID
