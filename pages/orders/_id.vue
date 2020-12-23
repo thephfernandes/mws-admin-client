@@ -6,7 +6,7 @@
             dense
             hide-details
             outlined
-            label="Quick search order by player name"
+            label="Quick search order by player or user mail"
             :items="orders"
             @change="goToOrder"
         />
@@ -52,6 +52,7 @@ import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vu
 import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
 import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
 import {Order} from "~/models/Order.ts";
+import { IMatch } from "~/interfaces/v1.0/IMatch.ts";
 
 @Component({
   components: {
@@ -109,8 +110,46 @@ export default class extends Vue {
 
   get orders() {
     const orders: Order[] = this.$store.getters['orders/getOrders'];
-    const items = orders.map((o) => ({text: o.PlayerName, value: o.OrderID}));
-    return items;
+    const orderItems: any = [];
+
+    orders.forEach((order) => {
+      const orderObj = {
+        text: `${order.PlayerName} (${order.UserMail})`,
+        value: order.OrderID,
+        matchId: order.MatchID
+      };
+      if (orderItems.length === 0) {
+        orderItems.push([orderObj]);
+      } else {
+        orderItems.forEach((value: any, valueIndex: number) => {
+          if (order.MatchID === value[0].matchId) {
+            orderItems[valueIndex].push(orderObj);
+          }
+        });
+        orderItems.push([orderObj]);
+      }
+    });
+    return this.flattenArray(orderItems);
+  }
+
+  flattenArray(orderItems: any) {
+    const list: any = [];
+    orderItems.forEach((item: any) => {
+      const match: IMatch = this.$store.getters['matches/getMatchById'](item[0].matchId);
+      const header = {
+        header: `${match.HomeClubName} - ${match.VisitingClubName}`,
+        value: item[0].matchId
+      };
+      const activeHeader = list.find((i: any) => i.header === header.value);
+      if (!activeHeader) {
+        list.push(header);
+      }
+
+      item.forEach((value: any) => {
+        list.push(value);
+      });
+    });
+    return list;
   }
 
   goToOrder(orderId: any) {
