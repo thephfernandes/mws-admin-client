@@ -17,7 +17,7 @@
             </v-row>
             <v-row>
                 <v-col cols="6">
-                    <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+                    <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
                 </v-col>
                 <v-col cols="6">
                     <v-btn block><v-icon class="mr-2">mdi-truck</v-icon>DHL Shipping</v-btn>

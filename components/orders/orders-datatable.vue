@@ -7,11 +7,14 @@
                     <v-col cols="12" md="4">
                         <v-select label="Matches" :items="matchesName" v-model="searchMatch" clearable outlined />
                     </v-col>
-                    <v-col cols="12" md="4">
-                        <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
+                    <v-col cols="12" md="2">
+                        <v-text-field label="Certificate" v-model="searchCertificate" outlined clearable />
                     </v-col>
-                    <v-col cols="12" md="4">
-                        <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+                    <v-col cols="12" md="3">
+                        <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
+                    </v-col>
+                    <v-col cols="12" md="3">
+                        <v-select label="Country" :items="getAllCountries()" v-model="selectedCountry" outlined clearable></v-select>
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
@@ -89,7 +92,6 @@
                 <nuxt-link :to="`/customers/${item.UserID}`" class="link">
                   {{item.UserMail}}
                 </nuxt-link>
-              ({{ getCountryName(item.UserCountry) }})
             </template>
             <template v-slot:item.MatchDate="{ item }">
                 {{ item.MatchDate | dateFormat(true) }}
@@ -99,6 +101,16 @@
             </template>
             <template v-slot:item.ProductPrice="{ item }">
                 &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
+            </template>
+            <template v-slot:item.UserCountry="{ item }">
+              <v-row>
+                <v-col>
+                  {{getCountryName(item.UserCountry)}}
+                </v-col>
+                <v-col>
+                  <v-img :src="getCountryFlagUrl(item.UserCountry)" alt="Country Flag" width="20px"></v-img>
+                </v-col>
+              </v-row>
             </template>
         </v-data-table>
         <v-snackbar v-model="shippingStatus">
@@ -133,6 +145,7 @@
         searchMatch: string = '';
         shippingDetail: boolean = false;
         search: string = '';
+        selectedCountry: string = '';
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -148,6 +161,10 @@
         getCountryName(countryCode: string): string {
           const c = Country.find((c) => c.value === countryCode.toUpperCase());
           return c ? c.text : 'Unknown country';
+        }
+
+        getAllCountries() {
+          return Country;
         }
 
         @Watch('AllHeaders')
@@ -170,6 +187,12 @@
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
+          this.selectedCountry = '';
+        }
+
+        getCountryFlagUrl(code: string): string {
+          const countryCode = code.toLocaleUpperCase();
+          return `https://catamphetamine.gitlab.io/country-flag-icons/3x2/${countryCode}.svg`
         }
 
         getShippingStatus(status: number): string {
@@ -210,6 +233,11 @@
         certificateFilter(value: number) {
             if (!this.searchCertificate) return true;
             return value.toString().includes(this.searchCertificate);
+        }
+
+        countryFilter(value: string) {
+          if (!this.selectedCountry) return true;
+          if (this.selectedCountry === value.toUpperCase()) return value;
         }
 
         matchFilter(value: number) {
@@ -272,6 +300,10 @@
                 {
                     text: 'Customer',
                     value: 'UserMail'
+                },
+                {
+                    text: 'Price',
+                    value: 'ProductPrice'
                 }
             ]
         }
@@ -292,6 +324,12 @@
                     text: 'Match date',
                     value: 'MatchDate',
                     width: 150
+                },
+                {
+                    text: 'User Country',
+                    value: 'UserCountry',
+                    width: 200,
+                    filter: this.countryFilter
                 }
             ]
         }
