@@ -51,6 +51,7 @@
                 :headers="headers"
                 :footer-props="footerPropsOptions"
                 :search="search"
+                :options="searchMatch ? tableOptions : {}"
         >
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
@@ -132,7 +133,7 @@
     @Component
     export default class OrdersTableComponent extends Vue {
         footerPropsOptions = {
-            'items-per-page-options': [5, 10, 25, 50]
+            'items-per-page-options': [5, 10, 25, 50, 100]
         };
         shippingStatus: boolean = false;
         order: Order = new Order();
@@ -146,6 +147,7 @@
         shippingDetail: boolean = false;
         search: string = '';
         selectedCountry: string = '';
+        tableOptions = {'itemsPerPage': 100}
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
