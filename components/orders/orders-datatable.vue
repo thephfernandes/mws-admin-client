@@ -11,7 +11,7 @@
                         <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
                     </v-col>
                     <v-col cols="12" md="4">
-                        <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+                        <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
