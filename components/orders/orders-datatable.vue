@@ -89,7 +89,6 @@
                 <nuxt-link :to="`/customers/${item.UserID}`" class="link">
                   {{item.UserMail}}
                 </nuxt-link>
-              ({{ getCountryName(item.UserCountry) }})
             </template>
             <template v-slot:item.MatchDate="{ item }">
                 {{ item.MatchDate | dateFormat(true) }}
@@ -99,6 +98,16 @@
             </template>
             <template v-slot:item.ProductPrice="{ item }">
                 &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
+            </template>
+            <template v-slot:item.UserCountry="{ item }">
+              <v-row>
+                <v-col>
+                  {{getCountryName(item.UserCountry)}}
+                </v-col>
+                <v-col>
+                  <v-img :src="getCountryFlagUrl(item.UserCountry)" alt="Country Flag" width="20px"></v-img>
+                </v-col>
+              </v-row>
             </template>
         </v-data-table>
         <v-snackbar v-model="shippingStatus">
@@ -170,6 +179,11 @@
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
+        }
+
+        getCountryFlagUrl(code: string): string {
+          const countryCode = code.toLocaleUpperCase();
+          return `https://catamphetamine.gitlab.io/country-flag-icons/3x2/${countryCode}.svg`
         }
 
         getShippingStatus(status: number): string {
@@ -272,6 +286,10 @@
                 {
                     text: 'Customer',
                     value: 'UserMail'
+                },
+                {
+                    text: 'Price',
+                    value: 'ProductPrice'
                 }
             ]
         }
@@ -292,6 +310,11 @@
                     text: 'Match date',
                     value: 'MatchDate',
                     width: 150
+                },
+                {
+                    text: 'User Country',
+                    value: 'UserCountry',
+                    width: 200
                 }
             ]
         }
