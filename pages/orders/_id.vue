@@ -1,5 +1,17 @@
 <template>
   <v-card>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-autocomplete
+            dense
+            hide-details
+            outlined
+            label="Quick search order by player name"
+            :items="orders"
+            @change="goToOrder"
+        />
+      </v-col>
+    </v-row>
     <v-row align="center">
       <v-col cols="12" md="2">
         <v-btn text large @click="goToOrders"><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
@@ -39,6 +51,7 @@ import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
 import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
 import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
+import {Order} from "~/models/Order.ts";
 
 @Component({
   components: {
@@ -92,6 +105,16 @@ export default class extends Vue {
 
   goToOrders(): void {
     this.$router.push({name: 'orders'});
+  }
+
+  get orders() {
+    const orders: Order[] = this.$store.getters['orders/getOrders'];
+    const items = orders.map((o) => ({text: o.PlayerName, value: o.OrderID}));
+    return items;
+  }
+
+  goToOrder(orderId: any) {
+    this.$router.push({name: 'orders-id', params: {id: orderId}});
   }
 
   layout(): string {
