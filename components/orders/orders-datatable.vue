@@ -187,6 +187,7 @@
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
+          this.selectedCountry = '';
         }
 
         getCountryFlagUrl(code: string): string {
