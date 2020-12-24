@@ -5,7 +5,7 @@
             <v-col cols="8" md="10">
                 <v-row>
                     <v-col cols="12" md="4">
-                        <v-select label="Matches" :items="matchesName" v-model="searchMatch" clearable outlined />
+                        <v-autocomplete :items="matchesName" label="Matches" v-model="searchMatch" clearable outlined/>
                     </v-col>
                     <v-col cols="12" md="2">
                         <v-text-field label="Certificate" v-model="searchCertificate" outlined clearable />
