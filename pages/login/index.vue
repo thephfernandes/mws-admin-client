@@ -18,6 +18,7 @@
                     label="Username"
                     v-model="username"
                     :rules="[rules.required]"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>
@@ -31,6 +32,7 @@
                     :rules="[rules.required, rules.min]"
                     :type="show ? 'text' : 'password'"
                     @click:append="show = !show"
+                    @keyup.enter="login"
                 />
               </v-col>
             </v-row>
@@ -82,7 +84,6 @@ export default class Index extends Vue {
             })
             .then((response: any) => {
               if (response.status !== 200) return;
-              this.$auth.setUser({userName: 'admin'});
               this.loading = false;
             })
             .catch((error) => {

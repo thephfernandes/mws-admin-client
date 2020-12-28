@@ -2,6 +2,10 @@
     <div>
         <v-card>
             <v-card-title>{{seller.name}}</v-card-title>
+            <v-card-subtitle>
+                Next invoice prefix:
+                {{seller.invoiceIdPrefix}}{{seller.nextInvoiceId}}
+            </v-card-subtitle>
             <v-card-text>
                 <v-form>
                     <v-row>
@@ -9,7 +13,7 @@
                             <v-text-field v-model="seller.name" label="Seller name" outlined />
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="seller.invoiceIdPrefix" label="Invoice Prefix" outlined />
+                            <v-text-field v-model="seller.invoiceIdPrefix" label="Invoice Prefix" disabled outlined />
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="seller.vatNumber" label="VAT number" outlined />

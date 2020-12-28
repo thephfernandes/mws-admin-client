@@ -18,12 +18,12 @@ export const mutations = {
 };
 
 export const actions = {
-    async fillSellers({ commit }) {
-        await this.$axios.get('/sellers').then((response) => {
-            if (response.status === 200) {
-                commit('setSellers', response.data);
-            }
-        });
+    async getSellersSetToStore({ commit }) {
+        const response = await this.$axios.get('/sellers');
+
+        if (response.status === 200) {
+            commit('setSellers', response.data);
+        }
     },
     getSeller({}, sellerId) {
         return this.$axios.get(`/sellers/${sellerId}`);

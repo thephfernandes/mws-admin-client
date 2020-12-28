@@ -15,6 +15,9 @@
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
+                        <v-text-field label="Name" v-model="InvoiceAgreement.name" outlined />
+                    </v-col>
+                    <v-col cols="12" md="6" lg="4">
                         <v-text-field
                                 label="Payment handling percentage"
                                 type="number"
@@ -36,6 +39,14 @@
                                 type="number"
                                 outlined
                                 v-model="InvoiceAgreement.shippingFlatFee"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6" lg="4">
+                        <v-text-field
+                                label="Minimum guarantee"
+                                type="number"
+                                outlined
+                                v-model="InvoiceAgreement.minimumGuarantee"
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
@@ -77,7 +88,7 @@
                                 outlined
                                 v-model="InvoiceAgreement.thirdPartyVatPercentage"
                         />
-                    </v-col>
+                    </v-col>                    
                 </v-row>
                 <v-row justify="space-around">
                     <v-btn color="error" @click="goBack">Cancel</v-btn>
@@ -118,7 +129,7 @@
         get sellers() {
             const sellers: ISeller[] = this.$store.getters['sellers/getSellers'];
             if (sellers.length === 0) {
-                this.$store.dispatch('sellers/fillSellers');
+                this.$store.dispatch('sellers/getSellersSetToStore');
             }
             const items: any = [];
             sellers.forEach((s) => {

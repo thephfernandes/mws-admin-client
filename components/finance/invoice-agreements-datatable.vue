@@ -1,5 +1,10 @@
 <template>
-    <v-data-table :items="agreements" :headers="headers" :footer-props="footerPropsOptions">
+    <v-data-table
+            :items="agreements"
+            :headers="headers"
+            :footer-props="footerPropsOptions"
+            :loading="loading"
+    >
         <template v-slot:top>
             <v-toolbar flat>
                 <v-toolbar-title>Invoice agreements</v-toolbar-title>
@@ -42,16 +47,32 @@
     </v-data-table>
 </template>
 <script lang="ts">
-import {Component, Vue, Prop} from "nuxt-property-decorator";
+    import {Component, Prop, mixins} from "nuxt-property-decorator";
 import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
+import DatatableLoading from "~/mixins/datatable-loading.ts";
 
 @Component
-export default class InvoiceAgreementsDatatableComponent extends Vue {
-    @Prop({ type: Array, required: true }) readonly agreements!: IInvoiceAgreement[];
+export default class InvoiceAgreementsDatatableComponent extends mixins(DatatableLoading) {
     @Prop({ type: Number, required: true }) readonly clubId!: number;
+    agreements: IInvoiceAgreement[] = [] as IInvoiceAgreement[];
     footerPropsOptions = {
         'items-per-page-options': [5, 10, 25, 50]
     };
+
+    created(): void {
+        this.setAgreements();
+    }
+
+    setAgreements(): void {
+        this.$store.dispatch('clubs/getInvoiceAgreements', this.clubId)
+            .then((response) => {
+            if (response.status === 200) {
+                this.agreements = response.data;
+                }
+            })
+            .catch((error) => console.error(error))
+            .finally(() => this.loading = false);
+    }
 
     formatPercentage(value: number): string {
         if (!value) return '0';

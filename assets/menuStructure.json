@@ -1,7 +1,4 @@
 {
-    "profile": {
-        "name": "Steve"
-    },
     "menu": [
         {
             "name": "Home",
@@ -24,6 +21,10 @@
                 {
                   "name": "News",
                   "to": "/manage/news"
+                },
+                {
+                  "name": "Charities",
+                  "to": "/manage/charities"
                 }
             ]
         },
@@ -53,8 +54,23 @@
                 {
                     "name": "Invoice Agreements",
                     "to": "/clubs"
+                },
+                {
+                    "name": "Club-invoices",
+                    "to": "/finance/invoices"
                 }
             ]
+        },
+        {
+          "name": "Matches",
+          "icon": "mdi-soccer",
+          "to": "/matches",
+          "children": [
+              {
+                  "name": "Scheduled",
+                  "to": "/matches/scheduled"
+              }
+          ]
         }
     ],
     "sliders": [
