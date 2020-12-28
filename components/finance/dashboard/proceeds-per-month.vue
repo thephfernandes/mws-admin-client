@@ -22,56 +22,65 @@ export default class ProceedsPerMonthComponent extends Vue {
         return [
             {
                 "date": "July 2020",
-                "setupFee": 21860.75,
-                "21Fee": 28050.06,
-                "handlingCosts": 23180.30,
-                "clubPayout": 132309.89,
-                "totalProceeds": 205401.00,
+                "setupFee": 14250.00,
+                "21Fee": 13331.34,
+                "handlingCosts": 7123.72,
+                "clubPayout": 75119.94,
+                "totalProceeds": 109825.00,
                 "none": 0
             },
             {
                 "date": "August 2020",
-                "setupFee": 7499.19,
-                "21Fee": 7305.92,
-                "handlingCosts": 3528.90,
-                "clubPayout": 20922.99,
-                "totalProceeds": 39257.00,
+                "setupFee": 10999.19,
+                "21Fee": 9849.83,
+                "handlingCosts": 2603.38,
+                "clubPayout": 27497.60,
+                "totalProceeds": 50950.00,
                 "none": 0
             },
             {
                 "date": "September 2020",
                 "setupFee": 18500.00,
-                "21Fee": 19772.85,
-                "handlingCosts": 9523.40,
-                "clubPayout": 59272.75,
-                "totalProceeds": 107069.00,
+                "21Fee": 19687.14,
+                "handlingCosts": 6325.67,
+                "clubPayout": 57919.19,
+                "totalProceeds": 102432.00,
+                "none": 0
+            },
+            {
+                "date": "October 2020",
+                "setupFee": 16450.00,
+                "21Fee": 12445.22,
+                "handlingCosts": 6132.09,
+                "clubPayout": 33018.69,
+                "totalProceeds": 68046.00,
                 "none": 0
             },
             {
                 "date": "November 2020",
-                "setupFee": 20500.00,
-                "21Fee": 21772.85,
-                "handlingCosts": 12523.40,
-                "clubPayout": 67272.75,
-                "totalProceeds": 122069.00,
+                "setupFee": 32250.00,
+                "21Fee": 166136.87,
+                "handlingCosts": 7702.04,
+                "clubPayout": 650707.09,
+                "totalProceeds": 856796.00,
                 "none": 0
             },
             {
                 "date": "December 2020",
-                "setupFee": 18500.00,
-                "21Fee": 19772.85,
-                "handlingCosts": 9323.40,
-                "clubPayout": 59272.75,
-                "totalProceeds": 107069.00,
+                "setupFee": 12610.75,
+                "21Fee": 17283.20,
+                "handlingCosts": 3254.23,
+                "clubPayout": 55387.82,
+                "totalProceeds": 88536.00,
                 "none": 0
             },
             {
                 "date": "January 2021",
                 "setupFee": 18500.00,
-                "21Fee": 19772.85,
-                "handlingCosts": 9523.40,
+                "21Fee": 8972.85,
+                "handlingCosts": 9123.40,
                 "clubPayout": 59272.75,
-                "totalProceeds": 107069.00,
+                "totalProceeds": 107269.00,
                 "none": 0
             },
             {
@@ -85,15 +94,6 @@ export default class ProceedsPerMonthComponent extends Vue {
             },
             {
                 "date": "March 2021",
-                "setupFee": 18500.00,
-                "21Fee": 8972.85,
-                "handlingCosts": 9123.40,
-                "clubPayout": 59272.75,
-                "totalProceeds": 107269.00,
-                "none": 0
-            },
-            {
-                "date": "April 2021",
                 "setupFee": 18500.00,
                 "21Fee": 8972.85,
                 "handlingCosts": 9123.40,
