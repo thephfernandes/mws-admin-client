@@ -1,5 +1,17 @@
 <template>
   <v-card>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-autocomplete
+            dense
+            hide-details
+            outlined
+            label="Quick search order by player or user mail"
+            :items="orders"
+            @change="goToOrder"
+        />
+      </v-col>
+    </v-row>
     <v-row align="center">
       <v-col cols="12" md="2">
         <v-btn text large @click="goToOrders"><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
@@ -39,6 +51,8 @@ import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
 import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
 import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
+import {Order} from "~/models/Order.ts";
+import { IMatch } from "~/interfaces/v1.0/IMatch.ts";
 
 @Component({
   components: {
@@ -92,6 +106,54 @@ export default class extends Vue {
 
   goToOrders(): void {
     this.$router.push({name: 'orders'});
+  }
+
+  get orders() {
+    const orders: Order[] = this.$store.getters['orders/getOrders'];
+    const orderItems: any = [];
+
+    orders.forEach((order) => {
+      const orderObj = {
+        text: `${order.PlayerName} (${order.UserMail})`,
+        value: order.OrderID,
+        matchId: order.MatchID
+      };
+      if (orderItems.length === 0) {
+        orderItems.push([orderObj]);
+      } else {
+        orderItems.forEach((value: any, valueIndex: number) => {
+          if (order.MatchID === value[0].matchId) {
+            orderItems[valueIndex].push(orderObj);
+          }
+        });
+        orderItems.push([orderObj]);
+      }
+    });
+    return this.flattenArray(orderItems);
+  }
+
+  flattenArray(orderItems: any) {
+    const list: any = [];
+    orderItems.forEach((item: any) => {
+      const match: IMatch = this.$store.getters['matches/getMatchById'](item[0].matchId);
+      const header = {
+        header: `${match.HomeClubName} - ${match.VisitingClubName}`,
+        value: item[0].matchId
+      };
+      const activeHeader = list.find((i: any) => i.header === header.value);
+      if (!activeHeader) {
+        list.push(header);
+      }
+
+      item.forEach((value: any) => {
+        list.push(value);
+      });
+    });
+    return list;
+  }
+
+  goToOrder(orderId: any) {
+    this.$router.push({name: 'orders-id', params: {id: orderId}});
   }
 
   layout(): string {
