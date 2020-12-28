@@ -4,11 +4,10 @@
         <v-data-table :headers="headers" :items="monthlyData">
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-menu
+                  <v-menu
                         ref="menuStart"
                         v-model="menuStart"
                         :close-on-content-click="false"
-                        :return-value.sync="dateStart"
                         transition="scale-transition"
                         offset-y
                         max-width="290px"
@@ -20,6 +19,7 @@
                                 label="From date"
                                 prepend-icon="mdi-calendar"
                                 readonly
+                                clearable
                                 v-bind="attrs"
                                 v-on="on"
                             />
@@ -27,32 +27,16 @@
                         <v-date-picker
                             v-model="dateStart"
                             type="month"
+                            @input="menuStart = false"
                             no-title
                             scrollable
-                        >
-                            <v-spacer/>
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="menuStart = false"
-                            >
-                                Cancel
-                            </v-btn>
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="$refs.menuStart.save(dateStart)"
-                            >
-                                OK
-                            </v-btn>
-                        </v-date-picker>
+                        />
                     </v-menu>
                     <v-spacer />
                     <v-menu
                         ref="menuEnd"
                         v-model="menuEnd"
                         :close-on-content-click="false"
-                        :return-value.sync="dateEnd"
                         transition="scale-transition"
                         offset-y
                         max-width="290px"
@@ -64,6 +48,7 @@
                                 label="To date"
                                 prepend-icon="mdi-calendar"
                                 readonly
+                                clearable
                                 v-bind="attrs"
                                 v-on="on"
                             />
@@ -71,25 +56,10 @@
                         <v-date-picker
                             v-model="dateEnd"
                             type="month"
+                            @input="menuEnd = false"
                             no-title
                             scrollable
-                        >
-                            <v-spacer />
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="menuEnd = false"
-                            >
-                                Cancel
-                            </v-btn>
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="$refs.menuEnd.save(dateEnd)"
-                            >
-                                OK
-                            </v-btn>
-                        </v-date-picker>
+                        />
                     </v-menu>
                     <v-spacer />
                     <v-btn color="success">Export as CSV</v-btn>
@@ -129,8 +99,13 @@ import {Component, Vue} from "nuxt-property-decorator";
 export default class proceedsDatatableComponent extends Vue {
     menuStart: boolean = false;
     menuEnd: boolean = false;
-    dateStart: string = new Date().toISOString().substr(0, 7);
-    dateEnd: string = new Date().toISOString().substr(0, 7);
+    dateStart: string = '';
+    dateEnd: string = '';
+
+    filterDate(value: string) {
+      if (!this.dateStart && !this.dateEnd) return true;
+      if (value >= this.dateStart && value <= this.dateEnd) return value;
+    }
 
     formatDate(date: string): string {
         const fullDate = new Date(date);
@@ -149,6 +124,7 @@ export default class proceedsDatatableComponent extends Vue {
             {
                 text: 'Date',
                 value: 'date',
+                filter: this.filterDate,
                 divider: true,
             },
             {
@@ -197,7 +173,7 @@ export default class proceedsDatatableComponent extends Vue {
     get monthlyData() {
         return [
             {
-                date: '2020-07-01',
+                date: '2020-07',
                 setupFee: 14250.00,
                 vatFee: 13331.34,
                 handlingCosts: 7123.72,
@@ -210,7 +186,7 @@ export default class proceedsDatatableComponent extends Vue {
                 totalMWSRev: 27581.34
             },
             {
-                date: '2020-08-01',
+                date: '2020-08',
                 setupFee: 10999.19,
                 vatFee: 9849.83,
                 handlingCosts: 2603.38,
@@ -223,7 +199,7 @@ export default class proceedsDatatableComponent extends Vue {
                 totalMWSRev: 20849.02,
             },
             {
-                date: '2020-09-01',
+                date: '2020-09',
                 setupFee: 18500.00,
                 vatFee: 19687.14,
                 handlingCosts: 6325.67,
@@ -236,7 +212,7 @@ export default class proceedsDatatableComponent extends Vue {
                 totalMWSRev: 38187.14
             },
             {
-              date: '2020-10-01',
+              date: '2020-10',
               setupFee: 16450.00,
               vatFee: 12445.22,
               handlingCosts: 6132.09,
@@ -249,7 +225,7 @@ export default class proceedsDatatableComponent extends Vue {
               totalMWSRev: 28895.22
             },
             {
-              date: '2020-11-01',
+              date: '2020-11',
               setupFee: 32250.00,
               vatFee: 166136.87,
               handlingCosts: 7702.04,
@@ -262,7 +238,7 @@ export default class proceedsDatatableComponent extends Vue {
               totalMWSRev: 198386.87
             },
             {
-              date: '2020-12-01',
+              date: '2020-12',
               setupFee: 12610.75,
               vatFee: 17283.20,
               handlingCosts: 3254.23,
