@@ -302,10 +302,6 @@
                 {
                     text: 'Customer',
                     value: 'UserMail'
-                },
-                {
-                    text: 'Price',
-                    value: 'ProductPrice'
                 }
             ]
         }
