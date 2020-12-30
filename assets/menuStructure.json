@@ -44,6 +44,10 @@
             "to": "/finance",
             "children": [
                 {
+                    "name": "Dashboard",
+                    "to": "/finance/dashboard"
+                },
+                {
                     "name": "Sellers",
                     "to": "/finance/sellers"
                 },
