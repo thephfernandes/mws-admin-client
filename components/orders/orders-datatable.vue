@@ -14,7 +14,7 @@
                         <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="3">
-                        <v-select label="Country" :items="getAllCountries()" v-model="selectedCountry" outlined clearable></v-select>
+                        <v-autocomplete :items="getAllCountries()" label="Country" v-model="selectedCountry" outlined clearable></v-autocomplete>
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
