@@ -13,6 +13,12 @@
                 type="number"
             />
             <v-text-field label="Payment costs (Excl. VAT)" v-model="order.OrderPaymentCosts" outlined />
+            <v-textarea
+                label="Notes"
+                outlined
+                v-model="order.OrderNotes"
+                :background-color="order.OrderNotes ? 'amber lighten-5' : ''"
+            />
           </v-col>
           <v-col cols="12" md="6">
             <v-select label="Payment method"  :items="getAllPaymentMethods()" outlined />
@@ -28,14 +34,6 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12">
-            <v-textarea
-                label="Notes"
-                outlined
-                v-model="order.OrderNotes"
-                :background-color="order.OrderNotes ? 'amber lighten-5' : ''"
-            />
-          </v-col>
           <v-col cols="12">
             <v-row justify="space-around">
               <v-btn color="error" @click="goBack">Cancel</v-btn>
@@ -60,7 +58,6 @@
 <script lang="ts">
 import {Vue, Component, Prop} from "nuxt-property-decorator";
 import {Order} from "~/models/order";
-import {FramingStatus} from "~/enums/framingStatus";
 import {PaymentMethods} from "~/enums/paymentMethod";
 import {ShippingStatusEnum} from "~/enums/shippingStatus";
 import CustomerCardComponent from "~/components/orders/cards/customer-card.vue";
