@@ -281,7 +281,8 @@
                 {
                     text: 'Certificate #',
                     value: 'OrderCertificateNumber',
-                    filter: this.certificateFilter
+                    filter: this.certificateFilter,
+                    width: 100
                 },
                 {
                     text: 'Player',
