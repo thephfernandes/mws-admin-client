@@ -11,8 +11,8 @@ RUN apk add git
 
 # copy the app, note .dockerignore
 COPY . /usr/src/admin-portal-app/
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn build
 
 EXPOSE 3000
 

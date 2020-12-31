@@ -51,7 +51,7 @@ import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
 import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
 import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
-import {Order} from "~/models/Order";
+import {Order} from "~/models/order";
 import { IMatch } from "~/interfaces/v1.0/IMatch";
 
 @Component({
