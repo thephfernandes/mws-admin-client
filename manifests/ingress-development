@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: adminportal-development-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+spec:
+  tls:
+    - hosts:
+        - admin-development.matchwornshirt.com
+      secretName: adminportal-development-tls
+  rules:
+    - host: admin-development.matchwornshirt.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mwsadminportaldevelopment
+              servicePort: 80

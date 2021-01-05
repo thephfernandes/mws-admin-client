@@ -11,7 +11,7 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '0dd46ccc-02ba-4c70-b55f-b0cc9bd9ae36'
+  dockerRegistryServiceConnection: 'a06304fe-92f7-4121-bed0-ca7f30d794c0'
   imageRepository: 'mwsadminportaldevelopment'
   containerRegistry: 'containerregistrymwsstaging.azurecr.io'
   dockerfilePath: '**/Dockerfile'
@@ -20,12 +20,12 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
+
 
 stages:
 - stage: Build
   displayName: Build stage
-  jobs:  
+  jobs:
   - job: Build
     displayName: Build
     pool:
@@ -40,7 +40,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-          
+
     - upload: manifests
       artifact: manifests
 
@@ -64,7 +64,7 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              
+
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
@@ -72,6 +72,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment-development.yml
                 $(Pipeline.Workspace)/manifests/service-development.yml
+                $(Pipeline.Workspace)/manifests/ingress-development.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
