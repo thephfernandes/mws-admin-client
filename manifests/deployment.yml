@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mwsadminportaldevelopment 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mwsadminportaldevelopment
+  template:
+    metadata:
+      labels:
+        app: mwsadminportaldevelopment 
+    spec:
+      containers:
+        - name: mwsadminportaldevelopment 
+          image: containerregistrymwsstaging.azurecr.io/mwsadminportaldevelopment
+          ports:
+          - containerPort: 3000
