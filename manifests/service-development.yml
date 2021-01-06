@@ -4,7 +4,9 @@ metadata:
     name: mwsadminportaldevelopment
 spec:
     type: NodePort
-    ports:
-    - port: 80
     selector:
         app: mwsadminportaldevelopment
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 3000

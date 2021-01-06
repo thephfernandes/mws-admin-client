@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mwsadminportaldevelopment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mwsadminportaldevelopment
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: mwsadminportaldevelopment
-          image: containerregistrymwsstaging.azurecr.io/mwsadminportaldevelopment
+          image: containerregistrymwsstaging.azurecr.io/mwsadminportaldevelopment:1305
           ports:
           - containerPort: 80
