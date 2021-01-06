@@ -1,0 +1,101 @@
+[
+  {
+    "date": "July 2020",
+    "setupFee": 14250.00,
+    "21Fee": 13331.34,
+    "handlingCosts": 7123.72,
+    "clubPayout": 75119.94,
+    "totalProceeds": 109825.00,
+    "none": 0
+  },
+  {
+    "date": "August 2020",
+    "setupFee": 10999.19,
+    "21Fee": 9849.83,
+    "handlingCosts": 2603.38,
+    "clubPayout": 27497.60,
+    "totalProceeds": 50950.00,
+    "none": 0
+  },
+  {
+    "date": "September 2020",
+    "setupFee": 18500.00,
+    "21Fee": 19687.14,
+    "handlingCosts": 6325.67,
+    "clubPayout": 57919.19,
+    "totalProceeds": 102432.00,
+    "none": 0
+  },
+  {
+    "date": "October 2020",
+    "setupFee": 16450.00,
+    "21Fee": 12445.22,
+    "handlingCosts": 6132.09,
+    "clubPayout": 33018.69,
+    "totalProceeds": 68046.00,
+    "none": 0
+  },
+  {
+    "date": "November 2020",
+    "setupFee": 32250.00,
+    "21Fee": 166136.87,
+    "handlingCosts": 7702.04,
+    "clubPayout": 650707.09,
+    "totalProceeds": 856796.00,
+    "none": 0
+  },
+  {
+    "date": "December 2020",
+    "setupFee": 12610.75,
+    "21Fee": 17283.20,
+    "handlingCosts": 3254.23,
+    "clubPayout": 55387.82,
+    "totalProceeds": 88536.00,
+    "none": 0
+  },
+  {
+    "date": "January 2021",
+    "setupFee": 18500.00,
+    "21Fee": 8972.85,
+    "handlingCosts": 9123.40,
+    "clubPayout": 59272.75,
+    "totalProceeds": 107269.00,
+    "none": 0
+  },
+  {
+    "date": "February 2021",
+    "setupFee": 18500.00,
+    "21Fee": 8972.85,
+    "handlingCosts": 9123.40,
+    "clubPayout": 59272.75,
+    "totalProceeds": 107269.00,
+    "none": 0
+  },
+  {
+    "date": "March 2021",
+    "setupFee": 18500.00,
+    "21Fee": 8972.85,
+    "handlingCosts": 9123.40,
+    "clubPayout": 59272.75,
+    "totalProceeds": 107269.00,
+    "none": 0
+  },
+  {
+    "date": "May 2021",
+    "setupFee": 18500.00,
+    "21Fee": 8972.85,
+    "handlingCosts": 9123.40,
+    "clubPayout": 59272.75,
+    "totalProceeds": 107269.00,
+    "none": 0
+  },
+  {
+    "date": "June 2021",
+    "setupFee": 18500.00,
+    "21Fee": 8972.85,
+    "handlingCosts": 9123.40,
+    "clubPayout": 59272.75,
+    "totalProceeds": 107269.00,
+    "none": 0
+  }
+]

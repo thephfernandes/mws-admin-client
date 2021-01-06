@@ -6,10 +6,10 @@
                 <highlight-card :title="totalNumOfShirtsWon.toString()" subtitle="Total number of shirts won" />
             </v-col>
             <v-col>
-                <highlight-card :title="mostValWinner.email" subtitle="Most valuable winner" :text="mostValWinner.amount" />
+                <highlight-card :title="mostValWinner.email" subtitle="Most valuable customer" :text="mostValWinner.amount" />
             </v-col>
             <v-col>
-                <highlight-card :title="mostLoyalWinner.email" subtitle="Most loyal winner" :text="mostLoyalWinner.amount.toString()" />
+                <highlight-card :title="mostLoyalWinner.email" subtitle="Most loyal customer" :text="mostLoyalWinner.amount.toString()" />
             </v-col>
         </v-row>
         <v-row>
@@ -68,8 +68,8 @@
           this.$store.dispatch('orders/fillOrders');
           this.$store.dispatch('orders/fillFraming');
           this.$store.dispatch('orders/fillProducts');
-          this.$store.dispatch('orders/fillEvents');
           this.$store.dispatch('customers/fillAll');
+          this.$store.dispatch('matches/getAllMatchesSetToStore');
         }
     }
 </script>

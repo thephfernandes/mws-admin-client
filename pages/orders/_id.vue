@@ -1,5 +1,17 @@
 <template>
   <v-card>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-autocomplete
+            dense
+            hide-details
+            outlined
+            label="Quick search order by player or user mail"
+            :items="orders"
+            @change="goToOrder"
+        />
+      </v-col>
+    </v-row>
     <v-row align="center">
       <v-col cols="12" md="2">
         <v-btn text large @click="goToOrders"><v-icon>mdi-chevron-left</v-icon>Orders</v-btn>
@@ -21,10 +33,10 @@
         <framing-component :orderId="orderId"/>
       </v-tab-item>
       <v-tab-item>
-        Invoices
+        <orders-invoice :orderId="orderId"></orders-invoice>
       </v-tab-item>
       <v-tab-item>
-        Shipping details
+        <orders-shipping-details :orderId="orderId"></orders-shipping-details>
       </v-tab-item>
       <v-tab-item>
         <product-component :orderId="orderId" />
@@ -37,9 +49,15 @@ import { Vue, Component } from "nuxt-property-decorator";
 import OrderGeneralInfoComponent from "~/components/orders/tabs/orders-general-info.vue";
 import OrderFramingComponent from "~/components/orders/tabs/orders-framing.vue";
 import OrdersProductsComponent from "~/components/orders/tabs/orders-products.vue";
+import OrdersShippingDetails from "~/components/orders/tabs/orders-shipping-details.vue";
+import OrdersInvoice from "~/components/orders/tabs/orders-invoice.vue";
+import {Order} from "~/models/order";
+import { IMatch } from "~/interfaces/v1.0/IMatch";
 
 @Component({
   components: {
+    OrdersInvoice,
+    OrdersShippingDetails,
     'general-info-component': OrderGeneralInfoComponent,
     'framing-component': OrderFramingComponent,
     'product-component': OrdersProductsComponent
@@ -50,27 +68,24 @@ export default class extends Vue {
   private activeTab: number = 0;
   private tabs = [
     {
-      id: 0, slug: 'general-info', name: 'General info', icon: 'mdi-clipboard-edit'
+      id: 0, name: 'General info', icon: 'mdi-clipboard-edit'
     },
     {
-      id: 1, slug: 'framing', name: 'Framing', icon: 'mdi-image-filter-frames'
+      id: 1, name: 'Framing', icon: 'mdi-image-filter-frames'
     },
     {
-      id: 2, slug: 'invoices', name: 'Invoices', icon: 'mdi-file-document'
+      id: 2, name: 'Invoices', icon: 'mdi-file-document'
     },
     {
-      id: 3, slug: 'shipping-details', name: 'Shipping details', icon: 'mdi-truck'
+      id: 3, name: 'Shipping details', icon: 'mdi-truck'
     },
     {
-      id: 4, slug: 'products', name: 'Products', icon: 'mdi-tshirt-crew'
+      id: 4, name: 'Products', icon: 'mdi-tshirt-crew'
     }
   ];
 
   created() {
     this.orderId = parseInt(this.$route.params.id);
-    const tab = this.tabs.find((t) => t.slug == this.$route.query?.tab);
-    if (tab === undefined) return;
-    this.activeTab = tab.id;
   }
 
   get tab() {
@@ -81,7 +96,6 @@ export default class extends Vue {
     const tab = this.tabs.find((t) => t.id == value);
     if (tab === undefined) return;
     this.activeTab = value;
-    this.$router.push({ query: {tab: tab.slug } });
   }
 
   head() {
@@ -92,6 +106,54 @@ export default class extends Vue {
 
   goToOrders(): void {
     this.$router.push({name: 'orders'});
+  }
+
+  get orders() {
+    const orders: Order[] = this.$store.getters['orders/getOrders'];
+    const orderItems: any = [];
+
+    orders.forEach((order) => {
+      const orderObj = {
+        text: `${order.PlayerName} (${order.UserMail})`,
+        value: order.OrderID,
+        matchId: order.MatchID
+      };
+      if (orderItems.length === 0) {
+        orderItems.push([orderObj]);
+      } else {
+        orderItems.forEach((value: any, valueIndex: number) => {
+          if (order.MatchID === value[0].matchId) {
+            orderItems[valueIndex].push(orderObj);
+          }
+        });
+        orderItems.push([orderObj]);
+      }
+    });
+    return this.flattenArray(orderItems);
+  }
+
+  flattenArray(orderItems: any) {
+    const list: any = [];
+    orderItems.forEach((item: any) => {
+      const match: IMatch = this.$store.getters['matches/getMatchById'](item[0].matchId);
+      const header = {
+        header: `${match.HomeClubName} - ${match.VisitingClubName}`,
+        value: item[0].matchId
+      };
+      const activeHeader = list.find((i: any) => i.header === header.value);
+      if (!activeHeader) {
+        list.push(header);
+      }
+
+      item.forEach((value: any) => {
+        list.push(value);
+      });
+    });
+    return list;
+  }
+
+  goToOrder(orderId: any) {
+    this.$router.push({name: 'orders-id', params: {id: orderId}});
   }
 
   layout(): string {

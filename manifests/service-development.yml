@@ -1,10 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: adminportaldevelopment
+    name: mwsadminportaldevelopment
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 80 
+    type: NodePort
     selector:
-        app: adminportaldevelopment
+        app: mwsadminportaldevelopment
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 3000

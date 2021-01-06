@@ -2,13 +2,12 @@
 import ordersData from '~/assets/data/orders.json';
 import framingItem from '~/assets/data/framing/framing-3734.json';
 import productItem from '~/assets/data/products/product-3911.json';
-import eventItem from '~/assets/data/matches/match-282.json';
+import axios from "axios";
 
 export const state = () => ({
     orders: [],
     framing: [],
-    products: [],
-    events: []
+    products: []
 });
 
 export const getters = {
@@ -28,10 +27,6 @@ export const getters = {
     getProduct: (state) => (id) => {
         return state.products.find((p) => p.ID === id);
     },
-    getEvent: (state) => (id) => {
-        return state.events.find((e) => e.id === id);
-
-    }
 };
 
 export const mutations = {
@@ -52,9 +47,22 @@ export const mutations = {
         const o = state.orders.find((o) => o.OrderID === order.OrderID);
         o.OrderShippingStatus = order.OrderShippingStatus;
     },
+    toggleShirtPaid(state, orderId) {
+        const o = state.orders.find((o) => o.OrderID === orderId);
+        o.OrderShirtPaid = !o.OrderShirtPaid;
+    },
     updateOrder(state, order) {
+        console.log(order);
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
+    },
+    incrementAddressReminder(state, order) {
+        const o = state.orders.find((o) => o.OrderID === order.OrderID);
+        o.OrderAddressReminder++;
+    },
+    incrementPaymentReminder(state, order) {
+        const o = state.orders.find((o) => o.OrderID === order.OrderID);
+        o.OrderPaymentReminder++;
     },
     fillEvents(state, payload) {
         state.events.push(payload);
@@ -80,7 +88,16 @@ export const actions = {
     updateOrder({ commit }, order) {
         commit('updateOrder', order);
     },
-    fillEvents({commit}) {
-        commit('fillEvents', eventItem);
+    toggleShirtPaid({ commit }, orderId) {
+        commit('toggleShirtPaid', orderId);
+    },
+    incrementAddressReminder({ commit }, order) {
+        commit('incrementAddressReminder', order);
+    },
+    incrementPaymentReminder({ commit }, order) {
+        commit('incrementPaymentReminder', order);
+    },
+    async getEvent({}, eventId) {
+       return await axios.get(`https://cms-api.matchwornshirt.com/api/v1/match/${eventId}`);
     }
 };

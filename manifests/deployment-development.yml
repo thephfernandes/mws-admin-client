@@ -1,19 +1,19 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: adminportaldevelopment 
+  name: mwsadminportaldevelopment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adminportaldevelopment
+      app: mwsadminportaldevelopment
   template:
     metadata:
       labels:
-        app: adminportaldevelopment 
+        app: mwsadminportaldevelopment
     spec:
       containers:
-        - name: adminportaldevelopment 
-          image: containerregistrymwsdevelopment.azurecr.io/adminportaldevelopment
+        - name: mwsadminportaldevelopment
+          image: containerregistrymwsstaging.azurecr.io/mwsadminportaldevelopment
           ports:
           - containerPort: 80

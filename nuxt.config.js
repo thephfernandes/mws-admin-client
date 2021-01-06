@@ -11,6 +11,10 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: "server",
+  env: {
+    api_url: process.env.API_URL || 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api',
+    xFunctionsKey: process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+  },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -56,15 +60,50 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/style-resources"
+    "@nuxtjs/style-resources",
+    "@nuxtjs/auth"
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "https://jsonplaceholder.typicode.com",
+    baseURL: process.env.API_URL || 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api',
+    headers: {
+      get: {
+        'x-functions-key': process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+      },
+      post: {
+        'x-functions-key': process.env.X_FUNCTIONS_KEY || 'JOFewtUZYA0am9x96rh2bCICa58qwIa0OuMa75jo1aITlSBJAErkXw=='
+      }
+    },
     https: true,
+    proxy: false
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+          user: {url: '/sellers/1', method: 'get', propertyName: 'name'}
+        },
+        redirect: {
+          login: '/login',
+          home: '/',
+        },
+        tokenRequired: true,
+        autoFetchUser: true,
+        logout: false,
+      },
+    },
+  },
+  router: {
+    middleware: ['auth']
   },
   /*
    ** vuetify module configuration
@@ -93,7 +132,6 @@ export default {
   */
   styleResources: {
     scss: ["~/assets/scss/main.scss"]
-
   },
   /*
    ** Build configuration

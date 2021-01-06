@@ -12,18 +12,30 @@ export default class Breadcrumbs extends Vue {
   name() {
     return "breadcrumbs";
   }
+
   getBreadcrumbs() {
     let crumbs: Array<any> = [];
-    const pathArray = this.$route.path.split("/");
-    pathArray.shift();
-    pathArray.forEach((el, idx, array) => {
+
+    const fullPathArray = this.$route.fullPath.split('/');
+    let paths: Array<string> = [];
+    fullPathArray.shift();
+    fullPathArray.forEach((p: string, index: number) => {
+      if (paths.length > 0) {
+        paths.push(paths[index - 1] + '/' + p)
+      } else {
+        paths.push('/' + p);
+      }
+
       let crumb = {
-        text: el.charAt(0).toUpperCase() + el.slice(1),
-        href: `/${el}`,
-        disabled: false,
+        text: p.charAt(0).toUpperCase() + p.slice(1),
+        href: paths[index],
+        disabled: false
       };
       crumbs.push(crumb);
     });
+
+    crumbs[crumbs.length - 1].disabled = true;
+
     return crumbs;
   }
 }

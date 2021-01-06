@@ -1,0 +1,15 @@
+<template>
+    <div>
+        <clubs-datatable/>
+    </div>
+</template>
+<script lang="ts">
+import { Vue, Component } from "nuxt-property-decorator";
+
+@Component
+export default class Index extends Vue {
+    layout(): string {
+        return 'mws';
+    }
+}
+</script>

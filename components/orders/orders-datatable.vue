@@ -5,43 +5,32 @@
             <v-col cols="8" md="10">
                 <v-row>
                     <v-col cols="12" md="4">
-                        <v-select label="Matches" :items="matchesId" v-model="searchMatch" clearable outlined />
+                        <v-autocomplete :items="matchesName" label="Matches" v-model="searchMatch" clearable outlined/>
                     </v-col>
-                    <v-col cols="12" md="4">
-                        <v-text-field label="Search Certificate" v-model="searchCertificate" outlined clearable />
+                    <v-col cols="12" md="2">
+                        <v-text-field label="Certificate" v-model="searchCertificate" outlined clearable />
                     </v-col>
-                    <v-col cols="12" md="4">
-                        <v-select label="Shipping from" :items="['Amsterdam', 'London']" clearable outlined />
+                    <v-col cols="12" md="3">
+                        <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
+                    </v-col>
+                    <v-col cols="12" md="3">
+                        <v-select label="Country" :items="getAllCountries()" v-model="selectedCountry" outlined clearable></v-select>
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-card>
-                            <v-expansion-panels>
-                                <v-expansion-panel>
-                                    <v-expansion-panel-header>Choose optional columns</v-expansion-panel-header>
-                                    <v-expansion-panel-content>
-                                        <v-card-text>
-                                            <v-switch
-                                                    :label="AllHeaders ? 'Deselect all' : 'Select all'"
-                                                    hide-details
-                                                    v-model="AllHeaders"
-                                            />
-                                            <v-checkbox
-                                                    v-for="header in customHeaders"
-                                                    :key="header.value"
-                                                    v-model="selectedHeaders"
-                                                    :label="header.text"
-                                                    :value="selectedHeaders.length ===  0 ? header : header"
-                                                    @click="updateHeaders"
-                                                    hide-details
-                                            />
-                                        </v-card-text>
-                                    </v-expansion-panel-content>
-                                </v-expansion-panel>
-                            </v-expansion-panels>
-                        </v-card>
+                        <v-select
+                                :items="customHeaders"
+                                outlined
+                                label="Optional columns"
+                                multiple
+                                hide-details
+                                clearable
+                                deletable-chips
+                                v-model="selectedHeadersList"
+                                @change="updateHeaders"
+                        />
                     </v-col>
                 </v-row>
             </v-col>
@@ -62,135 +51,51 @@
                 :headers="headers"
                 :footer-props="footerPropsOptions"
                 :search="search"
+                :options="searchMatch ? tableOptions : {}"
         >
             <template v-slot:item.OrderID="{ item }">
                 <nuxt-link :to="`/orders/${item.OrderID}`" class="link">{{item.OrderID}}</nuxt-link>
             </template>
-            <template v-slot:item.Actions="{ item }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                @click="toOrder(item.OrderID)"
-                                small
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-pencil
-                        </v-icon>
-                    </template>
-                    <span>Edit order</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                @click="shippingDetail = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-truck
-                        </v-icon>
-                    </template>
-                    <span>Shipping detail</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="!item.UserAddress"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-google-maps
-                        </v-icon>
-                    </template>
-                    <span>Send address reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="!item.OrderShirtPaid"
-                                @click="reminder = true"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            mdi-credit-card-clock-outline
-                        </v-icon>
-                    </template>
-                    <span>Send payment reminder</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                                v-if="item.OrderShippingStatus !== 3"
-                                small
-                                class="ml-2"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="markAsShipped(item)"
-                        >
-                            mdi-check-bold
-                        </v-icon>
-                    </template>
-                    <span>Mark as shipped</span>
-                </v-tooltip>
+            <template v-slot:item.club="{ item }">
+                {{ getClubName(item.MatchID) }}
+            </template>
+            <template v-slot:item.Opponent="{ item }">
+                {{ getOpponent(item.MatchID) }}
             </template>
             <template v-slot:item.Status="{ item }">
-                <div class="status-group">
-                    <v-chip small :color="item.OrderShirtPaid ? 'green' : 'red'" text-color="white">Paid</v-chip>
-                    <v-chip
-                            small
-                            text-color="white" :color="item.UserAddress ? 'green' : 'red'"
-                            class="ml-2"
-                    >
-                        Address
-                    </v-chip>
-                    <v-icon v-if="item.OrderNotes" class="ml-2">mdi-note-text</v-icon>
-                </div>
+                <order-status :order="item" />
+                <v-icon v-if="item.OrderFraming" dense color="warning">mdi-image-frame</v-icon>
             </template>
             <template v-slot:item.Shipping="{ item }">
-                <v-edit-dialog large @save="saveShippingStatus" @open="openShippingStatus(item)">
-                    <v-chip-group>
-                        <v-chip
-                                :color="
+                <v-chip-group>
+                    <v-chip
+                            @click="showShippingModal(item)"
+                            :color="
                                 (item.OrderShippingStatus === 2 || item.OrderShippingStatus === 3) ? 'green'
                                 : item.OrderShippingStatus === 4 ? 'red' : 'gray'
                                 "
-                                :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
-                        >
-                            <v-icon class="mr-2">mdi-truck</v-icon>
-                            {{getShippingStatus(item.OrderShippingStatus)}}
-                        </v-chip>
-                    </v-chip-group>
-                    <template v-slot:input>
-                        <v-select
-                                :items="getAllShippingStatus()"
-                                single-line
-                                prepend-icon="mdi-truck"
-                                v-model="order.OrderShippingStatus"
-                        />
-                    </template>
-                </v-edit-dialog>
+                            :text-color="item.OrderShippingStatus <= 1 ? 'black' : 'white'"
+                    >
+                        <v-icon class="mr-2">mdi-truck</v-icon>
+                        {{getShippingStatus(item.OrderShippingStatus)}}
+                    </v-chip>
+                </v-chip-group>
             </template>
             <template v-slot:item.MatchID="{ item }">
-                <nuxt-link :to="`/events/${item.MatchID}`" class="link">{{item.MatchID}}</nuxt-link>
+                <nuxt-link :to="`/events/${item.MatchID}`" class="link">
+                    {{ getMatch(item.MatchID) }}
+                </nuxt-link>
             </template>
             <template v-slot:item.PlayerName="{ item }">
                 <nuxt-link :to="`/products/${item.PlayerID}`" class="link">{{item.PlayerName}}</nuxt-link>
             </template>
             <template v-slot:item.UserMail="{ item }">
-                <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
+                <nuxt-link :to="`/customers/${item.UserID}`" class="link">
+                  {{item.UserMail}}
+                </nuxt-link>
             </template>
-            <template v-slot:item.UserMail="{ item }">
-                <nuxt-link :to="`/customers/${item.UserID}`" class="link">{{item.UserMail}}</nuxt-link>
-            </template>
-            <template v-slot:item.OrderCreationDate="{ item }">
-                {{ item.OrderCreationDate | dateFormat(true) }}
+            <template v-slot:item.MatchDate="{ item }">
+                {{ item.MatchDate | dateFormat(true) }}
             </template>
             <template v-slot:item.UserCountry="{ item }">
                 {{item.UserCountry.toUpperCase()}}
@@ -198,69 +103,51 @@
             <template v-slot:item.ProductPrice="{ item }">
                 &euro; {{item.ProductPrice.toFixed(2).replace('.', ',')}}
             </template>
-            <template v-slot:item.OrderFraming="{ item }">
-                <v-chip :color="item.OrderFraming ? 'green' : 'red'">
-                    <v-icon>mdi-image-frame</v-icon>
-                    <span
-                            v-if="item.OrderFraming"
-                            class="ml-2"
-                    >
-                        {{ getFramingStatus(item.OrderFramingStatus) }}
-                    </span>
-                </v-chip>
-            </template>
-            <template v-slot:item.OrderAddressReminder="{ item }">
-                <v-chip small>
-                    <v-icon small class="mr-2">mdi-google-maps</v-icon>
-                    {{item.OrderAddressReminder}}
-                </v-chip>
-                <v-chip small class="mt-1">
-                    <v-icon small class="mr-2">mdi-credit-card-clock-outline</v-icon>
-                    {{item.OrderPaymentReminder}}
-                </v-chip>
+            <template v-slot:item.UserCountry="{ item }">
+              <v-row>
+                <v-col>
+                  {{getCountryName(item.UserCountry)}}
+                </v-col>
+                <v-col>
+                  <v-img :src="getCountryFlagUrl(item.UserCountry)" alt="Country Flag" width="20px"></v-img>
+                </v-col>
+              </v-row>
             </template>
         </v-data-table>
-        <v-snackbar v-model="reminder" :timeout="500">
-            Reminder sent.
-        </v-snackbar>
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
-        <v-dialog v-model="shippingDetail" max-width="500px">
-            <shipping-detail />
+        <v-dialog v-model="shippingDetail" max-width="500" v-if="shippingDetail">
+            <shipping-detail-modal @closeShippingModal="shippingDetail = false" :order="order" />
         </v-dialog>
     </div>
 </template>
 <script lang="ts">
     import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
     import {IOrder} from "~/interfaces/IOrder";
-    import Datatable from "~/components/customer/datatable.vue";
     import {ShippingStatusEnum} from "~/enums/shippingStatus.ts";
     import {Order} from "~/models/order";
-    import {FramingStatus} from "~/enums/framingStatus";
-    import ShippingDetailModalComponent from "~/components/orders/shipping-detail-modal.vue";
+    import Country from "~/assets/data/countries.json";
+    import {IMatch} from "~/interfaces/v1.0/IMatch";
 
-    @Component({
-        components: {
-            Datatable,
-            'shipping-detail': ShippingDetailModalComponent
-        }
-    })
+    @Component
     export default class OrdersTableComponent extends Vue {
         footerPropsOptions = {
-            'items-per-page-options': [5, 10, 25, 50]
+            'items-per-page-options': [5, 10, 25, 50, 100]
         };
-        reminder: boolean = false;
         shippingStatus: boolean = false;
         order: Order = new Order();
         headers: Array<Object> = [];
         customHeaders: Array<Object> = [];
         selectedHeaders: Array<Object> = [];
+        selectedHeadersList: [] = [];
         AllHeaders: boolean = false;
         searchCertificate: string = '';
         searchMatch: string = '';
         shippingDetail: boolean = false;
         search: string = '';
+        selectedCountry: string = '';
+        tableOptions = {'itemsPerPage': 100}
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -268,25 +155,18 @@
             return 'orders-table-component'
         }
 
-        created() {
+        created(): void {
             this.createHeaders();
             this.createCustomHeaders();
         }
 
-        openShippingStatus(item: Order) {
-            this.order = Object.assign({}, item)
+        getCountryName(countryCode: string): string {
+          const c = Country.find((c) => c.value === countryCode.toUpperCase());
+          return c ? c.text : 'Unknown country';
         }
 
-        saveShippingStatus() {
-            this.$store.dispatch('orders/updateShippingStatus', this.order);
-            this.shippingStatus = true;
-        }
-
-        markAsShipped(item: Order) {
-            this.openShippingStatus(item);
-            this.order.OrderShippingStatus = ShippingStatusEnum.Shipped;
-            this.$store.dispatch('orders/updateShippingStatus', this.order);
-            this.shippingStatus = true;
+        getAllCountries() {
+          return Country;
         }
 
         @Watch('AllHeaders')
@@ -300,37 +180,66 @@
             this.updateHeaders();
         }
 
-        getAllShippingStatus() {
-            let shippingStatus = Object.values(ShippingStatusEnum);
-            shippingStatus = shippingStatus.slice(0, shippingStatus.length / 2);
-            return shippingStatus.map((value, key) => ({text: value, value: key}));
+        showShippingModal(item: Order): void {
+            this.order = item;
+            this.shippingDetail = true;
         }
 
         resetFilters(): void {
           this.searchMatch = '';
           this.searchCertificate = '';
           this.search = '';
+          this.selectedCountry = '';
         }
 
-        getFramingStatus(status: number): string {
-            return FramingStatus[status];
-        }
-
-        toOrder(orderId: number): void {
-            this.$router.push({name: 'orders-id', params: { id: orderId.toString() }});
+        getCountryFlagUrl(code: string): string {
+          const countryCode = code.toLocaleUpperCase();
+          return `https://catamphetamine.gitlab.io/country-flag-icons/3x2/${countryCode}.svg`
         }
 
         getShippingStatus(status: number): string {
             return ShippingStatusEnum[status];
         }
 
-        get matchesId() {
-            return this.$store.getters['orders/getMatchesId'];
+        get matchesName(): string {
+            const matches = this.$store.getters['matches/getAllMatches'];
+            const listMatches = matches.map((m: IMatch) => ({
+                text: `${m.FeaturedClubName} (${m.HomeClubName} - ${m.VisitingClubName})`,
+                value: m.ID
+            }));
+            return listMatches.reverse();
+        }
+
+        get matches() {
+            return this.$store.getters['matches/getMatches'];
+        }
+
+        getClubName(id: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatchById'](id);
+            return match.FeaturedClubName;
+        }
+
+        getOpponent(matchId: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatchById'](matchId);
+            if (!match) return 'Unknown';
+            return match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+        }
+
+        getMatch(id: number): string {
+            const match: IMatch = this.$store.getters['matches/getMatchById'](id);
+            if (!match) return 'Unknown';
+            const opponent = match.FeaturedClubID === match.HomeClubID ? match.VisitingClubName : match.HomeClubName;
+            return `${match.FeaturedClubName} - ${opponent}`;
         }
 
         certificateFilter(value: number) {
             if (!this.searchCertificate) return true;
             return value.toString().includes(this.searchCertificate);
+        }
+
+        countryFilter(value: string) {
+          if (!this.selectedCountry) return true;
+          if (this.selectedCountry === value.toUpperCase()) return value;
         }
 
         matchFilter(value: number) {
@@ -342,27 +251,31 @@
 
         updateHeaders(): void {
             this.createHeaders();
-            this.headers = this.headers.concat(this.selectedHeaders);
+            for (const header of this.customHeaders as any) {
+                for (const item of this.selectedHeadersList) {
+                    if (header.value === item) {
+                        this.headers.push(header);
+                    }
+                }
+            }
         }
 
         createHeaders() {
             this.headers = [
                 {
                     text: 'Id',
+                    width: 80,
                     value: 'OrderID'
                 },
                 {
                     text: 'Status',
+                    width: 200,
                     value: 'Status'
                 },
                 {
                     text: 'Shipping',
-                    value: 'Shipping'
-                },
-                {
-                    text: 'Actions',
-                    value: 'Actions',
-                    width: 150,
+                    value: 'Shipping',
+                    width: 100,
                     divider: true
                 },
                 {
@@ -371,23 +284,28 @@
                     filter: this.certificateFilter
                 },
                 {
-                    text: 'MatchId',
-                    value: 'MatchID',
-                    filter: this.matchFilter
-                },
-                {
                     text: 'Player',
                     value: 'PlayerName',
                     width: 150
+                },
+                {
+                    text: 'Price',
+                    value: 'ProductPrice',
+                    width: 120
+                },
+                {
+                    text: 'Match',
+                    value: 'MatchID',
+                    filter: this.matchFilter,
+                    width: 290
                 },
                 {
                     text: 'Customer',
                     value: 'UserMail'
                 },
                 {
-                    text: 'Order date',
-                    value: 'OrderCreationDate',
-                    width: 150
+                    text: 'Price',
+                    value: 'ProductPrice'
                 }
             ]
         }
@@ -395,34 +313,25 @@
         createCustomHeaders(): void {
             this.customHeaders = [
                 {
-                    text: 'Club Name',
-                    value: 'ClubName',
+                    text: 'Club',
+                    value: 'club',
                     width: 200
                 },
                 {
-                    text: 'User Country',
-                    value: 'UserCountry'
-                },
-                {
-                    text: 'Price',
-                    value: 'ProductPrice',
-                    width: 100
-                },
-                {
-                    text: 'Customer Phone',
-                    value: 'UserPhoneNumber'
-                },
-                {
-                    text: 'Framing',
-                    value: 'OrderFraming'
-                },
-                {
                     text: 'Opponent',
-                    value: 'Opponent'
+                    value: 'Opponent',
+                    width: 200
                 },
                 {
-                    text: 'Reminder',
-                    value: 'OrderAddressReminder'
+                    text: 'Match date',
+                    value: 'MatchDate',
+                    width: 150
+                },
+                {
+                    text: 'User Country',
+                    value: 'UserCountry',
+                    width: 200,
+                    filter: this.countryFilter
                 }
             ]
         }
@@ -434,5 +343,6 @@
     }
     .status-group {
         display: flex;
+        align-items: center;
     }
 </style>

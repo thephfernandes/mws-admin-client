@@ -1,7 +1,4 @@
 {
-    "profile": {
-        "name": "Steve"
-    },
     "menu": [
         {
             "name": "Home",
@@ -20,6 +17,14 @@
                 {
                     "name": "Featured Matches",
                     "to": "/manage/featured"
+                },
+                {
+                  "name": "News",
+                  "to": "/manage/news"
+                },
+                {
+                  "name": "Charities",
+                  "to": "/manage/charities"
                 }
             ]
         },
@@ -32,6 +37,40 @@
             "name": "Orders",
             "icon": "mdi-clipboard-list",
             "to": "/orders"
+        },
+        {
+            "name": "Finance",
+            "icon": "mdi-finance",
+            "to": "/finance",
+            "children": [
+                {
+                    "name": "Dashboard",
+                    "to": "/finance/dashboard"
+                },
+                {
+                    "name": "Sellers",
+                    "to": "/finance/sellers"
+                },
+                {
+                    "name": "Invoice Agreements",
+                    "to": "/clubs"
+                },
+                {
+                    "name": "Club-invoices",
+                    "to": "/finance/invoices"
+                }
+            ]
+        },
+        {
+          "name": "Matches",
+          "icon": "mdi-soccer",
+          "to": "/matches",
+          "children": [
+              {
+                  "name": "Scheduled",
+                  "to": "/matches/scheduled"
+              }
+          ]
         }
     ],
     "sliders": [

@@ -1,12 +1,23 @@
 <template>
-    <v-container class="slider-images">
-        <v-row>
-            <v-col>
-                <draggable tag="v-layout" group="slides" v-model="sliders" @start="drag=true" @end="drag=false">
-                    <Slide v-for="(item, index) in sliders" :key="index" :callToAction="item.text" :imagePath="item.image"/> 
-                </draggable>
-            </v-col>
-        </v-row> 
+  <v-container class="slider-images">
+    <v-row>
+      <v-col>
+        <draggable
+          tag="v-layout"
+          group="slides"
+          v-model="sliders"
+          @start="drag = true"
+          @end="drag = false"
+        >
+          <Slide
+            v-for="(item, index) in sliders"
+            :key="index"
+            :callToAction="item.text"
+            :imagePath="item.image"
+          />
+        </draggable>
+      </v-col>
+    </v-row>
 
     <v-row justify="end">
       <v-col>
@@ -27,33 +38,31 @@ import Slide from "~/components/content/sliders/Slide.vue";
 import draggable from "vuedraggable";
 
 @Component({
-    components: {
-        Slide,
-        draggable
-    }
+  components: {
+    Slide,
+    draggable,
+  },
 })
 export default class Index extends Vue {
-    sliders = [];
+  sliders = [];
 
-    layout(): string {
-        return "mws";
-    }
+  layout(): string {
+    return "mws";
+  }
 
   get jsonData() {
     let file = require("~/assets/menuStructure.json");
     return file;
   }
-    
-    mounted() {
-        this.sliders = this.jsonData.sliders;
-    }
+
+  mounted() {
+    this.sliders = this.jsonData.sliders;
+  }
 }
 </script>
 
 <style>
 .layout {
-    flex-flow: row wrap;
-    /* justify-content: space-between; */
-    
+  flex-flow: row wrap;
 }
 </style>
