@@ -14,7 +14,13 @@
                         <v-select label="Shipping from" :items="['Amsterdam', 'London', 'Turkey']" clearable outlined />
                     </v-col>
                     <v-col cols="12" md="3">
-                        <v-select label="Country" :items="getAllCountries()" v-model="selectedCountry" outlined clearable></v-select>
+                        <v-autocomplete
+                            :items="getAllCountries()"
+                            label="Country"
+                            v-model="selectedCountry"
+                            outlined
+                            clearable
+                        />
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field label="Search player, customer, etc." v-model="search" outlined clearable />
@@ -86,6 +92,20 @@
                     {{ getMatch(item.MatchID) }}
                 </nuxt-link>
             </template>
+            <template v-slot:item.OrderCertificateNumber="{ item }">
+              <v-edit-dialog persistent large v-if="item.OrderCertificateNumber === 0" @save="saveCertificate(item)">
+                {{item.OrderCertificateNumber}}
+                <template v-slot:input>
+                  <v-text-field
+                      label="Add certificate"
+                      v-model="certificateNumber"
+                      counter
+                      single-line
+                  />
+                </template>
+              </v-edit-dialog>
+              <span v-if="item.OrderCertificateNumber > 0">{{item.OrderCertificateNumber}}</span>
+            </template>
             <template v-slot:item.PlayerName="{ item }">
                 <nuxt-link :to="`/products/${item.PlayerID}`" class="link">{{item.PlayerName}}</nuxt-link>
             </template>
@@ -114,6 +134,9 @@
               </v-row>
             </template>
         </v-data-table>
+        <v-snackbar color="success" v-model="updatedCertificate" timeout="500">
+          Certificate updated...
+        </v-snackbar>
         <v-snackbar v-model="shippingStatus">
             Shipping status updated to {{getShippingStatus(order.OrderShippingStatus)}}.
         </v-snackbar>
@@ -148,6 +171,8 @@
         search: string = '';
         selectedCountry: string = '';
         tableOptions = {'itemsPerPage': 100}
+        certificateNumber: string = '';
+        updatedCertificate: boolean = false;
         @Prop({ type: Array, required: true }) readonly orders!: IOrder[];
 
 
@@ -178,6 +203,15 @@
                 })
             }
             this.updateHeaders();
+        }
+
+        saveCertificate(order: Order): void {
+          this.$store.dispatch('orders/updateCertificate', {
+            OrderID: order.OrderID,
+            OrderCertificateNumber: this.certificateNumber
+          });
+          this.certificateNumber = '';
+          this.updatedCertificate = true;
         }
 
         showShippingModal(item: Order): void {
@@ -281,7 +315,8 @@
                 {
                     text: 'Certificate #',
                     value: 'OrderCertificateNumber',
-                    filter: this.certificateFilter
+                    filter: this.certificateFilter,
+                    width: 100
                 },
                 {
                     text: 'Player',
@@ -302,10 +337,6 @@
                 {
                     text: 'Customer',
                     value: 'UserMail'
-                },
-                {
-                    text: 'Price',
-                    value: 'ProductPrice'
                 }
             ]
         }
