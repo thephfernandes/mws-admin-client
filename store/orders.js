@@ -66,6 +66,10 @@ export const mutations = {
     },
     fillEvents(state, payload) {
         state.events.push(payload);
+    },
+    updateCertificate(state, certificate) {
+        const o = state.orders.find((o) => o.OrderID === certificate.OrderID);
+        o.OrderCertificateNumber = certificate.OrderCertificateNumber;
     }
 };
 
@@ -99,5 +103,8 @@ export const actions = {
     },
     async getEvent({}, eventId) {
        return await axios.get(`https://cms-api.matchwornshirt.com/api/v1/match/${eventId}`);
+    },
+    updateCertificate({ commit }, certificate) {
+        commit('updateCertificate', certificate);
     }
 };
