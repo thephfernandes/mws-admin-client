@@ -42,14 +42,15 @@
             {{formatPercentage(item.mwsVatPercentage)}}
         </template>
         <template v-slot:item.mwsSetupFee="{item}">
-            &euro; {{formatCurrency(item.mwsSetupFee)}}
+            {{ getSetupFeeName(item.mwsSetupFee) }}
         </template>
     </v-data-table>
 </template>
 <script lang="ts">
-    import {Component, Prop, mixins} from "nuxt-property-decorator";
+import {Component, Prop, mixins} from "nuxt-property-decorator";
 import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
 import DatatableLoading from "~/mixins/datatable-loading.ts";
+import { mwsSetupFee } from "~/enums/mwsSetupFee.ts";
 
 @Component
 export default class InvoiceAgreementsDatatableComponent extends mixins(DatatableLoading) {
@@ -76,7 +77,11 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
 
     formatPercentage(value: number): string {
         if (!value) return '0';
-        return `${value.toFixed(2)} %`;
+        return `${value.toFixed(2)}%`;
+    }
+
+    getSetupFeeName(index: number): string {
+      return mwsSetupFee[index];
     }
 
     formatCurrency(amount: number): string {
