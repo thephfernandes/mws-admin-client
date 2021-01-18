@@ -20,7 +20,12 @@
                             <v-text-field v-model="seller.vatNumber" label="VAT number" outlined />
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-autocomplete v-model="seller.country" :items="countries" outlined label="Country"></v-autocomplete>
+                            <v-autocomplete
+                                v-model="seller.country"
+                                :items="countries"
+                                outlined label="Country"
+                                clearable
+                            />
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="seller.address1" label="Address 1" outlined />
@@ -74,7 +79,7 @@ export default class AddSellerPage extends Vue {
     }
 
     get countries() {
-      return countries;
+      return countries.map((c) => ({text: c.text, value: c.text}));
     }
 }
 </script>
