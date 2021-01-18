@@ -69,27 +69,33 @@ export default class SellersDatatableComponent extends mixins(DatatableLoading) 
             {
                 text: 'Next invoice prefix',
                 value: 'nextInvoiceId',
+                width: 150,
                 divider: true
             },
             {
                 text: 'Name',
-                value: 'name'
+                value: 'name',
+                width: 300
             },
             {
                 text: 'VAT #',
-                value: 'vatNumber'
+                value: 'vatNumber',
+                width: 125
             },
             {
                 text: 'Address 1',
-                value: 'address1'
+                value: 'address1',
+                width: 200
             },
             {
                 text: 'Address 2',
-                value: 'address2'
+                value: 'address2',
+                width: 200
             },
             {
                 text: 'Country',
-                value: 'country'
+                value: 'country',
+                width: 200
             },
             {
                 text: 'Email',

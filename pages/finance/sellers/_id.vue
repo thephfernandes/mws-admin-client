@@ -19,7 +19,12 @@
                             <v-text-field v-model="seller.vatNumber" label="VAT number" outlined />
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="seller.country" label="Country" outlined />
+                            <v-autocomplete
+                                v-model="seller.country"
+                                :items="countries"
+                                outlined label="Country"
+                                clearable
+                            />
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="seller.address1" label="Address 1" outlined />
@@ -54,6 +59,7 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 import {Seller} from "~/models/seller";
+import countries from "~/assets/data/countries.json";
 
 @Component
 export default class SellerPage extends Vue {
@@ -82,6 +88,10 @@ export default class SellerPage extends Vue {
             this.success = false;
             this.showMessage = true;
         });
+    }
+
+    get countries() {
+      return countries.map((c) => ({text: c.text, value: c.text}));
     }
 
     goBack(): void {

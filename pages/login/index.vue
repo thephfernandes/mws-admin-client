@@ -10,7 +10,7 @@
           <v-form class="login-form">
             <v-row justify="center">
               <v-col cols="12" v-if="errorMessage">
-                <v-alert color="red">{{errorMessage}}</v-alert>
+                <v-alert color="red" class="error-content">{{errorMessage}}</v-alert>
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -102,5 +102,8 @@ export default class Index extends Vue {
 }
 .title {
   font-size: 2rem;
+}
+.error-content {
+  color: white;
 }
 </style>
