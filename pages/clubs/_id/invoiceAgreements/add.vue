@@ -6,7 +6,7 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="12" md="6" lg="4">
-                        <v-select
+                        <v-autocomplete
                                 label="Seller"
                                 :items="sellers"
                                 v-model="InvoiceAgreement.sellerId"
