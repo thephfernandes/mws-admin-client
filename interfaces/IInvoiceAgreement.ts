@@ -2,6 +2,7 @@ import {ISeller} from "~/interfaces/ISeller";
 
 export interface IInvoiceAgreement {
     id: number;
+    name: string;
     clubId: number;
     sellerId: number;
     thirdPartyVatPercentage: number;
