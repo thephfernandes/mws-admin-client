@@ -6,7 +6,7 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="12" md="6" lg="4">
-                        <v-select
+                        <v-autocomplete
                                 label="Seller"
                                 :items="sellers"
                                 v-model="InvoiceAgreement.sellerId"
@@ -74,11 +74,11 @@
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
-                        <v-text-field
-                                label="MWS setup fee"
-                                type="number"
-                                outlined
-                                v-model="InvoiceAgreement.mwsSetupFee"
+                        <v-select
+                            label="MWS setup fee"
+                            v-model="InvoiceAgreement.mwsSetupFee"
+                            :items="setupFees"
+                            outlined
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
@@ -103,6 +103,7 @@
     import InvoiceAgreement from "~/models/invoiceAgreement";
     import {IClub} from "~/interfaces/IClub";
     import {ISeller} from "~/interfaces/ISeller";
+    import { mwsSetupFee } from "~/enums/mwsSetupFee.ts";
 
     @Component
     export default class InvoiceAgreementDetail extends Vue {
@@ -120,6 +121,12 @@
         setInvoiceAgreement(): void {
             const invoice = this.$store.getters['clubs/getInvoiceAgreement'](this.invoiceId);
             this.InvoiceAgreement = Object.assign({}, invoice);
+        }
+
+        get setupFees() {
+          const array = Object.values(mwsSetupFee);
+          const shortenArray = array.slice(0, array.length / 2);
+          return shortenArray.map((value, index) => ({text: value, value: index}));
         }
 
         get club(): IClub {

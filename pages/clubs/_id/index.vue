@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>{{club.name}}</h2>
+        <h2 v-if="club">{{club.name}}</h2>
         <invoice-agreements-datatable :clubId="clubId" />
     </div>
 </template>

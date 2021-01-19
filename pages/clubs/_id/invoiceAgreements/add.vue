@@ -6,7 +6,7 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="12" md="6" lg="4">
-                        <v-select
+                        <v-autocomplete
                                 label="Seller"
                                 :items="sellers"
                                 v-model="InvoiceAgreement.sellerId"
@@ -78,11 +78,11 @@
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
-                        <v-text-field
-                                label="MWS setup fee"
-                                type="number"
-                                outlined
-                                v-model="InvoiceAgreement.mwsSetupFee"
+                        <v-select
+                            label="MWS setup fee"
+                            :items="setupFees"
+                            outlined
+                            v-model="InvoiceAgreement.mwsSetupFee"
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
@@ -107,6 +107,7 @@
     import InvoiceAgreement from "~/models/invoiceAgreement.ts"
     import {IClub} from "~/interfaces/IClub";
     import {ISeller} from "~/interfaces/ISeller";
+    import { mwsSetupFee } from "~/enums/mwsSetupFee.ts";
 
     @Component
     export default class AddInvoicePage extends Vue {
@@ -128,6 +129,12 @@
                 items.push({text: s.name, value: s.id})
             });
             return items;
+        }
+
+        get setupFees() {
+          const array = Object.values(mwsSetupFee);
+          const shortenArray = array.slice(0, array.length / 2);
+          return shortenArray.map((value, index) => ({text: value, value: index}));
         }
 
         goBack(): void {
