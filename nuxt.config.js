@@ -61,7 +61,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/style-resources",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth-next"
   ],
   /*
    ** Axios module configuration
@@ -81,20 +81,31 @@ export default {
     proxy: false
   },
   auth: {
+    redirect: {
+      login: '/login',
+      home: '/',
+    },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'token',
-          required: true,
-          type: 'Bearer'
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: 'token',
+          data: 'token',
+          maxAge: 60 * 60 * 6,
+          type: 'Bearer',
+          tokenRequired: true
+        },
+        user: {
+          property: 'name'
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
-          user: {url: '/sellers/1', method: 'get', propertyName: 'name'}
-        },
-        redirect: {
-          login: '/login',
-          home: '/',
+          login: { url: '/auth/login', method: 'post' },
+          user: {url: '/sellers/1', method: 'get'},
+          refresh: { url: '/auth/refresh', method: 'post' },
         },
         tokenRequired: true,
         autoFetchUser: true,
