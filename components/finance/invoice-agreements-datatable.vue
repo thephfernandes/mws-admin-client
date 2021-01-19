@@ -15,7 +15,7 @@
             </v-toolbar>
         </template>
         <template v-slot:item.id="{ item }">
-            <nuxt-link :to="`/clubs/${item.clubId}/invoiceAgreements/${item.id}`" class="link">{{item.id}}</nuxt-link>
+            <nuxt-link :to="`/clubs/${item.clubId}/invoiceAgreements/${item.id}`" class="link">{{item.name}}</nuxt-link>
         </template>
         <template v-slot:item.sellerId="{item}">
             <nuxt-link :to="`/finance/sellers/${item.sellerId}`" class="link">{{item.seller.name}}</nuxt-link>
@@ -87,9 +87,9 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
     get headers() {
         return [
             {
-                text: 'Id',
+                text: 'Name',
                 value: 'id',
-                width: 50,
+                width: 120,
                 divider: true
             },
             {
