@@ -87,25 +87,15 @@ export default {
     },
     strategies: {
       local: {
-        scheme: 'refresh',
         token: {
-          property: 'token',
-          maxAge: 1800
-        },
-        refreshToken: {
-          property: 'token',
-          data: 'token',
-          maxAge: 60 * 60 * 6,
-          type: 'Bearer',
-          tokenRequired: true
+          property: 'token'
         },
         user: {
           property: 'name'
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post' },
-          user: {url: '/sellers/1', method: 'get'},
-          refresh: { url: '/auth/refresh', method: 'post' },
+          login: { url: '/auth/login', method: 'post'},
+          user: {url: '/sellers/1', method: 'get'}
         },
         tokenRequired: true,
         autoFetchUser: true,
@@ -114,7 +104,7 @@ export default {
     },
   },
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'refreshToken']
   },
   /*
    ** vuetify module configuration
