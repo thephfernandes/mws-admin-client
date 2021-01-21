@@ -61,7 +61,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/style-resources",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth-next"
   ],
   /*
    ** Axios module configuration
@@ -81,20 +81,21 @@ export default {
     proxy: false
   },
   auth: {
+    redirect: {
+      login: '/login',
+      home: '/',
+    },
     strategies: {
       local: {
         token: {
-          property: 'token',
-          required: true,
-          type: 'Bearer'
+          property: 'token'
+        },
+        user: {
+          property: 'name'
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
-          user: {url: '/sellers/1', method: 'get', propertyName: 'name'}
-        },
-        redirect: {
-          login: '/login',
-          home: '/',
+          login: { url: '/auth/login', method: 'post'},
+          user: {url: '/sellers/1', method: 'get'}
         },
         tokenRequired: true,
         autoFetchUser: true,
@@ -103,7 +104,7 @@ export default {
     },
   },
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'refreshToken']
   },
   /*
    ** vuetify module configuration
