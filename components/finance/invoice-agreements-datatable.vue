@@ -4,6 +4,7 @@
             :headers="headers"
             :footer-props="footerPropsOptions"
             :loading="loading"
+            @click:row="toInvoiceAgreement($event)"
     >
         <template v-slot:top>
             <v-toolbar flat>
@@ -73,6 +74,15 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
             })
             .catch((error) => console.error(error))
             .finally(() => this.loading = false);
+    }
+
+    toInvoiceAgreement(invoiceAgreement: IInvoiceAgreement): void {
+      this.$router.push({
+        name: 'clubs-id-invoiceAgreements-invoiceId',
+        params: {
+          invoiceId: invoiceAgreement.id.toString()
+        }
+      });
     }
 
     formatPercentage(value: number): string {
