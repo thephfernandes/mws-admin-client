@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="detail-invoice-agreement">
         <v-card>
             <v-card-title>Detail invoice agreement</v-card-title>
             <v-card-subtitle>Of {{club.name}}</v-card-subtitle>
@@ -180,3 +180,12 @@
         }
     }
 </script>
+<style lang="scss">
+.detail-invoice-agreement {
+  .v-input__prepend-inner {
+    .v-icon {
+      font-size: 16px;
+    }
+  }
+}
+</style>
