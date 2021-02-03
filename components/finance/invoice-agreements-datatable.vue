@@ -45,6 +45,9 @@
         <template v-slot:item.mwsSetupFee="{item}">
             {{ getSetupFeeName(item.mwsSetupFee) }}
         </template>
+      <template v-slot:item.unpaidProductGuarantee="{item}">
+        &euro; {{ formatCurrency(item.unpaidProductGuarantee) }}
+      </template>
     </v-data-table>
 </template>
 <script lang="ts">
@@ -142,7 +145,11 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
             {
                 text: 'MWS Setup Fee',
                 value: 'mwsSetupFee'
-            }
+            },
+          {
+            text: 'Unpaid Product Guarantee',
+            value: 'unpaidProductGuarantee'
+          }
         ];
     }
 }

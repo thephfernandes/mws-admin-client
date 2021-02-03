@@ -11,4 +11,5 @@ export default class InvoiceAgreement {
   public mwsAuctionPercentage: number = 21;
   public mwsVatPercentage: number = 21;
   public mwsSetupFee: number = 0;
+  public unpaidProductGuarantee: number = 89;
 }
