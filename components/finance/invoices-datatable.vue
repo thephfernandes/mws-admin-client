@@ -5,6 +5,7 @@
                 :headers="headers"
                 :loading="loading"
                 :search="search"
+                @click:row="toInvoice($event)"
                 loading-text="Loading invoices..."
                 :footer-props="footerPropsOptions"
                 :custom-filter="customSearchFilter"
@@ -76,6 +77,15 @@
             if (invoices.length > 0) {
                 this.loading = false;
             }
+        }
+
+        toInvoice(invoice: IInvoice): void {
+          this.$router.push({
+            name: 'finance-invoices-id',
+            params: {
+              id: invoice.id.toString()
+            }
+          });
         }
 
         formatCurrency(amount: number): string {

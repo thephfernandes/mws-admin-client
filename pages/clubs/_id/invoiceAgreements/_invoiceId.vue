@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="detail-invoice-agreement">
         <v-card>
             <v-card-title>Detail invoice agreement</v-card-title>
             <v-card-subtitle>Of {{club.name}}</v-card-subtitle>
@@ -22,6 +22,7 @@
                                 label="Payment handling percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.paymentHandlingPercentage"
                         />
                     </v-col>
@@ -30,6 +31,7 @@
                                 label="Shipping insurance percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.shippingInsurancePercentage"
                         />
                     </v-col>
@@ -38,6 +40,7 @@
                                 label="Shipping flat fee"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-currency-eur"
                                 v-model="InvoiceAgreement.shippingFlatFee"
                         />
                     </v-col>
@@ -46,6 +49,7 @@
                                 label="Minimum guarantee"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-currency-eur"
                                 v-model="InvoiceAgreement.minimumGuarantee"
                         />
                     </v-col>
@@ -54,6 +58,7 @@
                                 label="MWS handling percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.mwsHandlingPercentage"
                         />
                     </v-col>
@@ -62,6 +67,7 @@
                                 label="MWS auction percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.mwsAuctionPercentage"
                         />
                     </v-col>
@@ -70,6 +76,7 @@
                                 label="MWS VAT percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.mwsVatPercentage"
                         />
                     </v-col>
@@ -86,9 +93,19 @@
                                 label="Third party VAT percentage"
                                 type="number"
                                 outlined
+                                prepend-inner-icon="mdi-percent"
                                 v-model="InvoiceAgreement.thirdPartyVatPercentage"
                         />
-                    </v-col>                    
+                    </v-col>
+                    <v-col cols="12" md="6" lg="4">
+                      <v-text-field
+                          label="Unpaid Product Guarantee"
+                          type="number"
+                          outlined
+                          prepend-inner-icon="mdi-currency-eur"
+                          v-model="InvoiceAgreement.unpaidProductGuarantee"
+                      />
+                    </v-col>
                 </v-row>
                 <v-row justify="space-around">
                     <v-btn color="error" @click="goBack">Cancel</v-btn>
@@ -163,3 +180,12 @@
         }
     }
 </script>
+<style lang="scss">
+.detail-invoice-agreement {
+  .v-input__prepend-inner {
+    .v-icon {
+      font-size: 16px;
+    }
+  }
+}
+</style>

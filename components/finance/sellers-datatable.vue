@@ -7,6 +7,7 @@
             :loading="loading"
             loading-text="Loading sellers..."
             :footer-props="footerPropsOptions"
+            @click:row="toSellerDetail($event)"
         >
             <template v-slot:top>
                 <v-toolbar flat>
@@ -58,6 +59,15 @@ export default class SellersDatatableComponent extends mixins(DatatableLoading) 
         if (val.length > 0) {
             this.loading = false;
         }
+    }
+
+    toSellerDetail(seller: ISeller): void {
+      this.$router.push({
+        name: 'finance-sellers-id',
+        params: {
+          id: seller.id.toString()
+        }
+      })
     }
 
     get headers() {

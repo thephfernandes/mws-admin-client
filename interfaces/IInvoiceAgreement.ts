@@ -15,4 +15,5 @@ export interface IInvoiceAgreement {
     mwsVatPercentage: number;
     mwsSetupFee: number;
     seller: ISeller;
+    unpaidProductGuarantee: number;
 }

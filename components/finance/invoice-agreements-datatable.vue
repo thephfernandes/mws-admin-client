@@ -4,6 +4,7 @@
             :headers="headers"
             :footer-props="footerPropsOptions"
             :loading="loading"
+            @click:row="toInvoiceAgreement($event)"
     >
         <template v-slot:top>
             <v-toolbar flat>
@@ -44,6 +45,9 @@
         <template v-slot:item.mwsSetupFee="{item}">
             {{ getSetupFeeName(item.mwsSetupFee) }}
         </template>
+      <template v-slot:item.unpaidProductGuarantee="{item}">
+        &euro; {{ formatCurrency(item.unpaidProductGuarantee) }}
+      </template>
     </v-data-table>
 </template>
 <script lang="ts">
@@ -73,6 +77,15 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
             })
             .catch((error) => console.error(error))
             .finally(() => this.loading = false);
+    }
+
+    toInvoiceAgreement(invoiceAgreement: IInvoiceAgreement): void {
+      this.$router.push({
+        name: 'clubs-id-invoiceAgreements-invoiceId',
+        params: {
+          invoiceId: invoiceAgreement.id.toString()
+        }
+      });
     }
 
     formatPercentage(value: number): string {
@@ -132,7 +145,11 @@ export default class InvoiceAgreementsDatatableComponent extends mixins(Datatabl
             {
                 text: 'MWS Setup Fee',
                 value: 'mwsSetupFee'
-            }
+            },
+          {
+            text: 'Unpaid Product Guarantee',
+            value: 'unpaidProductGuarantee'
+          }
         ];
     }
 }
