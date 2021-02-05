@@ -1,11 +1,10 @@
 <template>
   <v-row class="flex-row">
     <v-col cols="12" sm="6" md="4" lg="3">
-      <v-card outlined tile>
+      <v-card outlined tile class="loginForm">
         <v-card-text>
           <v-img :src="require('~/assets/logo-shirt.png')" contain />
         </v-card-text>
-        <h1 class="text-center title">MWS Admin Portal</h1>
         <v-card-text>
           <v-form class="login-form">
             <v-row justify="center">
@@ -105,5 +104,9 @@ export default class Index extends Vue {
 }
 .error-content {
   color: white;
+}
+
+.loginForm {
+  background-color: rgb(241, 235, 235, .9);
 }
 </style>
