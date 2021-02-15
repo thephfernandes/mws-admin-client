@@ -17,7 +17,8 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'containerregistrymwsstaging1178f90e-auth'
-
+  adminApiUrl: 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api'
+  
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
   
