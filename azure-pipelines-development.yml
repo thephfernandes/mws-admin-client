@@ -17,7 +17,8 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'containerregistrymwsstaging1178f90e-auth'
-
+  adminApiUrl: 'https://sls-weur-dev-mws-admin-portal.azurewebsites.net/api'
+  
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
   
@@ -32,9 +33,18 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build the image
       inputs:
-        command: buildAndPush
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+        arguments: '--build-arg BASE_URL=$(adminApiUrl) --build-arg HOST_KEY=$(xFunctionsKey)'
+    - task: Docker@2
+      displayName: Push an image to container registry
+      inputs:
+        command: push
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
