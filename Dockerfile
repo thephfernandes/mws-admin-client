@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:12.19.0-alpine3.9
+FROM node:12.19.0-alpine3.9 as build
 
 ARG BASE_URL=http://localhost:7071/api
 ARG HOST_KEY=sometoken
@@ -18,11 +18,14 @@ ENV NUXT_ENV_API_URL=${BASE_URL}
 ENV NUXT_ENV_X_FUNCTIONS_KEY=${HOST_KEY}
 
 RUN yarn install
-RUN yarn build
+RUN yarn generate
 
-EXPOSE 3000
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
+FROM nginx:stable-alpine
 
-CMD [ "npm", "start" ]
+WORKDIR /app/
+COPY --from=build /usr/src/admin-portal-app/dist/ /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
