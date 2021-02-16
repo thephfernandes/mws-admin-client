@@ -3,12 +3,14 @@
         {
             "name": "Home",
             "icon": "mdi-home",
-            "to": "/"
+            "to": "/",
+            "productionReady": true
         },
         {
             "name": "Content Management",
             "icon": "mdi-cog",
             "to": "",
+            "productionReady": false,
             "children": [
                 {
                     "name": "Slider Images",
@@ -31,17 +33,20 @@
         {
             "name": "Customers",
             "icon": "mdi-account-details",
-            "to": "/customers"
+            "to": "/customers",
+            "productionReady": true
         },
         {
             "name": "Orders",
             "icon": "mdi-clipboard-list",
-            "to": "/orders"
+            "to": "/orders",
+            "productionReady": false
         },
         {
             "name": "Finance",
             "icon": "mdi-finance",
             "to": "/finance",
+            "productionReady": false,
             "children": [
                 {
                     "name": "Dashboard",
@@ -65,6 +70,7 @@
           "name": "Matches",
           "icon": "mdi-soccer",
           "to": "/matches",
+          "productionReady": true,
           "children": [
               {
                   "name": "Scheduled",
