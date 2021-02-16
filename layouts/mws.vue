@@ -109,9 +109,11 @@ export default class Mws extends Vue {
     return file;
   }
 
-  get greeting(): string {
+  get greeting() {
     if (this.$auth.user) {
       return "Welcome, " + this.$auth.user;
+    } else {
+      return;
     }
   }
 
