@@ -56,7 +56,7 @@
                     "to": "/clubs"
                 },
                 {
-                    "name": "Club-invoices",
+                    "name": "Club Invoices",
                     "to": "/finance/invoices"
                 }
             ]
