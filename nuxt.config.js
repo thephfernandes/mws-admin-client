@@ -77,7 +77,7 @@ export default {
         'x-functions-key': process.env.NUXT_ENV_X_FUNCTIONS_KEY
       }
     },
-    https: false,
+    https: true,
     proxy: false
   },
   auth: {
