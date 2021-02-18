@@ -42,8 +42,8 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-      '~/plugins/vue-tel-input',
-      '~/plugins/dateFormat'
+    '~/plugins/vue-tel-input',
+    '~/plugins/dateFormat'
   ],
   /*
    ** Auto import components
@@ -80,7 +80,7 @@ export default {
     https: true,
     proxy: false
   },
-  ignore: [process.env.NODE_ENV === "production" && "pages/clubs", "pages/customers*", "pages/manage/*", "pages/orders/*.vue"],
+  ignore: process.env.NODE_ENV === "production" && ["pages/clubs", "pages/customers*", "pages/manage/*", "pages/orders/*.vue"],
   auth: {
     redirect: {
       login: '/login',
@@ -95,8 +95,8 @@ export default {
           property: 'name'
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post'},
-          user: {url: '/sellers/1', method: 'get'}
+          login: { url: '/auth/login', method: 'post' },
+          user: { url: '/sellers/1', method: 'get' }
         },
         tokenRequired: true,
         autoFetchUser: true,
