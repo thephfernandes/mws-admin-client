@@ -80,7 +80,7 @@ export default {
     https: true,
     proxy: false
   },
-  ignore: [process.env.NODE_ENV === "production" && "pages/clubs" && "pages/customers" && "pages/manage" && "pages/orders"],
+  ignore: [process.env.NODE_ENV === "production" && "pages/clubs", "pages/customers*", "pages/manage/*", "pages/orders/*.vue"],
   auth: {
     redirect: {
       login: '/login',
