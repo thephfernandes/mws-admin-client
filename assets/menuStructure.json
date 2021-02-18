@@ -34,7 +34,7 @@
             "name": "Customers",
             "icon": "mdi-account-details",
             "to": "/customers",
-            "productionReady": true
+            "productionReady": false
         },
         {
             "name": "Orders",
@@ -46,7 +46,7 @@
             "name": "Finance",
             "icon": "mdi-finance",
             "to": "/finance",
-            "productionReady": false,
+            "productionReady": true,
             "children": [
                 {
                     "name": "Dashboard",

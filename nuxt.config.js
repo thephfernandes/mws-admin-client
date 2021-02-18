@@ -80,7 +80,7 @@ export default {
     https: true,
     proxy: false
   },
-  ignore: [process.env.NODE_ENV === "production"],
+  ignore: [process.env.NODE_ENV === "production" && "pages/clubs" && "pages/customers" && "pages/manage" && "pages/orders"],
   auth: {
     redirect: {
       login: '/login',
