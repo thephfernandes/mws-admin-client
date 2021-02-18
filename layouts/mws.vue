@@ -35,6 +35,7 @@
           <div
             class="nav-item-wrapper"
             v-if="item.productionReady || isDevelopment"
+            :id="item.name + ' nav item'"
           >
             <v-list-group v-if="item.children" :prepend-icon="item.icon">
               <template v-slot:activator>
