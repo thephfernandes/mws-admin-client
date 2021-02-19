@@ -8,24 +8,22 @@
           <v-col cols="12">
             <v-toolbar-title v-text="title" class="mr-2" />
             <v-text-field
-                    label="Search"
-                    solo
-                    clearable
-                    dense
-                    v-model="search"
-                    hide-details
-                    prepend-inner-icon="mdi-magnify"
-                    class="search"
+              label="Search"
+              solo
+              clearable
+              dense
+              v-model="search"
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              class="search"
             />
             <v-spacer />
-            <div class="profile-greeting">
+            <!-- <div class="profile-greeting">
               <strong v-html="greeting" />
               <v-avatar size="36px" color="green">
-                <v-icon>
-                  mdi-soccer
-                </v-icon>
+                <v-icon> mdi-soccer </v-icon>
               </v-avatar>
-            </div>
+            </div> -->
           </v-col>
         </v-row>
       </v-container>
@@ -34,58 +32,48 @@
     <v-navigation-drawer v-model="drawer" app clipped width="320px">
       <v-list shaped>
         <div v-for="(item, i) in jsonData.menu" :key="i">
-          <v-list-group v-if="item.children" :prepend-icon="item.icon">
-            <template v-slot:activator>
-              <v-list-item-title v-text="item.name"></v-list-item-title>
-            </template>
+          <div
+            class="nav-item-wrapper"
+            v-if="item.productionReady || isDevelopment"
+            :id="item.name + ' nav item'"
+          >
+            <v-list-group v-if="item.children" :prepend-icon="item.icon">
+              <template v-slot:activator>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+              </template>
 
-            <div
-              v-for="(child, i) in item.children"
-              class="wrapper"
-              :key="i"
-              link
-            >
-              <v-list-group
-                v-if="child.name == 'Shirts'"
-                sub-group
-                class="product-group"
+              <div
+                v-for="(child, i) in item.children"
+                class="wrapper"
+                :key="i"
+                link
               >
-                <template v-slot:activator>
+
+                <v-list-item :to="child.to" color="blue" router exact>
                   <v-list-item-content>
                     <v-list-item-title v-text="child.name"></v-list-item-title>
                   </v-list-item-content>
-                </template>
-                <v-list-item v-for="(shirtType, i) in shirts" :key="i" link>
-                  <v-list-item>
-                    <v-list-item-title v-text="shirtType"></v-list-item-title>
-                  </v-list-item>
                 </v-list-item>
-              </v-list-group>
+              </div>
+            </v-list-group>
 
-              <v-list-item v-else :to="child.to" color="blue" router exact>
-                <v-list-item-content>
-                  <v-list-item-title v-text="child.name"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </div>
-          </v-list-group>
+            <v-list-item
+              v-else
+              :to="item.to"
+              color="blue"
+              router
+              exact
+              class="product-item"
+            >
+              <v-list-item-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-action>
 
-          <v-list-item
-            v-else
-            :to="item.to"
-            color="blue"
-            router
-            exact
-            class="product-item"
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title v-text="item.name"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
         </div>
       </v-list>
     </v-navigation-drawer>
@@ -122,11 +110,16 @@ export default class Mws extends Vue {
     return file;
   }
 
-  get greeting(): string {
-    return "Welcome, " + this.$auth.user;
+  get greeting() {
+    if (this.$auth.user) {
+      return "Welcome, " + this.$auth.user;
+    } else {
+      return;
+    }
   }
-  get shirts(): string[] {
-    return ["European Shirts", "International Shirts"];
+
+  get isDevelopment() {
+    return process.env.NODE_ENV === "development";
   }
 }
 </script>
@@ -135,20 +128,20 @@ export default class Mws extends Vue {
 $width: 520px;
 
 .col {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .v-text-field {
-    margin-top: 1.5rem;
-    padding: 0.5rem 1rem;
-    max-width: $width;
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  max-width: $width;
 }
 
 .v-list-group {
-    .v-list-item {
-        padding-left: 71px;
-    }
+  .v-list-item {
+    padding-left: 71px;
+  }
 }
 
 .search {
