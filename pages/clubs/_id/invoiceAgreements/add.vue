@@ -15,6 +15,13 @@
                     />
                 </v-col>
                 <v-col cols="12" md="6" lg="4">
+                        <v-text-field
+                            label="Name"
+                            v-model="InvoiceAgreement.name"
+                            outlined
+                        />
+                    </v-col>
+                <v-col cols="12" md="6" lg="4">
                     <v-text-field
                         label="Payment handling percentage"
                         type="number"
