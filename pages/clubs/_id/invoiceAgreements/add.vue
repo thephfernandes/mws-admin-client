@@ -75,11 +75,11 @@
                         <v-text-field
                             type="number"
                             label="MWS setup fee"
-                            v-model="InvoiceAgreement.mwsSetupFee.value"
+                            v-model="InvoiceAgreement.mwsSetupFee"
                         />
                         <v-select
                             :items="setupFees"
-                            v-model="InvoiceAgreement.mwsSetupFee.frequency"
+                            v-model="InvoiceAgreement.mwsSetupFeeType"
                         />
                     </v-input>
                 </v-col>
@@ -115,7 +115,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
-import InvoiceAgreement, { SetupFeeFrequency } from "~/models/invoiceAgreement.ts";
+import InvoiceAgreement, { SetupFeeType } from "~/models/invoiceAgreement.ts";
 import { IClub } from "~/interfaces/IClub";
 import { ISeller } from "~/interfaces/ISeller";
 
@@ -142,7 +142,9 @@ export default class AddInvoicePage extends Vue {
   }
 
   get setupFees() {
-    return Object.values(SetupFeeFrequency);
+    const array = Object.values(SetupFeeType);
+    const shortenArray = array.slice(0, array.length / 2);
+    return shortenArray.map((value, index) => ({text: value, value: index}));
   }
 
   goBack(): void {
