@@ -10,17 +10,13 @@ export default class InvoiceAgreement {
   public mwsHandlingPercentage: number = 21;
   public mwsAuctionPercentage: number = 21;
   public mwsVatPercentage: number = 21;
-  public mwsSetupFee: SetupFee = {value: 0, frequency: SetupFeeFrequency.PER_MATCH};
+  public mwsSetupFee: number = 0;
+  public mwsSetupFeeType: SetupFeeType = SetupFeeType["per match"];
   public unpaidProductGuarantee: number = 89;
 }
 
-interface SetupFee {
-  value: number;
-  frequency: SetupFeeFrequency,
-}
-
-export enum SetupFeeFrequency {
-  PER_MATCH = 'per match',
-  PER_SEASON = 'per season',
-  FIRST_MATCH_FREE = 'first match free',
+export enum SetupFeeType{
+  'per match',
+  'per season',
+  'first match free',
 }
