@@ -9,14 +9,6 @@
       <div class="text-h5">Featured club: {{ match.featured_club }}</div>
       <v-row>
         <v-col class="d-flex" cols="12" sm="6" md="4">
-          <v-text-field
-            label="Name"
-            placeholder="Put your name here"
-            v-model="name"
-            outlined
-          />
-        </v-col>
-        <v-col class="d-flex" cols="12" sm="6" md="4">
           <v-select
             :items="agreements"
             label="Choose invoice agreement"
