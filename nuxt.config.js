@@ -1,5 +1,6 @@
 import colors from "vuetify/es5/util/colors";
-require('dotenv').config();
+import dotenv from "dotenv";
+dotenv.config();
 
 export default {
   /*
