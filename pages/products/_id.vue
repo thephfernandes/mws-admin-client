@@ -24,20 +24,20 @@ import {Component, Prop, Vue} from "nuxt-property-decorator";
 export default class ProductDetailsPage extends Vue {
     productId !: number
     product!: any;
-    bids: any[];
+    bids!: any[];
 
     layout(): string {
         return "mws";
     }
 
     beforeCreate() {
-        this.productId = this.$route.params.id;
+        this.productId = parseInt(this.$route.params.id);
         const p = this.$store.getters["products/getSelectedProduct"];
         if (p.id !== undefined) {
             this.product = p;
         } else {
             //in case user tries to access /products/:id without going through /products first
-            this.product = this.$store.getters["products/getProducts"].find(product => product.productId == this.productId);
+            this.product = this.$store.getters["products/getProducts"].find((product: any) => product.productId == this.productId);
             console.log(this.product)
             this.$store.commit("products/setSelectedProduct", this.product);
         }
