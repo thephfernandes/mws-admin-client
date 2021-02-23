@@ -50,19 +50,23 @@
             "children": [
                 {
                     "name": "Dashboard",
-                    "to": "/finance/dashboard"
+                    "to": "/finance/dashboard",
+                    "productionReady": false
                 },
                 {
                     "name": "Sellers",
-                    "to": "/finance/sellers"
+                    "to": "/finance/sellers",
+                    "productionReady": true
                 },
                 {
                     "name": "Invoice Agreements",
-                    "to": "/clubs"
+                    "to": "/clubs",
+                    "productionReady": true
                 },
                 {
                     "name": "Club Invoices",
-                    "to": "/finance/invoices"
+                    "to": "/finance/invoices",
+                    "productionReady": true
                 }
             ]
         },
@@ -74,7 +78,8 @@
           "children": [
               {
                   "name": "Scheduled",
-                  "to": "/matches/scheduled"
+                  "to": "/matches/scheduled",
+                  "productionReady": true
               }
           ]
         }
