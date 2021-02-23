@@ -1,4 +1,6 @@
 import colors from "vuetify/es5/util/colors";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default {
   /*
@@ -13,7 +15,9 @@ export default {
   target: "server",
   env: {
     api_url: process.env.NUXT_ENV_API_URL,
-    xFunctionsKey: process.env.NUXT_ENV_X_FUNCTIONS_KEY
+    xFunctionsKey: process.env.NUXT_ENV_X_FUNCTIONS_KEY,
+    https: process.env.NUXT_ENV_HTTPS,
+    user: process.env.NUXT_ENV_USER
   },
   /*
    ** Headers of the page
@@ -77,7 +81,7 @@ export default {
         'x-functions-key': process.env.NUXT_ENV_X_FUNCTIONS_KEY
       }
     },
-    https: true,
+    https: process.env.https == true,
     proxy: false
   },
   ignore: process.env.NODE_ENV === "production" && ["pages/clubs", "pages/customers*", "pages/manage/*", "pages/orders/*.vue"],
@@ -96,7 +100,7 @@ export default {
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
-          user: { url: '/sellers/1', method: 'get' }
+          user: process.env.user == true
         },
         tokenRequired: true,
         autoFetchUser: true,

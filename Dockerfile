@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:12.19.0-alpine3.9 as build
+FROM node:14.15.5-alpine3.10 as build
 
 ARG BASE_URL=http://localhost:7071/api
 ARG HOST_KEY=sometoken
