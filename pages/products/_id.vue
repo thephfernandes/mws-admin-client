@@ -1,14 +1,11 @@
 <template>
     <v-card flat>
-        <v-card-title class="text-h3" v-text="product.name"></v-card-title>
-        <v-card-subtitle class="text-h4 my-2" v-text="product.team"></v-card-subtitle>
+        <v-card-title class="text-h3">{{product.id}}</v-card-title>
+        <v-card-subtitle class="text-h4 my-2">Product from match {{product.matchId}}</v-card-subtitle>
         <v-form>
             <v-row>
                 <v-col cols="12" md="4">
-                    <v-card-text class="text-h5">Product Id: {{product.productId}}</v-card-text>
-                </v-col>
-                <v-col cols="12" md="4">
-                    <v-select label="winning bid id" v-model="winningBidId" :items="getProductBids()"></v-select>
+                    <v-select class="ml-5" label="winning bid" :items="bids"></v-select>
                 </v-col>
             </v-row>
             <v-row>
@@ -24,41 +21,55 @@ import {Component, Prop, Vue} from "nuxt-property-decorator";
 export default class ProductDetailsPage extends Vue {
     productId !: number
     product!: any;
-    bids!: any[];
 
     layout(): string {
         return "mws";
     }
 
-    beforeCreate() {
+    async beforeCreate() {
         this.productId = parseInt(this.$route.params.id);
         const p = this.$store.getters["products/getSelectedProduct"];
         if (p.id !== undefined) {
             this.product = p;
         } else {
             //in case user tries to access /products/:id without going through /products first
-            this.product = this.$store.getters["products/getProducts"].find((product: any) => product.productId == this.productId);
-            console.log(this.product)
+            this.product = this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId);
             this.$store.commit("products/setSelectedProduct", this.product);
         }
+        await this.$store.dispatch("bids/fetchBids");
+
         
     }
 
-    getProductBids() {
+    get bids() {
         let arr = [];
-            for (let i = 0; i < this.product.bids.length; i++) {
-            arr[i] = this.product.bids[i].id;
-            }
+        for(let i = 0; i <this.$store.getters["bids/getBids"].length; i++) {
+            let bid = this.$store.getters["bids/getBids"][i];
+            arr[i] = this.reformatName(bid.user.name) + "\t" + this.reformatDate(bid.date.slice(0,10)) + "\t" + bid.date.slice(11,16);
+        }
         return arr;
     }
 
-    get winningBidId() {
-        return this.product.winningBidId;
+    reformatName(name: string) {
+        return name != null ? name : 'guest';
     }
 
-    set winningBidId(value) {
-        this.$store.commit("products/updateProductWinningBid", value);
+    reformatDate(date: string) {
+        const arr = date.split("-");
+        return arr[2] + "/" + arr[1] + "/" + arr[0].substring(2);
     }
-    
+
+    // get winningBidId() {
+    //     return this.product.winningBidId;
+    // }
+
+    // set winningBidId(value) {
+    //     this.$store.commit("products/updateProductWinningBid", value);
+    // }   
 }
 </script>
+<style scoped>
+.winningBidSelect {
+    text-align: center;
+}
+</style>
