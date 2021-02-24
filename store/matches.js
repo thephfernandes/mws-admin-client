@@ -134,5 +134,8 @@ export const actions = {
   },
   updateMatch ({ commit }, match) {
     commit("setMatch", match);
-  }
+  },
+    async downloadClubInvoice({commit}, matchId) {
+        return await this.$axios.get(`/pdf/club-invoice/${matchId}`)
+    }
 };
