@@ -6,8 +6,13 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
+import SellersDatatableComponent from "@/components/finance/sellers-datatable.vue";
 
-@Component
+@Component({
+    components: {
+        'sellers-datatable': SellersDatatableComponent,
+    }
+})
 export default class Index extends Vue {
 
     layout(): string {

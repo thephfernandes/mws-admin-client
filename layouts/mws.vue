@@ -18,12 +18,6 @@
               class="search"
             />
             <v-spacer />
-            <!-- <div class="profile-greeting">
-              <strong v-html="greeting" />
-              <v-avatar size="36px" color="green">
-                <v-icon> mdi-soccer </v-icon>
-              </v-avatar>
-            </div> -->
           </v-col>
         </v-row>
       </v-container>
@@ -49,7 +43,7 @@
                 link
               >
 
-                <v-list-item :to="child.to" color="blue" router exact>
+                <v-list-item v-if="child.productionReady" :to="child.to" color="blue" router exact>
                   <v-list-item-content>
                     <v-list-item-title v-text="child.name"></v-list-item-title>
                   </v-list-item-content>
