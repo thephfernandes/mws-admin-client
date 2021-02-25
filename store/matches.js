@@ -1,5 +1,6 @@
 import axios from "axios";
 const API_URL = "https://cms-api.matchwornshirt.com";
+const ADMIN_API_URL = "http://localhost:7071/api";
 
 export const state = () => ({
   matches: [],
@@ -46,6 +47,7 @@ export const actions = {
       commit("setAllMatches", response.data);
     }
   },
+
   async getMatchesSetToStore({ commit }) {
     const oDate = new Date();
     oDate.setMonth(oDate.getMonth() - 1);
@@ -71,6 +73,7 @@ export const actions = {
       commit("setMatches", matches);
     }
   },
+
   async getStatsSetToStore({ commit }) {
     const response = await axios.get(API_URL + "/api/v1/auction/dashboard");
     if (response.status === 200) {
@@ -112,6 +115,15 @@ export const actions = {
       commit("setStats", stats);
     }
   },
+
+  async fetchMatch({ commit }, matchId) {
+    const response = await axios.get(ADMIN_API_URL + `/matches/${matchId}`);
+    if (response.status === 200) {
+      const match = response.data
+      commit("setMatch", match)
+    }
+  },
+
   async getMatchSetToStore({ commit, dispatch }, matchId) {
     const response = await axios
       .get(API_URL + `/api/v1/match/${matchId}`);
@@ -125,6 +137,7 @@ export const actions = {
       dispatch("getInvoicesSetToStore", match.featured_club_id);
     }
   },
+
   async getInvoicesSetToStore({ commit }, clubId) {
     const response = await this.$axios
       .get(`/clubs/${clubId}/agreements`);
@@ -132,6 +145,7 @@ export const actions = {
       commit("setInvoices", response.data);
     }
   },
+  
   updateMatch ({ commit }, match) {
     commit("setMatch", match);
   },

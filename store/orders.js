@@ -52,7 +52,6 @@ export const mutations = {
         o.OrderShirtPaid = !o.OrderShirtPaid;
     },
     updateOrder(state, order) {
-        console.log(order);
         const i = state.orders.findIndex((o) => o.OrderID === order.OrderID);
         state.orders[i] = order;
     },
