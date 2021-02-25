@@ -41,6 +41,11 @@ export default class extends Vue {
             width: 80,
         },
         {
+            text: "Product",
+            value: "player.name",
+            width: 120
+        },
+        {
             text: "Published",
             value: "published",
             width: 80
