@@ -34,6 +34,11 @@ export default class Breadcrumbs extends Vue {
         href: paths[index],
         disabled: false
       };
+
+      if (crumb.text == 'Products') {
+        crumb.disabled = true;
+      }
+
       crumbs.push(crumb);
     });
 
