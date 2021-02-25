@@ -2,18 +2,36 @@
     <v-card flat>
         <v-card-title class="text-h3">{{product.player.name}}</v-card-title>
         <v-card-subtitle class="text-h4 my-2 outline">{{match.teams}}</v-card-subtitle>
-        <v-form>
-            <v-row>
+        <v-form class="ml-5">
+            <v-row >
                 <v-col cols="12" md="4">
-                    <v-select class="ml-5" label="winning bid" v-model="selectedBid" @change="handleBidSelectChange($event)" :items="bids"></v-select>
+                    <v-select label="winning bid" :disabled="createNewBid" v-model="selectedBid" @change="handleBidSelectChange($event)" :items="bids"></v-select>
                 </v-col>
                 <v-col cols="12" md="4" v-if="selectedBid">
-                    <v-text-field type="number" outlined label="bid amount in €" v-model="selectedBidValue">
+                    <v-text-field type="number" :disabled="createNewBid" outlined label="bid amount in €" v-model="selectedBidValue">
                     </v-text-field>
                 </v-col>
             </v-row>
-            <v-row>
-                <v-btn class="ml-7" @click="updateWinningBid()">update winning bid</v-btn>
+            <v-row class="my-0">
+                <v-checkbox class="ml-2" v-model="createNewBid" label="Create new bid"></v-checkbox>
+            </v-row>
+            <div class="new-bid-form-wrapper" v-if="createNewBid">
+                <v-row>
+                    <v-col cols="12" md="4">
+                        <v-text-field type="number" outlined label="user id" v-model="newBid.userId">
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field type="number" outlined label="bid amount in €" v-model.number="newBid.amountInEur">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+            </div>
+            <v-row v-if="!createNewBid">
+                <v-btn class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
+            </v-row>
+            <v-row v-else>
+                <v-btn class="ml-2" @click="publishNewBid()">publish bid</v-btn>
             </v-row>
         </v-form>
     </v-card>
@@ -25,10 +43,12 @@ export default class ProductDetailsPage extends Vue {
     productId !: number
     product!: any;
     bidDict!: any[];
+    createNewBid: boolean = false;
+    newBid = {userId: 6047, amountInEur: 0, bidPlacedInCurrency: "EUR"};
     selectedBid: string = "";
     selectedBidId!: number;
     selectedBidValue!: number;
-    
+
     layout(): string {
         return "mws";
     }
@@ -109,6 +129,10 @@ export default class ProductDetailsPage extends Vue {
 
         this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
         await this.fetchState();
+    }
+
+    async publishNewBid() {
+        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: this.newBid});
     }
 }
 </script>
