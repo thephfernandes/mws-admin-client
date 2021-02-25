@@ -1,33 +1,44 @@
 <template>
     <v-card flat>
-        <v-card-title class="text-h3">{{product.id}}</v-card-title>
-        <v-card-subtitle class="text-h4 my-2">Product from match {{product.matchId}}</v-card-subtitle>
+        <v-card-title class="text-h3">{{product.player.name}}</v-card-title>
+        <v-card-subtitle class="text-h4 my-2 outline">{{match.teams}}</v-card-subtitle>
         <v-form>
             <v-row>
                 <v-col cols="12" md="4">
-                    <v-select class="ml-5" label="winning bid" :items="bids"></v-select>
+                    <v-select class="ml-5" label="winning bid" v-model="selectedBid" @change="handleBidSelectChange($event)" :items="bids"></v-select>
+                </v-col>
+                <v-col cols="12" md="4" v-if="selectedBid">
+                    <v-text-field type="number" outlined label="bid amount in €" v-model="selectedBidValue">
+                    </v-text-field>
                 </v-col>
             </v-row>
             <v-row>
-                <v-btn class="ml-5">save</v-btn>
+                <v-btn class="ml-7" @click="updateWinningBid()">update winning bid</v-btn>
             </v-row>
-            
         </v-form>
     </v-card>
 </template>
 <script lang="ts">
-import {Component, Prop, Vue} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 @Component
 export default class ProductDetailsPage extends Vue {
     productId !: number
     product!: any;
-
+    bidDict!: any[];
+    selectedBid: string = "";
+    selectedBidId!: number;
+    selectedBidValue!: number;
+    
     layout(): string {
         return "mws";
     }
 
-    async beforeCreate() {
+    async created() { 
         this.productId = parseInt(this.$route.params.id);
+        await this.fetchState();
+    }
+
+    async fetchState() {
         const p = this.$store.getters["products/getSelectedProduct"];
         if (p.id !== undefined) {
             this.product = p;
@@ -36,18 +47,31 @@ export default class ProductDetailsPage extends Vue {
             this.product = this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId);
             this.$store.commit("products/setSelectedProduct", this.product);
         }
+        await this.$store.dispatch("matches/getMatchSetToStore", this.product.matchId);
         await this.$store.dispatch("bids/fetchBids");
+    }
 
-        
+    get bidObjects() {
+        let arr: any[] = []
+        this.$store.getters["bids/getBids"].forEach((item: any) => {
+            const dict = {
+                id: item.id,
+                value: this.reformatName(item.user.name) + "\t" + this.reformatDate(item.date.slice(0,10)) + "\t" + item.date.slice(11,16)
+            }
+            arr.push(dict);
+        })
+        return arr;
     }
 
     get bids() {
-        let arr = [];
-        for(let i = 0; i <this.$store.getters["bids/getBids"].length; i++) {
-            let bid = this.$store.getters["bids/getBids"][i];
-            arr[i] = this.reformatName(bid.user.name) + "\t" + this.reformatDate(bid.date.slice(0,10)) + "\t" + bid.date.slice(11,16);
-        }
-        return arr;
+        const values = Object.keys(this.bidObjects).map((key: any) => {
+            return this.bidObjects[key].value;
+        })
+        return values;
+    }
+
+    get match() {
+        return this.$store.getters["matches/getMatch"];
     }
 
     reformatName(name: string) {
@@ -59,17 +83,32 @@ export default class ProductDetailsPage extends Vue {
         return arr[2] + "/" + arr[1] + "/" + arr[0].substring(2);
     }
 
-    // get winningBidId() {
-    //     return this.product.winningBidId;
-    // }
+    handleBidSelectChange(bidDetails: string) {
+        if(bidDetails.length > 0) {
+            const bidIndex = parseInt(Object.keys(this.bidObjects).find((key: string) => this.bidObjects[parseInt(key)].value == bidDetails) || '0');
+            const bidId = this.bidObjects[bidIndex].id;
+            this.selectedBidId = bidId
+            this.$store.commit("bids/setSelectedBid", this.$store.getters["bids/getBids"].find((item: any) => item.id === bidId))
+            this.selectedBidValue = this.$store.getters["bids/getSelectedBid"].amountInEur;
+        }
+    }
 
-    // set winningBidId(value) {
-    //     this.$store.commit("products/updateProductWinningBid", value);
-    // }   
+    async updateWinningBid() {
+        const selectedBid = this.$store.getters["bids/getSelectedBid"];
+        selectedBid.amountInEur = this.selectedBidValue;
+        
+        //TODO: use updateBid and createBid adequeately in future
+        // if(
+        //     this.selectedBidValue != selectedBid.amountInEur && 
+        //     this.selectedBidId != selectedBid.id
+        // ) {
+        //     this.$store.dispatch("bids/updateWinningBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
+        // } else {
+        //     this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
+        // }
+
+        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
+        await this.fetchState();
+    }
 }
 </script>
-<style scoped>
-.winningBidSelect {
-    text-align: center;
-}
-</style>
