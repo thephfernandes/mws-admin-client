@@ -116,16 +116,6 @@ export default class ProductDetailsPage extends Vue {
     async updateWinningBid() {
         const selectedBid = this.$store.getters["bids/getSelectedBid"];
         selectedBid.amountInEur = this.selectedBidValue;
-        
-        //TODO: use updateBid and createBid adequeately in future
-        // if(
-        //     this.selectedBidValue != selectedBid.amountInEur && 
-        //     this.selectedBidId != selectedBid.id
-        // ) {
-        //     this.$store.dispatch("bids/updateWinningBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
-        // } else {
-        //     this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
-        // }
 
         this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
         await this.fetchState();
