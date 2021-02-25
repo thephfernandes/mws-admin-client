@@ -1,6 +1,6 @@
 import axios from "axios";
 const API_URL = "https://cms-api.matchwornshirt.com";
-const ADMIN_API_URL = "http://localhost:7071/api/";
+const ADMIN_API_URL = "http://localhost:7071/api";
 
 export const state = () => ({
   matches: [],
