@@ -1,17 +1,26 @@
 export const state = () => ({
     productBids: [],
+    selectedBid: {},
 });
 
 export const getters = {
     getBids: (state) => {
         return state.productBids;
     },
+
+    getSelectedBid: (state) => {
+        return state.selectedBid;
+    }
 };
 
 export const mutations = {
     setBids(state, payload) {
         state.productBids = payload;
     },
+
+    setSelectedBid(state, payload) {
+        state.selectedBid = payload;
+    }
 };
 
 export const actions = {
@@ -25,4 +34,12 @@ export const actions = {
                 }
             })
     },
+
+    createBid({}, payload) {
+        return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids`, payload.bid)
+    },
+
+    updateWinningBid({}, payload) {
+        return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids/${payload.bid.id}`, payload.bid)
+    }
 }
