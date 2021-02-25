@@ -117,12 +117,12 @@ export default class ProductDetailsPage extends Vue {
         const selectedBid = this.$store.getters["bids/getSelectedBid"];
         selectedBid.amountInEur = this.selectedBidValue;
 
-        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: selectedBid})
+        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid})
         await this.fetchState();
     }
 
     async publishNewBid() {
-        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.productId, bid: this.newBid});
+        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: this.newBid});
     }
 }
 </script>
