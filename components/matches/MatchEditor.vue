@@ -4,18 +4,15 @@
       <div v-if="create" class="font-weight-bold">Add a new match</div>
       <div v-else class="font-weight-bold">Editing match ID {{ id }}</div>
       <br />
-      <div class="text-h4">Teams: {{ match.teams }}</div>
+      <div class="text-h4 d-flex justify-space-between">
+            Teams: {{ match.teams }}
+            <v-btn class="ma-2 download-club-invoice" @click="downloadClubInvoice()" large color="primary">
+                 Create Club Invoice
+            </v-btn>
+      </div>
       <br />
       <div class="text-h5">Featured club: {{ match.featured_club }}</div>
       <v-row>
-        <v-col class="d-flex" cols="12" sm="6" md="4">
-          <v-text-field
-            label="Name"
-            placeholder="Put your name here"
-            v-model="name"
-            outlined
-          />
-        </v-col>
         <v-col class="d-flex" cols="12" sm="6" md="4">
           <v-select
             :items="agreements"
@@ -71,6 +68,17 @@ export default class MatchEditor extends Vue {
     }
   }
 
+    downloadClubInvoice() {
+        this.$store.dispatch("matches/downloadClubInvoice", this.id)
+            .then(response => {
+                const pdfLink = response.data;
+                window.open(pdfLink)
+            }
+        ).catch(error => {
+            alert(error)
+        })
+    }
+
   deleteMatch() {
     alert("Deleting match");
   }
@@ -103,4 +111,5 @@ export default class MatchEditor extends Vue {
 .v-input--selection-controls__input label {
   color: #333;
 }
+
 </style>

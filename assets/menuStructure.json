@@ -3,12 +3,14 @@
         {
             "name": "Home",
             "icon": "mdi-home",
-            "to": "/"
+            "to": "/",
+            "productionReady": true
         },
         {
             "name": "Content Management",
             "icon": "mdi-cog",
             "to": "",
+            "productionReady": false,
             "children": [
                 {
                     "name": "Slider Images",
@@ -31,33 +33,40 @@
         {
             "name": "Customers",
             "icon": "mdi-account-details",
-            "to": "/customers"
+            "to": "/customers",
+            "productionReady": false
         },
         {
             "name": "Orders",
             "icon": "mdi-clipboard-list",
-            "to": "/orders"
+            "to": "/orders",
+            "productionReady": false
         },
         {
             "name": "Finance",
             "icon": "mdi-finance",
             "to": "/finance",
+            "productionReady": true,
             "children": [
                 {
                     "name": "Dashboard",
-                    "to": "/finance/dashboard"
+                    "to": "/finance/dashboard",
+                    "productionReady": false
                 },
                 {
                     "name": "Sellers",
-                    "to": "/finance/sellers"
+                    "to": "/finance/sellers",
+                    "productionReady": true
                 },
                 {
                     "name": "Invoice Agreements",
-                    "to": "/clubs"
+                    "to": "/clubs",
+                    "productionReady": true
                 },
                 {
-                    "name": "Club-invoices",
-                    "to": "/finance/invoices"
+                    "name": "Club Invoices",
+                    "to": "/finance/invoices",
+                    "productionReady": true
                 }
             ]
         },
@@ -65,10 +74,12 @@
           "name": "Matches",
           "icon": "mdi-soccer",
           "to": "/matches",
+          "productionReady": true,
           "children": [
               {
                   "name": "Scheduled",
-                  "to": "/matches/scheduled"
+                  "to": "/matches/scheduled",
+                  "productionReady": true
               }
           ]
         }

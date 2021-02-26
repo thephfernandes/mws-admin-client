@@ -13,8 +13,15 @@
 </template>
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
+import ProceedsDatatableComponent from "@/components/finance/dashboard/proceeds-datatable.vue"
+import ProceedsPerMonthComponent from "@/components/finance/dashboard/proceeds-per-month.vue"
 
-@Component
+@Component({
+    components: {
+        'proceeds-datatable': ProceedsDatatableComponent,
+        'proceeds-per-month': ProceedsPerMonthComponent,
+    }
+})
 export default class DashboardPage extends Vue {
 
     layout(): string {

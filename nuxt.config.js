@@ -1,11 +1,13 @@
 import colors from "vuetify/es5/util/colors";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default {
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: "spa",
+  ssr: false,
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -13,7 +15,9 @@ export default {
   target: "server",
   env: {
     api_url: process.env.NUXT_ENV_API_URL,
-    xFunctionsKey: process.env.NUXT_ENV_X_FUNCTIONS_KEY
+    xFunctionsKey: process.env.NUXT_ENV_X_FUNCTIONS_KEY,
+    https: process.env.NUXT_ENV_HTTPS,
+    user: process.env.NUXT_ENV_USER
   },
   /*
    ** Headers of the page
@@ -42,8 +46,8 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-      '~/plugins/vue-tel-input',
-      '~/plugins/dateFormat'
+    '~/plugins/vue-tel-input',
+    '~/plugins/dateFormat'
   ],
   /*
    ** Auto import components
@@ -77,9 +81,10 @@ export default {
         'x-functions-key': process.env.NUXT_ENV_X_FUNCTIONS_KEY
       }
     },
-    https: true,
+    https: process.env.https == true,
     proxy: false
   },
+  ignore: process.env.NODE_ENV === "production" && ["pages/customers*", "pages/manage/*", "pages/orders/*.vue"],
   auth: {
     redirect: {
       login: '/login',
@@ -94,8 +99,8 @@ export default {
           property: 'name'
         },
         endpoints: {
-          login: { url: '/auth/login', method: 'post'},
-          user: {url: '/sellers/1', method: 'get'}
+          login: { url: '/auth/login', method: 'post' },
+          user: process.env.user == true
         },
         tokenRequired: true,
         autoFetchUser: true,
@@ -112,6 +117,7 @@ export default {
    */
   vuetify: {
     customVariables: ["~/assets/scss/variables.scss"],
+    treeShake: true,
     theme: {
       dark: false,
       themes: {

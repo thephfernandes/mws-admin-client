@@ -1,59 +1,77 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
+      <v-card-title class="text-h3 mb-5"
+        >Welcome to the MatchWornShirt admin client
+      </v-card-title>
+      <v-card-subtitle class="py-0">
+        <p class="text-h4">Here is a quick overview of what's possible</p>
+      </v-card-subtitle>
+      <v-card  v-if="exists('Content Management')" class="my-5" id="content-management-card">
+        <v-card-title class="text-h4">Content Management</v-card-title>
         <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >documentation</a>.
+          <p class="text-h6">
+            This section is responsible for controlling the displayed content on
+            <a href="https://matchwornshirt.com">matchwornshirt</a>. Included
+            items are:
           </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >discord</a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >issue board</a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em>
-              <small>&mdash; John Leider</small>
-            </em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank" rel="noopener noreferrer">Nuxt Documentation</a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Nuxt GitHub</a>
+          <ul>
+            <li>
+              <v-card-subtitle class="text-h5">Slider Images</v-card-subtitle>
+              <p class="text-h6 ml-5">
+                The banner images on the landing page and their order
+              </p>
+            </li>
+            <li>
+              <v-card-subtitle class="text-h5"
+                >Featured Matches</v-card-subtitle
+              >
+              <p class="text-h6 ml-5">
+                The matches to be displayed on the homepage and their order
+              </p>
+            </li>
+            <li>
+              <v-card-subtitle class="text-h5">News</v-card-subtitle>
+              <p class="text-h6 ml-5">
+                The selected articles, their content and their current status
+              </p>
+            </li>
+            <li>
+              <v-card-subtitle class="text-h5">Charities</v-card-subtitle>
+              <p class="text-h6 ml-5">
+                Overview of charities and their descriptions
+              </p>
+            </li>
+          </ul>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire">Continue</v-btn>
-        </v-card-actions>
+      </v-card>
+      <v-card v-if="exists('Customers')" class="my-5" id="customers-card">
+        <v-card-title class="text-h4">Customers</v-card-title>
+        <v-card-text>
+          <p class="text-h6">Provides an overview of all customers, and access to relevant information such as their general info, purchase history, current bids, etc. </p>
+        </v-card-text>
+      </v-card>
+      <v-card v-if="exists('Orders')" class="my-5" id="orders-card">
+        <v-card-title class="text-h4">Orders</v-card-title>
+        <v-card-text>
+          <p class="text-h6">This item displays an dashboard including order statistics and a rich exportable data table of all matchwornshirt orders</p>
+        </v-card-text>
+      </v-card>
+      <v-card v-if="exists('Finance')" class="my-5" id="finance-card">
+        <v-card-title class="text-h4">Finance</v-card-title>
+        <v-card-text>
+          <v-card-subtitle class="text-h6">Dashboard</v-card-subtitle>
+          <v-card-subtitle class="text-h6">Sellers</v-card-subtitle>
+          <v-card-subtitle class="text-h6">Invoice Agreements</v-card-subtitle>
+          <v-card-subtitle class="text-h6">Club Invoices</v-card-subtitle>
+        </v-card-text>
+      </v-card>
+      <v-card v-if="exists('Matches')" class="my-5" id="matches-card">
+        <v-card-title class="text-h4">Matches</v-card-title>
+        <v-card-text>
+          <p class="text-h6">Overview and management of all currently scheduled matches, plus creation of new items.</p>
+          <v-card-subtitle class="text-h6">Scheduled</v-card-subtitle>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>
@@ -61,18 +79,20 @@
 
 <script lang="ts">
 import { Vue, Component } from "nuxt-property-decorator";
-import Logo from "~/components/Logo.vue";
-import VuetifyLogo from "~/components/VuetifyLogo.vue";
 
-@Component({
-  components: {
-    Logo,
-    VuetifyLogo,
-  },
-})
+@Component
 export default class Index extends Vue {
   layout() {
     return "mws";
+  }
+
+  exists(item: string): boolean {
+    return document.getElementById(item + ' nav item') !== null;
+  }
+
+  //DO NOT REMOVE: important otherwise cards wont render properly, im guessing race conditions?
+  created() {
+    this.exists('Finance');
   }
 }
 </script>

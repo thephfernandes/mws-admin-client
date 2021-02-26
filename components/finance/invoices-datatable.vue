@@ -34,11 +34,11 @@
             <template v-slot:item.id="{item}">
                 <nuxt-link :to="`/finance/invoices/${item.id}`" class="link">{{item.id}}</nuxt-link>
             </template>
-            <template v-slot:item.match.featuredClub.name="{item}">
+            <!-- <template v-slot:item.match.featuredClub.name="{item}">
                 <nuxt-link :to="`/clubs/${item.match.featuredClub.id}`" class="link">
                     {{item.match.featuredClub.name}}
                 </nuxt-link>
-            </template>
+            </template> -->
             <template v-slot:item.matchId="{item}">
                 {{item.match.homeClub.name}} - {{item.match.visitingClub.name}}
             </template>
@@ -57,24 +57,25 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, mixins, Vue, Watch} from "nuxt-property-decorator";
+    import {Component, Prop, mixins, Watch} from "nuxt-property-decorator";
     import {IInvoice} from "~/interfaces/IInvoice";
     import DatatableLoading from "~/mixins/datatable-loading.ts";
 
     @Component
     export default class InvoicesDatatableComponent extends mixins(DatatableLoading) {
+        @Prop({ type: Array, required: true }) readonly invoices!: IInvoice[];
         search: string = '';
         footerPropsOptions = {
             'items-per-page-options': [5, 10, 25, 50]
         };
 
-        created(): void {
-            this.$store.dispatch('invoices/getInvoicesSetToStore');
+        async created(): Promise<void> {
+            await this.$store.dispatch('invoices/getInvoicesSetToStore');
         }
 
         @Watch('invoices')
         onLoadingInvoices(invoices: IInvoice[]) {
-            if (invoices.length > 0) {
+            if (this.invoices.length > 0) {
                 this.loading = false;
             }
         }
@@ -91,10 +92,6 @@
         formatCurrency(amount: number): string {
             if (!amount) return '0';
             return amount.toFixed(2).replace('.', ',');
-        }
-
-        get invoices(): IInvoice[] {
-            return this.$store.getters['invoices/getInvoices'];
         }
 
         customSearchFilter(value: any, search: string, item: IInvoice) {

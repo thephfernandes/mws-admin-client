@@ -42,7 +42,7 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue, Prop, Watch, mixins} from "nuxt-property-decorator";
+import {Component, Vue, Prop, Watch, mixins} from "nuxt-property-decorator";
 import {ISeller} from "~/interfaces/ISeller";
 import DatatableLoading from "~/mixins/datatable-loading.ts";
 

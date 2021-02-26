@@ -97,7 +97,7 @@ import {Component, Vue} from "nuxt-property-decorator";
 import monthlyData from "~/assets/data/finance/monthly-tabledata.json";
 
 @Component
-export default class proceedsDatatableComponent extends Vue {
+export default class ProceedsDatatableComponent extends Vue {
     menuStart: boolean = false;
     menuEnd: boolean = false;
     dateStart: string = '';
