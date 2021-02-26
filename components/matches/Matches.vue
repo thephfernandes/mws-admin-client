@@ -47,6 +47,16 @@
       :footer-props="footerPropsOptions"
       :loading="matches.length === 0"
     >
+    <template v-slot:item.HomeClubName="{ item }">
+      <div :class="isFeaturedClub(item, true) ? 'font-weight-bold' : ''">
+        {{item.HomeClubName}}
+      </div>
+    </template>
+    <template v-slot:item.VisitingClubName="{ item }">
+      <div :class="isFeaturedClub(item, false) ? 'font-weight-bold' : ''">
+        {{item.VisitingClubName}}
+      </div>
+    </template>
     </v-data-table>
     <br />
   </v-container>
@@ -109,6 +119,14 @@ export default class Matches extends Vue {
 
   editMatch(e: keyable) {
     this.$router.push({ path: "/matches/scheduled/" + e.ID });
+  }
+
+  isFeaturedClub(match: IScheduledMatch, isHome: boolean) {
+    if (isHome) {
+      return match.FeaturedClubName === match.HomeClubName;
+    } else {
+      return match.FeaturedClubName === match.VisitingClubName;
+    }
   }
 }
 </script>
