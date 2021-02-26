@@ -6,8 +6,11 @@
       <br />
       <div class="text-h4 d-flex justify-space-between">
             Teams: {{ match.teams }}
-            <v-btn class="ma-2 download-club-invoice" @click="downloadClubInvoice()" large color="primary">
+            <v-btn class="ma-2 download-club-invoice" @click="downloadClubInvoice(false)" large color="primary">
                  Create Club Invoice
+            </v-btn>
+            <v-btn class="ma-2 download-club-invoice" @click="downloadClubInvoice(true)" large color="primary">
+                 Create final Club Invoice
             </v-btn>
       </div>
       <br />
@@ -68,8 +71,8 @@ export default class MatchEditor extends Vue {
     }
   }
 
-    downloadClubInvoice() {
-        this.$store.dispatch("matches/downloadClubInvoice", this.id)
+    downloadClubInvoice(final : boolean) {
+        this.$store.dispatch("matches/downloadClubInvoice", {matchId: this.id, final: final})
             .then(response => {
                 const pdfLink = response.data;
                 window.open(pdfLink)
