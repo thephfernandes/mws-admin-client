@@ -47,7 +47,8 @@ export default {
    */
   plugins: [
     '~/plugins/vue-tel-input',
-    '~/plugins/dateFormat'
+    '~/plugins/dateFormat',
+    { src: '~/plugins/persistedState.client.js' }
   ],
   /*
    ** Auto import components
