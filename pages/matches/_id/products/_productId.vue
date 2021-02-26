@@ -1,5 +1,5 @@
 <template>
-    <v-card flat>
+    <v-card flat v-if="product.id !== undefined">
         <v-card-title class="text-h3">{{product.player.name}}</v-card-title>
         <v-card-subtitle class="text-h4 my-2 outline">{{match.teams}}</v-card-subtitle>
         <v-form class="ml-5">
@@ -42,7 +42,7 @@ import {Component, Vue} from "nuxt-property-decorator";
 @Component
 export default class ProductDetailsPage extends Vue {
     productId !: number
-    product!: any;
+    product: any = {};
     bidDict!: any[];
     createNewBid: boolean = false;
     newBid = {userId: 6047, amountInEur: 0, bidPlacedInCurrency: "EUR"};
@@ -59,8 +59,11 @@ export default class ProductDetailsPage extends Vue {
         await this.handleState();
     }
 
-    async handleState() {
+    async handleState(): Promise<void> {
         if(this.$store.getters["products/getSelectedProduct"].id !== this.productId) {
+            if(this.$store.getters["products/getProducts"].length === 0) {
+                await this.$store.dispatch("products/fetchProducts", this.$route.params.id);
+            }
             this.$store.commit("products/setSelectedProduct", this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId));
         }
         this.product = this.$store.getters["products/getSelectedProduct"];

@@ -69,9 +69,13 @@ export default class SellerPage extends Vue {
     success: boolean = true;
     showMessage: boolean = false;
 
-    created(): void {
+    async created(): Promise<void> {
         this.sellerId = parseInt(this.$route.params.id);
         let seller = this.$store.getters['sellers/getSeller'](this.sellerId);
+        if(seller === undefined && this.$store.getters["sellers/getSellers"].length === 0) {
+            await this.$store.dispatch("sellers/getSellersSetToStore");
+            seller = this.$store.getters['sellers/getSeller'](this.sellerId);
+        }
         this.seller = Object.assign({}, seller);
         if (seller === undefined) {
             this.getSeller();
