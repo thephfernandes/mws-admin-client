@@ -27,11 +27,12 @@
                     </v-col>
                 </v-row>
             </div>
-            <v-row v-if="!createNewBid">
-                <v-btn class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
+            <v-row>
+                <p class="red--text font-weight-bold ml-2">warning: any published changes to the winning bid will be reflected on the live website</p>
             </v-row>
-            <v-row v-else>
-                <v-btn class="ml-2" @click="publishNewBid()">publish bid</v-btn>
+            <v-row>
+                <v-btn v-if="!createNewBid" class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
+                <v-btn v-else class="ml-2" @click="publishNewBid()">publish bid</v-btn>
             </v-row>
         </v-form>
     </v-card>
