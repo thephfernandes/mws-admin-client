@@ -54,7 +54,7 @@ export default class ProductDetailsPage extends Vue {
     }
 
     async created() { 
-        this.productId = parseInt(this.$route.params.id);
+        this.productId = parseInt(this.$route.params.productId);
         await this.fetchState();
     }
 
