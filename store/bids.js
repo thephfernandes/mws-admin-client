@@ -35,11 +35,11 @@ export const actions = {
             })
     },
 
-    createBid({}, payload) {
+    async createBid({}, payload) {
         return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids`, payload.bid)
     },
 
-    updateWinningBid({}, payload) {
+    async updateWinningBid({}, payload) {
         return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids/${payload.bid.id}`, payload.bid)
     }
 }

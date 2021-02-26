@@ -27,11 +27,12 @@
                     </v-col>
                 </v-row>
             </div>
-            <v-row v-if="!createNewBid">
-                <v-btn class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
+            <v-row>
+                <p class="red--text font-weight-bold ml-2">warning: any published changes to the winning bid will be reflected on the live website</p>
             </v-row>
-            <v-row v-else>
-                <v-btn class="ml-2" @click="publishNewBid()">publish bid</v-btn>
+            <v-row>
+                <v-btn v-if="!createNewBid" class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
+                <v-btn v-else class="ml-2" @click="publishNewBid()">publish bid</v-btn>
             </v-row>
         </v-form>
     </v-card>
@@ -55,18 +56,14 @@ export default class ProductDetailsPage extends Vue {
 
     async created() { 
         this.productId = parseInt(this.$route.params.productId);
-        await this.fetchState();
+        await this.handleState();
     }
 
-    async fetchState() {
-        const p = this.$store.getters["products/getSelectedProduct"];
-        if (p.id !== undefined) {
-            this.product = p;
-        } else {
-            //in case user tries to access /products/:id without going through /products first
-            this.product = this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId);
-            this.$store.commit("products/setSelectedProduct", this.product);
+    async handleState() {
+        if(this.$store.getters["products/getSelectedProduct"].id !== this.productId) {
+            this.$store.commit("products/setSelectedProduct", this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId));
         }
+        this.product = this.$store.getters["products/getSelectedProduct"];
         await this.$store.dispatch("matches/getMatchSetToStore", this.product.matchId);
         await this.$store.dispatch("bids/fetchBids");
     }
@@ -117,12 +114,12 @@ export default class ProductDetailsPage extends Vue {
         const selectedBid = this.$store.getters["bids/getSelectedBid"];
         selectedBid.amountInEur = this.selectedBidValue;
 
-        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid})
-        await this.fetchState();
+        await this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid})
+        await this.handleState();
     }
 
     async publishNewBid() {
-        this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: this.newBid});
+        await this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: this.newBid});
     }
 }
 </script>
