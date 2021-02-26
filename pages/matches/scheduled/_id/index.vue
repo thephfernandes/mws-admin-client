@@ -1,11 +1,14 @@
 <template>
   <div>
     <MatchEditor :create="create" />
-    <v-data-table :items="products" :headers="headers">
-            <template v-slot:item.id="{ item }">
-                <nuxt-link :to="`/matches/scheduled/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
-            </template>
+    <v-card flat>
+        <v-card-text class="overline text-h5">Match Products</v-card-text>
+        <v-data-table :items="products" :headers="headers">
+        <template v-slot:item.id="{ item }">
+            <nuxt-link :to="`/matches/scheduled/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
+        </template>
         </v-data-table>
+    </v-card>
   </div>
 </template>
 
