@@ -16,10 +16,10 @@ import {IInvoiceAgreement} from "~/interfaces/IInvoiceAgreement";
 export default class clubDetailPage extends Vue {
     clubId: number = 0;
 
-    created() {
+    async created() {
         this.clubId = parseInt(this.$route.params.id);
         this.$store.dispatch('clubs/getInvoiceAgreementsSetToStore', this.clubId);
-        this.setClubs();
+        await this.setClubs();
     }
 
     get club(): IClub {
@@ -30,9 +30,12 @@ export default class clubDetailPage extends Vue {
         return 'mws';
     }
 
-    setClubs(): void {
-        const clubs: IClub[] = this.$store.getters['clubs/getClubs'];
-        if (clubs.length > 0) return;
+    async setClubs(): Promise<void> {
+        let clubs: IClub[] = this.$store.getters['clubs/getClubs'];
+        if (clubs.length  === 0) {
+            await this.$store.dispatch("clubs/getClubsSetToStore");
+            clubs = this.$store.getters['clubs/getClubs'];
+        };
         this.$store.dispatch('clubs/getClubsSetToStore');
     }
 }

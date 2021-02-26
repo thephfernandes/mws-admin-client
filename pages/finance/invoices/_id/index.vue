@@ -82,13 +82,17 @@
                 .catch((error) => {console.error(error)});
         }
 
-        created(): void {
+        async created(): Promise<void> {
             this.invoiceId = parseInt(this.$route.params.id);
-            this.setInvoice();
+            await this.setInvoice();
         }
 
-        setInvoice(): void {
-            const invoice = this.$store.getters['invoices/getInvoice'](this.invoiceId);
+        async setInvoice(): Promise<void> {
+            let invoice = this.$store.getters['invoices/getInvoice'](this.invoiceId);
+            if(invoice.id === undefined && this.$store.getters["invoices/getInvoices"].length === 0)  {
+                await this.$store.dispatch("invoices/getInvoicesSetToStore")
+                invoice = this.$store.getters['invoices/getInvoice'](this.invoiceId);
+            }
             this.invoice = Object.assign({}, invoice);
         }
     }

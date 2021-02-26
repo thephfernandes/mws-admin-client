@@ -136,7 +136,11 @@
         }
 
         setInvoiceAgreement(): void {
-            const invoice = this.$store.getters['clubs/getInvoiceAgreement'](this.invoiceId);
+            let invoice = this.$store.getters['clubs/getInvoiceAgreement'](this.invoiceId);
+            if(invoice === undefined && this.$store.getters['clubs/getInvoicesAgreements'].length === 0) {
+                this.$store.dispatch("clubs/getInvoiceAgreementsSetToStore");
+                invoice = this.$store.getters['clubs/getInvoiceAgreement'](this.invoiceId);
+            }
             this.InvoiceAgreement = Object.assign({}, invoice);
         }
 
