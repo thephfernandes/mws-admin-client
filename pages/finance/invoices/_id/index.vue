@@ -57,9 +57,14 @@
 </template>
 <script lang="ts">
     import { Component, Vue } from "nuxt-property-decorator";
+    import InvoiceItemsTable from "~/components/finance/invoice-items-datatable.vue";
     import Invoice from "~/models/invoice";
 
-    @Component
+    @Component({
+        components: {
+            InvoiceItemsTable,
+        }
+    })
     export default class InvoiceDetailPage extends Vue {
         invoiceId: number = 0;
         invoice = new Invoice();
@@ -89,7 +94,7 @@
 
         async setInvoice(): Promise<void> {
             let invoice = this.$store.getters['invoices/getInvoice'](this.invoiceId);
-            if(invoice.id === undefined && this.$store.getters["invoices/getInvoices"].length === 0)  {
+            if(invoice === undefined && this.$store.getters["invoices/getInvoices"].length === 0)  {
                 await this.$store.dispatch("invoices/getInvoicesSetToStore")
                 invoice = this.$store.getters['invoices/getInvoice'](this.invoiceId);
             }
