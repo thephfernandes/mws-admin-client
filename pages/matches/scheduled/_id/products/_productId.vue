@@ -54,19 +54,15 @@ export default class ProductDetailsPage extends Vue {
     }
 
     async created() { 
-        this.productId = parseInt(this.$route.params.id);
-        await this.fetchState();
+        this.productId = parseInt(this.$route.params.productId);
+        await this.handleState();
     }
 
-    async fetchState() {
-        const p = this.$store.getters["products/getSelectedProduct"];
-        if (p.id !== undefined) {
-            this.product = p;
-        } else {
-            //in case user tries to access /products/:id without going through /products first
-            this.product = this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId);
-            this.$store.commit("products/setSelectedProduct", this.product);
+    async handleState() {
+        if(this.$store.getters["products/getSelectedProduct"].id !== this.productId) {
+            this.$store.commit("products/setSelectedProduct", this.$store.getters["products/getProducts"].find((product: any) => product.id == this.productId));
         }
+        this.product = this.$store.getters["products/getSelectedProduct"];
         await this.$store.dispatch("matches/getMatchSetToStore", this.product.matchId);
         await this.$store.dispatch("bids/fetchBids");
     }
@@ -118,7 +114,7 @@ export default class ProductDetailsPage extends Vue {
         selectedBid.amountInEur = this.selectedBidValue;
 
         await this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid})
-        await this.fetchState();
+        await this.handleState();
     }
 
     async publishNewBid() {
