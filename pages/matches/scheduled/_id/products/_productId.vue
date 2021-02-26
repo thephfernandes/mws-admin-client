@@ -58,7 +58,7 @@ export default class ProductDetailsPage extends Vue {
         await this.handleState();
     }
 
-    async handleState() {
+    async handleState(): Promise<void> {
         if(this.$store.getters["products/getSelectedProduct"].id !== this.productId) {
             if(this.$store.getters["products/getProducts"].length === 0) {
                 await this.$store.dispatch("products/fetchProducts", this.$route.params.id);
