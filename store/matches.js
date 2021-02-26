@@ -149,7 +149,7 @@ export const actions = {
   updateMatch ({ commit }, match) {
     commit("setMatch", match);
   },
-    async downloadClubInvoice({commit}, payload) {
-        return await this.$axios.get(ADMIN_API_URL + `/pdf/club-invoice/${payload.matchId}` + `/${payload.final}`)
+    async downloadClubInvoice({commit}, request) {
+        return await this.$axios.post(`/pdf/club-invoice/${request.matchId}`, request.payload)
     }
 };

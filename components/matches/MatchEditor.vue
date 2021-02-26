@@ -72,7 +72,7 @@ export default class MatchEditor extends Vue {
   }
 
     downloadClubInvoice(final : boolean) {
-        this.$store.dispatch("matches/downloadClubInvoice", {matchId: this.id, final: final})
+        this.$store.dispatch("matches/downloadClubInvoice", {matchId: this.id, payload: {"final" : final}})
             .then(response => {
                 const pdfLink = response.data;
                 window.open(pdfLink)
