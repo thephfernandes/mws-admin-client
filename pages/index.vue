@@ -60,17 +60,24 @@
       <v-card v-if="exists('Finance')" class="my-5" id="finance-card">
         <v-card-title class="text-h4">Finance</v-card-title>
         <v-card-text>
-          <v-card-subtitle v-if="exists('Dashboard')" class="text-h6">Dashboard</v-card-subtitle>
-          <v-card-subtitle v-if="exists('Sellers')" class="text-h6">Sellers</v-card-subtitle>
-          <v-card-subtitle v-if="exists('Invoice Agreements')" class="text-h6">Invoice Agreements</v-card-subtitle>
-          <v-card-subtitle v-if="exists('Club Invoices')" class="text-h6">Club Invoices</v-card-subtitle>
-        </v-card-text>
-      </v-card>
-      <v-card v-if="exists('Matches')" class="my-5" id="matches-card">
-        <v-card-title class="text-h4">Matches</v-card-title>
-        <v-card-text>
-          <p class="text-h6">Overview and management of all currently scheduled matches, plus creation of new items.</p>
-          <v-card-subtitle class="text-h6">Scheduled</v-card-subtitle>
+          <ul>
+            <li>
+              <v-card-subtitle v-if="exists('Dashboard')" class="text-h5">Dashboard</v-card-subtitle>
+            </li>
+            <li>
+              <v-card-subtitle v-if="exists('Sellers')" class="text-h5">Sellers</v-card-subtitle>
+            </li>
+            <li>
+              <v-card-subtitle v-if="exists('Invoice Agreements')" class="text-h5">Invoice Agreements</v-card-subtitle>
+            </li>
+            <li>
+              <v-card-subtitle v-if="exists('Club Invoices')" class="text-h5">Club Invoices</v-card-subtitle>
+            </li>
+            <li>
+              <v-card-subtitle v-if="exists('Matches')" class="text-h5">Matches</v-card-subtitle>
+              <p class="text-h6 ml-5">Overview and management of all currently scheduled matches, plus creation of new items.</p> 
+            </li>
+          </ul>
         </v-card-text>
       </v-card>
     </v-flex>
