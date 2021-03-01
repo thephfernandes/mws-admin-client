@@ -26,7 +26,7 @@ export default class Breadcrumbs extends Vue {
       if (paths.length > 0) {
         paths.push(paths[index - 1] + '/' + p)
       } else {
-        paths.push('/' + p);
+        paths.push('#/' + p);
       }
 
       let crumb = {
@@ -35,7 +35,7 @@ export default class Breadcrumbs extends Vue {
         disabled: false
       };
 
-      if (crumb.text == 'Products') {
+      if (crumb.text == 'Products' || crumb.text == 'Finance') {
         crumb.disabled = true;
       }
 
