@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <MatchEditor :create="create" />
-    <v-card flat>
-        <v-card-text class="overline text-h5">Match Products</v-card-text>
-        <v-data-table :items="products" :headers="headers">
-        <template v-slot:item.id="{ item }">
-            <nuxt-link :to="`/finance/matches/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
-        </template>
-        </v-data-table>
-    </v-card>
-  </div>
+    <div>
+        <v-row justify="center" align="center" v-if="loading">
+            <v-progress-circular class="mt-10" indeterminate :size="100" color="green"></v-progress-circular>
+        </v-row>
+        <div v-else>
+            <MatchEditor :create="create" />
+            <v-card flat>
+                <v-card-text class="overline text-h5">Match Products</v-card-text>
+                <v-data-table :items="products" :headers="headers">
+                    <template v-slot:item.id="{ item }">
+                        <nuxt-link :to="`/finance/matches/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -23,13 +28,14 @@ import MatchEditor from "@/components/matches/MatchEditor.vue";
 })
 export default class extends Vue {
     private create = false;
-
+    private loading = true;
     layout() {
         return "mws";
     }
 
     async created() {
         await this.$store.dispatch("products/fetchProducts", this.$route.params.id);
+        this.loading = false;
     }
 
     get products() {
