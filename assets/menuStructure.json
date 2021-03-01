@@ -59,7 +59,7 @@
                 },
                 {
                     "name": "Matches",
-                    "to": "/matches/scheduled",
+                    "to": "/finance/matches",
                     "productionReady": true
                 },
                 {
