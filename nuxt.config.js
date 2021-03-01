@@ -7,7 +7,7 @@ export default {
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  ssr: true,
+  ssr: false,
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -110,7 +110,8 @@ export default {
     },
   },
   router: {
-    middleware: ['auth', 'refreshToken']
+    middleware: ['auth', 'refreshToken'],
+    mode: 'hash',
   },
   /*
    ** vuetify module configuration
