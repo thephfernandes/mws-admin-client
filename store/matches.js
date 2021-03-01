@@ -82,34 +82,34 @@ export const actions = {
         {
           title: "Most valuable player",
           icon: "mdi-account",
-          name: response.most_valuable_player_global.name,
+          name: data.most_valuable_player_global.name,
           amount:
-            "€ " + response.most_valuable_player_global.amount.toLocaleString(),
+            "€ " + data.most_valuable_player_global.amount.toLocaleString(),
         },
         {
           title: "Most valuable shirt",
           icon: "mdi-tshirt-crew",
-          name: response.most_valuable_shirt_global.name,
+          name: data.most_valuable_shirt_global.name,
           amount:
-            "€ " + response.most_valuable_shirt_global.amount.toLocaleString(),
+            "€ " + data.most_valuable_shirt_global.amount.toLocaleString(),
         },
         {
           title: "Most valuable club",
           icon: "mdi-account-group-outline",
-          name: response.most_valuable_club_global.name,
+          name: data.most_valuable_club_global.name,
           amount:
-            "€ " + response.most_valuable_club_global.amount.toLocaleString(),
+            "€ " + data.most_valuable_club_global.amount.toLocaleString(),
         },
         {
           title: "Most valuable auction",
           icon: "mdi-gavel",
           name:
-            response.most_valuable_auction_global.home_club +
+            data.most_valuable_auction_global.home_club +
             " - " +
-            response.most_valuable_auction_global.visiting_club,
+            data.most_valuable_auction_global.visiting_club,
           amount:
             "€ " +
-            response.most_valuable_auction_global.amount.toLocaleString(),
+            data.most_valuable_auction_global.amount.toLocaleString(),
         },
       ];
       commit("setStats", stats);
