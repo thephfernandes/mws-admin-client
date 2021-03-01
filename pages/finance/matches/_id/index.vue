@@ -5,7 +5,7 @@
         <v-card-text class="overline text-h5">Match Products</v-card-text>
         <v-data-table :items="products" :headers="headers">
         <template v-slot:item.id="{ item }">
-            <nuxt-link :to="`finance/matches/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
+            <nuxt-link :to="`/finance/matches/${item.matchId}/products/${item.id}`" @click.native="setProduct(item)">{{item.id}}</nuxt-link>
         </template>
         </v-data-table>
     </v-card>
