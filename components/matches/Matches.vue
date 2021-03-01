@@ -19,7 +19,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <nuxt-link :to="'/matches/scheduled/add'" title="Create a new match">
+    <nuxt-link :to="'/finance/matches/add'" title="Create a new match">
       <v-btn color="primary" class="new-match">
         Create a new match
       </v-btn>
@@ -118,7 +118,7 @@ export default class Matches extends Vue {
   ];
 
   editMatch(e: keyable) {
-    this.$router.push({ path: "/matches/scheduled/" + e.ID });
+    this.$router.push({ path: "/finance/matches/" + e.ID });
   }
 
   isFeaturedClub(match: IScheduledMatch, isHome: boolean) {
