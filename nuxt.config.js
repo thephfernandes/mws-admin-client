@@ -110,7 +110,8 @@ export default {
     },
   },
   router: {
-    middleware: ['auth', 'refreshToken']
+    middleware: ['auth', 'refreshToken'],
+    mode: 'hash',
   },
   /*
    ** vuetify module configuration
