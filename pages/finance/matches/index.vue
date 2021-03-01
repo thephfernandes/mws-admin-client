@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Matches :matches="matches" :stats="stats" />
+    <v-row justify="center" align="center" v-if="loading">
+      <v-progress-circular class="mt-10" indeterminate :size="100" color="green"></v-progress-circular>
+    </v-row>
+    <Matches v-else :matches="matches" :stats="stats" />
   </div>
 </template>
 
@@ -14,9 +17,12 @@ import Matches from "@/components/matches/Matches.vue";
   },
 })
 export default class Index extends Vue {
-  created() {
-    this.$store.dispatch("matches/getMatchesSetToStore");
-    this.$store.dispatch("matches/getStatsSetToStore");
+  private loading: boolean = true;
+
+  async created() {
+    await this.$store.dispatch("matches/getMatchesSetToStore");
+    await this.$store.dispatch("matches/getStatsSetToStore");
+    this.loading = false;
   }
 
   get matches() {
