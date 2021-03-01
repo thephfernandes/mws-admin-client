@@ -21,11 +21,19 @@
           <v-card-actions>
             <v-btn
               class="mt-n6 download-club-invoice"
-              @click="downloadClubInvoice()"
+              @click="downloadClubInvoice(false)"
               large
               color="primary"
             >
               Create Club Invoice
+            </v-btn>
+            <v-btn 
+              class="mt-n6 download-club-invoice" 
+              @click="downloadClubInvoice(true)" 
+              large 
+              color="primary"
+             >
+                 Create final Club Invoice
             </v-btn>
             <FinishEdit @save-post="saveMatch" @delete-post="deleteMatch" />
           </v-card-actions>
@@ -77,8 +85,8 @@ export default class MatchEditor extends Vue {
         }
     }
 
-    downloadClubInvoice() {
-        this.$store.dispatch("matches/downloadClubInvoice", this.id)
+    downloadClubInvoice(final : boolean) {
+        this.$store.dispatch("matches/downloadClubInvoice", {matchId: this.id, payload: {"final" : final}})
             .then(response => {
                 const pdfLink = response.data;
                 window.open(pdfLink)
