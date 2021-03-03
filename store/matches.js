@@ -51,7 +51,7 @@ export const actions = {
   async getFinanceMatchesSetToStore({ commit }) {
     const currentDate = new Date();
     // We want to get only past matches for the finance overview
-    const startDate = (new Date()).setFullYear(currentDate.getFullYear() - 10).toISOString();
+    const startDate = new Date(new Date().setFullYear(currentDate.getFullYear() - 10)).toISOString();
     const endDate = currentDate.toISOString();
 
     const response = await axios.post(API_URL + "/api/v1/auction", {
