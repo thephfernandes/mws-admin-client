@@ -48,30 +48,33 @@ export const actions = {
     }
   },
 
-  async getMatchesSetToStore({ commit }) {
-    const oDate = new Date();
-    oDate.setMonth(oDate.getMonth() - 1);
-    const StartDate = oDate.toISOString();
-    oDate.setFullYear(oDate.getFullYear() + 10); // We want them from one month ago as well as the future ones
-    const EndDate = oDate.toISOString();
-    let matches = [];
+  async getFinanceMatchesSetToStore({ commit }) {
+    const currentDate = new Date();
+    // We want to get only past matches for the finance overview
+    const startDate = (new Date()).setFullYear(currentDate.getFullYear() - 10).toISOString();
+    const endDate = currentDate.toISOString();
+
     const response = await axios.post(API_URL + "/api/v1/auction", {
-      StartDate,
-      EndDate,
+      startDate,
+      endDate,
     });
-    if (response.status === 200) {
-      matches = response.data
-        .map((match) => ({
-          ...match,
-          status: match.Finished ? "Ended" : "Live",
-          localDate: new Date(match.Date).toLocaleString(),
-          worn: match.Worn ? "Worn" : "Not Worn",
-        }))
-        .sort((a, b) => {
-          return new Date(b.Date) - new Date(a.Date);
-        });
-      commit("setMatches", matches);
+
+    if (response.status !== 200) {
+      return;
     }
+
+    let matches = [];
+    matches = response.data
+      .map((match) => ({
+        ...match,
+        status: match.Finished ? "Ended" : "Live",
+        localDate: new Date(match.Date).toLocaleString(),
+        worn: match.Worn ? "Worn" : "Not Worn",
+      }))
+      .sort((a, b) => {
+        return new Date(b.Date) - new Date(a.Date);
+      });
+    commit("setMatches", matches);
   },
 
   async getStatsSetToStore({ commit }) {
