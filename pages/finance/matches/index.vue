@@ -20,7 +20,7 @@ export default class Index extends Vue {
   private loading: boolean = true;
 
   async created() {
-    await this.$store.dispatch("matches/getMatchesSetToStore");
+    await this.$store.dispatch("matches/getFinanceMatchesSetToStore");
     await this.$store.dispatch("matches/getStatsSetToStore");
     this.loading = false;
   }
