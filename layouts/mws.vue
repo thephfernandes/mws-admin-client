@@ -43,7 +43,7 @@
                 link
               >
 
-                <v-list-item v-if="child.productionReady" :to="child.to" color="blue" router exact>
+                <v-list-item v-if="child.productionReady || isDevelopment" :to="child.to" color="blue" :id="child.name + ' nav item'" router exact>
                   <v-list-item-content>
                     <v-list-item-title v-text="child.name"></v-list-item-title>
                   </v-list-item-content>

@@ -69,12 +69,15 @@
             return 'mws';
         }
 
-        created(): void {
+        async created(): Promise<void> {
             this.invoiceId = parseInt(this.$route.params.id);
             this.invoiceItemId = parseInt(this.$route.params.invoiceItemId);
             const invoiceItem = this.$store.getters['invoices/getInvoiceItem'](this.invoiceItemId);
             this.invoiceItem = Object.assign({}, invoiceItem);
             if (invoiceItem === undefined) {
+                if(this.$store.getters["invoices/getInvoicesItems"].length === 0) {
+                    await this.$store.dispatch("invoices/getInvoiceItems", this.invoiceId)
+                }
                 this.getInvoiceItem();
             }
         }

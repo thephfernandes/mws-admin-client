@@ -21,12 +21,13 @@ export default class Breadcrumbs extends Vue {
 
     const fullPathArray = this.$route.fullPath.split('/');
     let paths: Array<string> = [];
+    const disabledCrumbs = ['Products', 'Finance'];
     fullPathArray.shift();
     fullPathArray.forEach((p: string, index: number) => {
       if (paths.length > 0) {
         paths.push(paths[index - 1] + '/' + p)
       } else {
-        paths.push('/' + p);
+        paths.push('#/' + p);
       }
 
       let crumb = {
@@ -35,7 +36,7 @@ export default class Breadcrumbs extends Vue {
         disabled: false
       };
 
-      if (crumb.text == 'Products') {
+      if (disabledCrumbs.includes(crumb.text)) {
         crumb.disabled = true;
       }
 

@@ -14,19 +14,23 @@
             "children": [
                 {
                     "name": "Slider Images",
-                    "to": "/manage/slides"
+                    "to": "/manage/slides",
+                    "productionReady": false
                 },
                 {
                     "name": "Featured Matches",
-                    "to": "/manage/featured"
+                    "to": "/manage/featured",
+                    "productionReady": false
                 },
                 {
                   "name": "News",
-                  "to": "/manage/news"
+                  "to": "/manage/news",
+                  "productionReady": false
                 },
                 {
                   "name": "Charities",
-                  "to": "/manage/charities"
+                  "to": "/manage/charities",
+                  "productionReady": false
                 }
             ]
         },
@@ -54,6 +58,11 @@
                     "productionReady": false
                 },
                 {
+                    "name": "Matches",
+                    "to": "/finance/matches",
+                    "productionReady": true
+                },
+                {
                     "name": "Sellers",
                     "to": "/finance/sellers",
                     "productionReady": true
@@ -69,19 +78,6 @@
                     "productionReady": true
                 }
             ]
-        },
-        {
-          "name": "Matches",
-          "icon": "mdi-soccer",
-          "to": "/matches",
-          "productionReady": true,
-          "children": [
-              {
-                  "name": "Scheduled",
-                  "to": "/matches/scheduled",
-                  "productionReady": true
-              }
-          ]
         }
     ],
     "sliders": [
