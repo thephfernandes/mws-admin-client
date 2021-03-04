@@ -88,7 +88,7 @@ export const actions = {
   updateCharity ({ commit }, payload) {
     commit("setCharity", payload);
     commit("snackbar/showMessage", {
-      content: "Charity updated",
+      content: "Charity updated!",
       color: "success"
     }, {root: true})
   }
