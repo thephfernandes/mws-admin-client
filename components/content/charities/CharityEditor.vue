@@ -76,7 +76,6 @@ export default class EditCharity extends Vue {
   saveCharity() {
     if (this.checkCharity()) {
       this.$store.dispatch("charity/updateCharity", this.charity);
-      alert("Saving charity");
       this.$router.push({ path: "/manage/charities" });
     }
   }

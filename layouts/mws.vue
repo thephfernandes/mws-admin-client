@@ -75,6 +75,7 @@
       <v-container>
         <breadcrumbs />
         <nuxt />
+        <Snackbar/>
       </v-container>
     </v-main>
     <v-footer app>
@@ -87,11 +88,13 @@
 import { Component, Vue } from "nuxt-property-decorator";
 import breadcrumbs from "~/components/layout/breadcrumbs.vue";
 import modalRoot from "~/components/layout/modalRoot.vue";
+import Snackbar from '~/components/shared/Snackbar.vue'
 
 @Component({
   components: {
     breadcrumbs,
     modalRoot,
+    Snackbar
   },
 })
 export default class Mws extends Vue {
