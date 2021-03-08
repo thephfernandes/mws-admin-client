@@ -38,8 +38,13 @@ export const actions = {
     async createBid({}, payload) {
         return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids`, payload.bid)
     },
+    
 
     async updateWinningBid({}, payload) {
-        return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids/${payload.bid.id}`, payload.bid)
+        if(!payload.bid) {
+            return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}`, payload.product)
+        } else {
+            return this.$axios.post(`/matches/${payload.matchId}/products/${payload.productId}/bids/${payload.bid.id}`, payload.bid)
+        }
     }
 }
