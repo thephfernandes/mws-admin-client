@@ -17,10 +17,16 @@
                             </v-text-field>
                         </v-col>
                     </v-row>
+                    <v-divider></v-divider>
                     <v-row class="my-0">
-                        <v-checkbox class="ml-2" v-model="createNewBid" label="Create new bid"></v-checkbox>
+                        <v-col cols="12" md="4">
+                            <v-checkbox v-model="createNewBid" :disabled="notSold" label="Create new bid"></v-checkbox>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-checkbox v-model="notSold" label="Mark product as not sold"></v-checkbox>
+                        </v-col>
                     </v-row>
-                    <div class="new-bid-form-wrapper" v-if="createNewBid">
+                    <div class="new-bid-form-wrapper" v-if="createNewBid && !notSold">
                         <v-row>
                             <v-col cols="12" md="4">
                                 <v-text-field type="number" outlined label="user id" v-model="newBid.userId">
@@ -33,11 +39,11 @@
                         </v-row>
                     </div>
                     <v-row>
-                        <p class="red--text font-weight-bold ml-2"> any published changes to the winning bid will be reflected on the live website and create a new order for this product</p>
+                        <p class="red--text font-weight-bold ml-3"> any published changes to the winning bid will be reflected on the live website and create a new order for this product</p>
                     </v-row>
                     <v-row>
-                        <v-btn v-if="!createNewBid" class="ml-2" @click="updateWinningBid()">update winning bid</v-btn>
-                        <v-btn v-else class="ml-2" @click="publishNewBid()">publish bid</v-btn>
+                        <v-btn v-if="!createNewBid" class="ml-3" @click="updateWinningBid()">update winning bid</v-btn>
+                        <v-btn v-else class="ml-3" @click="publishNewBid()">publish bid</v-btn>
                     </v-row>
                 </v-form>
             </v-card>
@@ -57,6 +63,7 @@ export default class ProductDetailsPage extends Vue {
     selectedBidId!: number;
     selectedBidValue!: number;
     loading: boolean = true;
+    notSold: boolean = false;
 
     layout(): string {
         return "mws";
@@ -65,6 +72,10 @@ export default class ProductDetailsPage extends Vue {
     async created() { 
         this.productId = parseInt(this.$route.params.productId);
         await this.handleState();
+        if(this.bids) {
+            this.selectedBid = this.bids[this.bids.length - 1];
+            this.handleBidSelectChange(this.selectedBid);
+        }
     }
 
     async handleState(): Promise<void> {
@@ -123,10 +134,14 @@ export default class ProductDetailsPage extends Vue {
     }
 
     async updateWinningBid() {
-        const selectedBid = this.$store.getters["bids/getSelectedBid"];
-        selectedBid.amountInEur = this.selectedBidValue;
-
-        await this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid});
+        if(!this.notSold) {
+            const selectedBid = this.$store.getters["bids/getSelectedBid"];
+            selectedBid.amountInEur = this.selectedBidValue;
+            await this.$store.dispatch("bids/createBid", {matchId: this.product.matchId, productId: this.product.id, bid: selectedBid});
+        } else {
+            this.product.latestBidId = null;
+            await this.$store.dispatch("bids/updateWinningBid", {matchId: this.product.matchId, productId: this.product.id, product: this.product});
+        }
         this.loading = true;
         await this.handleState();
     }
