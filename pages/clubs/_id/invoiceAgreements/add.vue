@@ -86,7 +86,7 @@
                         />
                         <v-select
                             :items="setupFees"
-                            v-model="InvoiceAgreement.mwsSetupFeeType"
+                            v-model="InvoiceAgreement.setupFeeType"
                         />
                     </v-input>
                 </v-col>
