@@ -136,7 +136,6 @@
         created(): void {
             this.clubId = parseInt(this.$route.params.id);
             this.invoiceId = parseInt(this.$route.params.invoiceId);
-            console.log("type:",this.InvoiceAgreement.mwsSetupFeeType)
             this.setInvoiceAgreement();
         }
 
