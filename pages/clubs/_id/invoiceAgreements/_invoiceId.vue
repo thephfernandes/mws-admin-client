@@ -81,21 +81,17 @@
                         />
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
-                        <v-select
+                        <v-input outlined>
+                        <v-text-field
+                            type="number"
                             label="MWS setup fee"
                             v-model="InvoiceAgreement.mwsSetupFee"
+                        />
+                        <v-select
                             :items="setupFees"
-                            outlined
+                            v-model="InvoiceAgreement.setupFeeType"
                         />
-                    </v-col>
-                    <v-col cols="12" md="6" lg="4">
-                        <v-text-field
-                                label="Third party VAT percentage"
-                                type="number"
-                                outlined
-                                prepend-inner-icon="mdi-percent"
-                                v-model="InvoiceAgreement.thirdPartyVatPercentage"
-                        />
+                    </v-input>
                     </v-col>
                     <v-col cols="12" md="6" lg="4">
                       <v-text-field
@@ -105,6 +101,15 @@
                           prepend-inner-icon="mdi-currency-eur"
                           v-model="InvoiceAgreement.unpaidProductGuarantee"
                       />
+                    </v-col>
+                    <v-col cols="12" md="6" lg="4">
+                        <v-text-field
+                            label="Third party VAT percentage"
+                            type="number"
+                            outlined
+                            prepend-inner-icon="mdi-percent"
+                            v-model="InvoiceAgreement.thirdPartyVatPercentage"
+                        />
                     </v-col>
                 </v-row>
                 <v-row justify="space-around">
@@ -120,7 +125,7 @@
     import InvoiceAgreement from "~/models/invoiceAgreement";
     import {IClub} from "~/interfaces/IClub";
     import {ISeller} from "~/interfaces/ISeller";
-    import { mwsSetupFee } from "~/enums/mwsSetupFee.ts";
+    import { mwsSetupFee } from "~/enums/mwsSetupFee";
 
     @Component
     export default class InvoiceAgreementDetail extends Vue {
@@ -131,7 +136,6 @@
         created(): void {
             this.clubId = parseInt(this.$route.params.id);
             this.invoiceId = parseInt(this.$route.params.invoiceId);
-
             this.setInvoiceAgreement();
         }
 
